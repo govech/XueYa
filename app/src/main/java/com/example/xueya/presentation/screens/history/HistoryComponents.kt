@@ -17,6 +17,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.xueya.domain.model.BloodPressureCategory
 import com.example.xueya.domain.model.BloodPressureData
+import com.example.xueya.presentation.components.common.StatisticItem
+import com.example.xueya.presentation.components.common.EmptyStateCard
+import com.example.xueya.presentation.components.common.ErrorCard
+import com.example.xueya.presentation.components.common.LoadingCard
 import java.time.format.DateTimeFormatter
 
 /**
@@ -222,80 +226,31 @@ fun StatisticsCard(
     }
 }
 
-/**
- * 统计项
- */
-@Composable
-private fun StatisticItem(
-    label: String,
-    value: String
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = value,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
-}
+
 
 /**
- * 空状态
+ * 历史记录空状态
  */
 @Composable
-fun EmptyState(
+fun HistoryEmptyState(
     onAddRecord: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Icon(
-            imageVector = Icons.Default.Add,
-            contentDescription = null,
-            modifier = Modifier.size(64.dp),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        Text(
-            text = "还没有血压记录",
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center
-        )
-        
-        Spacer(modifier = Modifier.height(8.dp))
-        
-        Text(
-            text = "开始记录您的血压数据",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center
-        )
-        
-        Spacer(modifier = Modifier.height(24.dp))
-        
-        Button(onClick = onAddRecord) {
+    EmptyStateCard(
+        title = "还没有血压记录",
+        description = "开始记录您的血压数据",
+        actionText = "添加第一条记录",
+        onAction = onAddRecord,
+        modifier = modifier,
+        icon = {
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = null,
-                modifier = Modifier.size(18.dp)
+                modifier = Modifier.size(64.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("添加第一条记录")
         }
-    }
+    )
 }
 
 /**
@@ -306,91 +261,29 @@ fun NoResultsState(
     onClearFilters: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "没有找到匹配的记录",
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center
-        )
-        
-        Spacer(modifier = Modifier.height(8.dp))
-        
-        Text(
-            text = "尝试调整搜索条件或过滤器",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center
-        )
-        
-        Spacer(modifier = Modifier.height(24.dp))
-        
-        OutlinedButton(onClick = onClearFilters) {
-            Text("清除所有过滤器")
-        }
-    }
+    EmptyStateCard(
+        title = "没有找到匹配的记录",
+        description = "尝试调整搜索条件或过滤器",
+        actionText = "清除所有过滤器",
+        onAction = onClearFilters,
+        modifier = modifier
+    )
 }
 
 /**
- * 加载指示器
+ * 历史记录加载指示器
  */
 @Composable
-fun LoadingIndicator(
+fun HistoryLoadingIndicator(
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircularProgressIndicator()
-        
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        Text(
-            text = "正在加载记录...",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
+    LoadingCard(
+        message = "正在加载记录...",
+        modifier = modifier
+    )
 }
 
-/**
- * 错误卡片
- */
-@Composable
-fun ErrorCard(
-    error: String,
-    onDismiss: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.errorContainer
-        )
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = error,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onErrorContainer,
-                modifier = Modifier.weight(1f)
-            )
-            
-            TextButton(onClick = onDismiss) {
-                Text("关闭")
-            }
-        }
-    }
-}
+
 
 /**
  * 获取血压分类对应的颜色

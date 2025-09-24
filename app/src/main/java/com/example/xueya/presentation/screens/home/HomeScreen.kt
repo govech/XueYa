@@ -18,6 +18,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.xueya.domain.model.BloodPressureCategory
 import com.example.xueya.domain.model.BloodPressureData
 import com.example.xueya.domain.usecase.HealthStatus
+import com.example.xueya.presentation.components.common.ErrorCard
+import com.example.xueya.presentation.components.common.LoadingCard
+import com.example.xueya.presentation.screens.home.*
 
 import java.time.format.DateTimeFormatter
 
@@ -118,7 +121,7 @@ fun HomeScreen(
         // 空状态提示
         if (!uiState.hasData && !uiState.isLoading) {
             item {
-                EmptyStateCard(onAddRecord = onNavigateToAddRecord)
+                HomeEmptyStateCard(onAddRecord = onNavigateToAddRecord)
             }
         }
     }

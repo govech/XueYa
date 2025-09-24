@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.example.xueya.domain.usecase.DetailedStatistics
 import com.example.xueya.domain.usecase.HealthStatus
 import com.example.xueya.domain.usecase.TrendData
+import com.example.xueya.presentation.components.common.StatisticItem
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -139,31 +140,7 @@ private fun HealthStatusIndicator(healthStatus: HealthStatus) {
     }
 }
 
-/**
- * 统计项
- */
-@Composable
-private fun StatisticItem(
-    label: String,
-    value: String,
-    color: Color
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = value,
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            color = color
-        )
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
-}
+
 
 /**
  * 血压范围统计卡片

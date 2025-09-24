@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.xueya.presentation.components.common.ErrorCard
+import com.example.xueya.presentation.screens.history.*
 
 /**
  * 历史记录界面
@@ -93,13 +95,13 @@ fun HistoryScreen(
             ) {
                 when {
                     uiState.isLoading -> {
-                        LoadingIndicator(
+                        HistoryLoadingIndicator(
                             modifier = Modifier.align(Alignment.Center)
                         )
                     }
                     
                     !uiState.hasRecords -> {
-                        EmptyState(
+                        HistoryEmptyState(
                             onAddRecord = onNavigateToAddRecord,
                             modifier = Modifier.align(Alignment.Center)
                         )
