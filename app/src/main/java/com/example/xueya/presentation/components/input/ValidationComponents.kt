@@ -353,7 +353,7 @@ fun HealthTipsCard(
                 
                 Spacer(modifier = Modifier.height(8.dp))
                 
-                tips.forEachIndexed { index, tip ->
+                tips.forEachIndexed { _, tip ->
                     Text(
                         text = "• $tip",
                         style = MaterialTheme.typography.bodySmall,

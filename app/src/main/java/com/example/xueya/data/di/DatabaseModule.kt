@@ -2,6 +2,7 @@ package com.example.xueya.data.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.example.xueya.data.database.BloodPressureDao
 import com.example.xueya.data.database.BloodPressureDatabase
 import dagger.Module
@@ -28,6 +29,7 @@ object DatabaseModule {
             BloodPressureDatabase::class.java,
             BloodPressureDatabase.DATABASE_NAME
         )
+        .setJournalMode(RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING) // 性能优化
         .build()
     }
 

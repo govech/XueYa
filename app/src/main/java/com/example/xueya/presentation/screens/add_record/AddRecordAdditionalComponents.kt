@@ -1,5 +1,6 @@
 package com.example.xueya.presentation.screens.add_record
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -107,6 +108,7 @@ private fun TagChip(
 /**
  * 日期选择器对话框
  */
+@SuppressLint("NewApi") // 支持desugaring
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerDialog(
