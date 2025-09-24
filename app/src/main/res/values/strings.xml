@@ -1,3 +1,98 @@
 <resources>
-    <string name="app_name">XueYa</string>
+    <string name="app_name">血压助手</string>
+    
+    <!-- 导航标题 -->
+    <string name="nav_home">首页</string>
+    <string name="nav_add_record">添加记录</string>
+    <string name="nav_history">历史记录</string>
+    <string name="nav_statistics">统计分析</string>
+    <string name="nav_settings">设置</string>
+    
+    <!-- 设置界面 -->
+    <string name="settings_title">设置</string>
+    
+    <!-- 提醒设置 -->
+    <string name="settings_reminder_section">提醒设置</string>
+    <string name="settings_reminder_enable">启用提醒</string>
+    <string name="settings_reminder_enable_desc">定时提醒您记录血压</string>
+    <string name="settings_reminder_time">提醒时间</string>
+    <string name="settings_reminder_time_desc">设置每日提醒时间</string>
+    <string name="settings_reminder_days">提醒日期</string>
+    <string name="settings_reminder_days_desc">选择提醒的星期</string>
+    
+    <!-- 外观设置 -->
+    <string name="settings_appearance_section">外观设置</string>
+    <string name="settings_theme_mode">主题模式</string>
+    <string name="settings_theme_mode_desc">选择应用主题</string>
+    <string name="settings_dynamic_color">动态颜色</string>
+    <string name="settings_dynamic_color_desc">使用系统壁纸颜色</string>
+    <string name="settings_language">语言</string>
+    <string name="settings_language_desc">选择应用语言</string>
+    
+    <!-- 数据管理 -->
+    <string name="settings_data_section">数据管理</string>
+    <string name="settings_export_data">导出数据</string>
+    <string name="settings_export_data_desc">导出为CSV文件</string>
+    <string name="settings_clear_data">清空数据</string>
+    <string name="settings_clear_data_desc">删除所有血压记录</string>
+    <string name="settings_backup_data">备份数据</string>
+    <string name="settings_backup_data_desc">备份到云端或本地</string>
+    
+    <!-- 关于应用 -->
+    <string name="settings_about_section">关于应用</string>
+    <string name="settings_app_version">应用版本</string>
+    <string name="settings_developer_info">开发者信息</string>
+    <string name="settings_developer_name">血压助手开发团队</string>
+    <string name="settings_privacy_policy">隐私政策</string>
+    <string name="settings_terms_service">服务条款</string>
+    
+    <!-- 主题选择 -->
+    <string name="theme_system">跟随系统</string>
+    <string name="theme_light">浅色模式</string>
+    <string name="theme_dark">深色模式</string>
+    
+    <!-- 语言选择 -->
+    <string name="language_chinese">中文</string>
+    <string name="language_english">English</string>
+    
+    <!-- 星期 -->
+    <string name="day_monday">周一</string>
+    <string name="day_tuesday">周二</string>
+    <string name="day_wednesday">周三</string>
+    <string name="day_thursday">周四</string>
+    <string name="day_friday">周五</string>
+    <string name="day_saturday">周六</string>
+    <string name="day_sunday">周日</string>
+    
+    <!-- 对话框 -->
+    <string name="dialog_confirm">确认</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_delete_title">确认删除</string>
+    <string name="dialog_delete_message">此操作将删除所有血压记录，且不可恢复。确定要继续吗？</string>
+    <string name="dialog_export_title">导出数据</string>
+    <string name="dialog_export_message">数据将导出为CSV文件保存到下载目录</string>
+    
+    <!-- 提示信息 -->
+    <string name="toast_export_success">数据导出成功</string>
+    <string name="toast_export_failed">数据导出失败</string>
+    <string name="toast_clear_success">数据清空成功</string>
+    <string name="toast_clear_failed">数据清空失败</string>
+    <string name="toast_language_changed">语言切换成功，重启应用生效</string>
+    <string name="toast_theme_changed">主题切换成功</string>
+    <string name="toast_reminder_set">提醒设置成功</string>
+    
+    <!-- 权限相关 -->
+    <string name="permission_notification_title">通知权限</string>
+    <string name="permission_notification_message">需要通知权限来发送提醒</string>
+    <string name="permission_storage_title">存储权限</string>
+    <string name="permission_storage_message">需要存储权限来导出数据</string>
+    
+    <!-- 通用 -->
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="save">保存</string>
+    <string name="delete">删除</string>
+    <string name="export">导出</string>
+    <string name="back">返回</string>
+    <string name="loading">加载中...</string>
 </resources>

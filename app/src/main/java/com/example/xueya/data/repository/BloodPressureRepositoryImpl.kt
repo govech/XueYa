@@ -65,6 +65,10 @@ class BloodPressureRepositoryImpl @Inject constructor(
         bloodPressureDao.deleteRecordById(id)
     }
 
+    override suspend fun clearAllRecords() {
+        bloodPressureDao.deleteAllRecords()
+    }
+
     override suspend fun getRecordCount(): Int {
         return bloodPressureDao.getRecordCount()
     }

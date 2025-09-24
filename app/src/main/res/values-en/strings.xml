@@ -1,0 +1,98 @@
+<resources>
+    <string name="app_name">Blood Pressure Assistant</string>
+    
+    <!-- Navigation titles -->
+    <string name="nav_home">Home</string>
+    <string name="nav_add_record">Add Record</string>
+    <string name="nav_history">History</string>
+    <string name="nav_statistics">Statistics</string>
+    <string name="nav_settings">Settings</string>
+    
+    <!-- Settings screen -->
+    <string name="settings_title">Settings</string>
+    
+    <!-- Reminder settings -->
+    <string name="settings_reminder_section">Reminder Settings</string>
+    <string name="settings_reminder_enable">Enable Reminders</string>
+    <string name="settings_reminder_enable_desc">Get reminders to record your blood pressure</string>
+    <string name="settings_reminder_time">Reminder Time</string>
+    <string name="settings_reminder_time_desc">Set daily reminder time</string>
+    <string name="settings_reminder_days">Reminder Days</string>
+    <string name="settings_reminder_days_desc">Choose days of the week for reminders</string>
+    
+    <!-- Appearance settings -->
+    <string name="settings_appearance_section">Appearance Settings</string>
+    <string name="settings_theme_mode">Theme Mode</string>
+    <string name="settings_theme_mode_desc">Choose app theme</string>
+    <string name="settings_dynamic_color">Dynamic Color</string>
+    <string name="settings_dynamic_color_desc">Use system wallpaper colors</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_desc">Choose app language</string>
+    
+    <!-- Data management -->
+    <string name="settings_data_section">Data Management</string>
+    <string name="settings_export_data">Export Data</string>
+    <string name="settings_export_data_desc">Export as CSV file</string>
+    <string name="settings_clear_data">Clear Data</string>
+    <string name="settings_clear_data_desc">Delete all blood pressure records</string>
+    <string name="settings_backup_data">Backup Data</string>
+    <string name="settings_backup_data_desc">Backup to cloud or local storage</string>
+    
+    <!-- About app -->
+    <string name="settings_about_section">About App</string>
+    <string name="settings_app_version">App Version</string>
+    <string name="settings_developer_info">Developer Info</string>
+    <string name="settings_developer_name">Blood Pressure Assistant Team</string>
+    <string name="settings_privacy_policy">Privacy Policy</string>
+    <string name="settings_terms_service">Terms of Service</string>
+    
+    <!-- Theme choices -->
+    <string name="theme_system">Follow System</string>
+    <string name="theme_light">Light Mode</string>
+    <string name="theme_dark">Dark Mode</string>
+    
+    <!-- Language choices -->
+    <string name="language_chinese">中文</string>
+    <string name="language_english">English</string>
+    
+    <!-- Days of week -->
+    <string name="day_monday">Monday</string>
+    <string name="day_tuesday">Tuesday</string>
+    <string name="day_wednesday">Wednesday</string>
+    <string name="day_thursday">Thursday</string>
+    <string name="day_friday">Friday</string>
+    <string name="day_saturday">Saturday</string>
+    <string name="day_sunday">Sunday</string>
+    
+    <!-- Dialogs -->
+    <string name="dialog_confirm">Confirm</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_delete_title">Confirm Delete</string>
+    <string name="dialog_delete_message">This will delete all blood pressure records permanently. Are you sure?</string>
+    <string name="dialog_export_title">Export Data</string>
+    <string name="dialog_export_message">Data will be exported as CSV file to Downloads folder</string>
+    
+    <!-- Toast messages -->
+    <string name="toast_export_success">Data exported successfully</string>
+    <string name="toast_export_failed">Failed to export data</string>
+    <string name="toast_clear_success">Data cleared successfully</string>
+    <string name="toast_clear_failed">Failed to clear data</string>
+    <string name="toast_language_changed">Language changed successfully, restart app to take effect</string>
+    <string name="toast_theme_changed">Theme changed successfully</string>
+    <string name="toast_reminder_set">Reminder set successfully</string>
+    
+    <!-- Permissions -->
+    <string name="permission_notification_title">Notification Permission</string>
+    <string name="permission_notification_message">Notification permission is needed to send reminders</string>
+    <string name="permission_storage_title">Storage Permission</string>
+    <string name="permission_storage_message">Storage permission is needed to export data</string>
+    
+    <!-- Common -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="export">Export</string>
+    <string name="back">Back</string>
+    <string name="loading">Loading...</string>
+</resources>

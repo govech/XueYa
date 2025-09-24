@@ -59,6 +59,11 @@ interface BloodPressureRepository {
     suspend fun deleteRecordById(id: Long)
 
     /**
+     * 清空所有记录
+     */
+    suspend fun clearAllRecords()
+
+    /**
      * 获取记录总数
      */
     suspend fun getRecordCount(): Int

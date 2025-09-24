@@ -8,6 +8,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -33,6 +34,7 @@ fun HomeScreen(
     onNavigateToAddRecord: () -> Unit,
     onNavigateToHistory: () -> Unit,
     onNavigateToStatistics: () -> Unit,
+    onNavigateToSettings: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -48,7 +50,8 @@ fun HomeScreen(
         item {
             TopActionBar(
                 onRefresh = viewModel::refresh,
-                onAddRecord = onNavigateToAddRecord
+                onAddRecord = onNavigateToAddRecord,
+                onSettings = onNavigateToSettings
             )
         }
 
@@ -130,7 +133,8 @@ fun HomeScreen(
 @Composable
 private fun TopActionBar(
     onRefresh: () -> Unit,
-    onAddRecord: () -> Unit
+    onAddRecord: () -> Unit,
+    onSettings: () -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -144,6 +148,13 @@ private fun TopActionBar(
         )
         
         Row {
+            IconButton(onClick = onSettings) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "设置"
+                )
+            }
+            
             IconButton(onClick = onRefresh) {
                 Icon(
                     imageVector = Icons.Default.Refresh,

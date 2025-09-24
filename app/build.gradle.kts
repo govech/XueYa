@@ -98,6 +98,9 @@ dependencies {
     // Date and Time Picker
     implementation("io.github.vanpra.compose-material-dialogs:datetime:0.9.0")
     
+    // DataStore for preferences
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    
     // Testing
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.1.1")
