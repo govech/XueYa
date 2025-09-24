@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import com.example.xueya.presentation.screens.home.HomeScreen
 import com.example.xueya.presentation.screens.add_record.AddRecordScreen
 import com.example.xueya.presentation.screens.history.HistoryScreen
+import com.example.xueya.presentation.screens.statistics.StatisticsScreen
 
 /**
  * 应用导航主机
@@ -68,7 +69,7 @@ fun AppNavHost(
         
         // 统计分析
         composable(AppDestination.Statistics.route) {
-            StatisticsScreenPlaceholder()
+            StatisticsScreen()
         }
         
         // 设置
