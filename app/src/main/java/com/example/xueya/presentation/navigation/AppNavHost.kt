@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.xueya.presentation.screens.home.HomeScreen
 import com.example.xueya.presentation.screens.add_record.AddRecordScreen
+import com.example.xueya.presentation.screens.history.HistoryScreen
 
 /**
  * 应用导航主机
@@ -55,7 +56,14 @@ fun AppNavHost(
         
         // 历史记录
         composable(AppDestination.History.route) {
-            HistoryScreenPlaceholder()
+            HistoryScreen(
+                onNavigateToAddRecord = {
+                    navController.navigate(AppDestination.AddRecord.route)
+                },
+                onNavigateToRecordDetail = { recordId ->
+                    // 暂时只是占位符，后续可以添加记录详情页面
+                }
+            )
         }
         
         // 统计分析
