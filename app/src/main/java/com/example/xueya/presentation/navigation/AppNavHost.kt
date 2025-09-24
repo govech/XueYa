@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.xueya.presentation.screens.home.HomeScreen
+import com.example.xueya.presentation.screens.add_record.AddRecordScreen
 
 /**
  * 应用导航主机
@@ -42,8 +43,11 @@ fun AppNavHost(
         
         // 添加记录
         composable(AppDestination.AddRecord.route) {
-            AddRecordScreenPlaceholder(
+            AddRecordScreen(
                 onNavigateBack = {
+                    navController.popBackStack()
+                },
+                onRecordSaved = {
                     navController.popBackStack()
                 }
             )
