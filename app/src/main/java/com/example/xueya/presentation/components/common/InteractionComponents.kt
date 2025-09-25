@@ -10,8 +10,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.xueya.R
 
 /**
  * 带图标的操作按钮
@@ -168,7 +170,7 @@ fun TagSelector(
                         onClick = { onTagToggle(tag) },
                         label = {
                             Text(
-                                text = tag,
+                                text = stringResource(getTagStringRes(tag)),
                                 style = MaterialTheme.typography.labelMedium
                             )
                         },
@@ -191,11 +193,36 @@ fun TagSelector(
         if (selectedTags.isNotEmpty()) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "已选择 ${selectedTags.size} 个标签",
+                text = stringResource(R.string.selected_tags_count, selectedTags.size),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary
             )
         }
+    }
+}
+
+/**
+ * 根据标签键名获取对应的字符串资源ID
+ */
+private fun getTagStringRes(tagKey: String): Int {
+    return when (tagKey) {
+        "tag_morning" -> R.string.tag_morning
+        "tag_before_bed" -> R.string.tag_before_bed
+        "tag_after_exercise" -> R.string.tag_after_exercise
+        "tag_after_meal" -> R.string.tag_after_meal
+        "tag_before_meal" -> R.string.tag_before_meal
+        "tag_after_medication" -> R.string.tag_after_medication
+        "tag_stress" -> R.string.tag_stress
+        "tag_tired" -> R.string.tag_tired
+        "tag_rest" -> R.string.tag_rest
+        "tag_work" -> R.string.tag_work
+        "tag_home" -> R.string.tag_home
+        "tag_hospital" -> R.string.tag_hospital
+        "tag_pharmacy" -> R.string.tag_pharmacy
+        "tag_working" -> R.string.tag_working
+        "tag_resting" -> R.string.tag_resting
+        "tag_stressed" -> R.string.tag_stressed
+        else -> R.string.tag_morning // 默认值
     }
 }
 

@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.xueya.R
@@ -81,7 +82,7 @@ fun SettingsScreen(
                     title = stringResource(R.string.settings_reminder_days),
                     description = stringResource(R.string.settings_reminder_days_desc),
                     icon = Icons.Default.DateRange,
-                    value = "${uiState.reminderDays.size} 天",
+                    value = if (uiState.languageMode == LanguageMode.EN) "${uiState.reminderDays.size} days" else "${uiState.reminderDays.size} 天",
                     enabled = uiState.notificationsEnabled,
                     onClick = viewModel::showReminderDaysDialog
                 )
@@ -129,7 +130,9 @@ fun SettingsScreen(
                     title = stringResource(R.string.settings_export_data),
                     description = stringResource(R.string.settings_export_data_desc),
                     icon = Icons.Default.Settings,
-                    value = if (uiState.totalRecordsCount > 0) "${uiState.totalRecordsCount} 条记录" else null,
+                    value = if (uiState.totalRecordsCount > 0) {
+                    if (uiState.languageMode == LanguageMode.EN) "${uiState.totalRecordsCount} records" else "${uiState.totalRecordsCount} 条记录"
+                } else null,
                     enabled = uiState.totalRecordsCount > 0,
                     onClick = viewModel::exportData
                 )
@@ -138,7 +141,11 @@ fun SettingsScreen(
                     title = stringResource(R.string.settings_clear_data),
                     description = stringResource(R.string.settings_clear_data_desc),
                     icon = Icons.Default.Delete,
-                    value = if (uiState.totalRecordsCount > 0) "${uiState.totalRecordsCount} 条记录" else "无数据",
+                    value = if (uiState.totalRecordsCount > 0) {
+                    if (uiState.languageMode == LanguageMode.EN) "${uiState.totalRecordsCount} records" else "${uiState.totalRecordsCount} 条记录"
+                } else {
+                    if (uiState.languageMode == LanguageMode.EN) "No data" else "无数据"
+                },
                     enabled = uiState.totalRecordsCount > 0,
                     onClick = viewModel::showDeleteConfirmDialog
                 )
@@ -165,8 +172,8 @@ fun SettingsScreen(
                 )
                 
                 SettingItem(
-                    title = "AI 功能测试",
-                    description = "测试 AI 血压数据解析功能",
+                    title = stringResource(R.string.ai_function_test),
+                    description = stringResource(R.string.ai_function_test_description),
                     icon = Icons.Default.Star,
                     onClick = onNavigateToAiTest
                 )
@@ -239,11 +246,18 @@ fun SettingsScreen(
         }
     }
     
+    uiState.messageResId?.let { resId ->
+        LaunchedEffect(resId) {
+            // 这里可以显示 Snackbar 或 Toast
+            // 现在先简单处理，实际项目中可以添加 SnackbarHost
+        }
+    }
+    
     // 加载状态处理
     if (uiState.isLoading) {
         Box(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = androidx.compose.ui.Alignment.Center
+            contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
         }

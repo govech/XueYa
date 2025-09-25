@@ -46,6 +46,10 @@
     <string name="settings_privacy_policy">隐私政策</string>
     <string name="settings_terms_service">服务条款</string>
     
+    <!-- AI功能测试 -->
+    <string name="ai_function_test">AI 功能测试</string>
+    <string name="ai_function_test_description">测试 AI 血压数据解析功能</string>
+    
     <!-- 主题选择 -->
     <string name="theme_system">跟随系统</string>
     <string name="theme_light">浅色模式</string>
@@ -69,6 +73,7 @@
     <string name="dialog_cancel">取消</string>
     <string name="dialog_delete_title">确认删除</string>
     <string name="dialog_delete_message">此操作将删除所有血压记录，且不可恢复。确定要继续吗？</string>
+    <string name="operation_irreversible">此操作无法撤销</string>
     <string name="dialog_export_title">导出数据</string>
     <string name="dialog_export_message">数据将导出为CSV文件保存到下载目录</string>
     
@@ -144,4 +149,98 @@
     <string name="loading">加载中...</string>
     <string name="retry">重试</string>
     <string name="refresh">刷新</string>
+    
+    <!-- 标签 -->
+    <string name="tags">标签</string>
+    <string name="tag_selection_hint">选择适合的标签来描述测量情况</string>
+    <string name="selected_tags_count">已选择 %1$d 个标签</string>
+    <string name="tag_morning">晨起</string>
+    <string name="tag_before_meal">餐前</string>
+    <string name="tag_after_meal">餐后</string>
+    <string name="tag_before_bed">睡前</string>
+    <string name="tag_after_exercise">运动后</string>
+    <string name="tag_working">工作时</string>
+    <string name="tag_resting">休息时</string>
+    <string name="tag_stressed">紧张时</string>
+    
+    <!-- 更多标签 -->
+    <string name="tag_after_medication">服药后</string>
+    <string name="tag_stress">紧张</string>
+    <string name="tag_tired">疲劳</string>
+    <string name="tag_rest">休息</string>
+    <string name="tag_work">工作</string>
+    <string name="tag_home">家中</string>
+    <string name="tag_hospital">医院</string>
+    <string name="tag_pharmacy">药店</string>
+    
+    <!-- 首页 -->
+    <string name="risk_rate">风险率</string>
+    <string name="average_blood_pressure">平均血压：%1$d/%2$d mmHg</string>
+    <string name="quick_actions">快速操作</string>
+    <string name="add">添加</string>
+    <string name="history">历史</string>
+    <string name="statistics">统计</string>
+    <string name="no_blood_pressure_records">还没有血压记录</string>
+    <string name="no_blood_pressure_records_desc">点击下方按钮开始记录您的血压数据</string>
+    <string name="add_first_record">添加第一条记录</string>
+    
+    <!-- 标签相关 -->
+    <string name="add_custom_tag">添加自定义标签</string>
+    <string name="tag_name">标签名称</string>
+    <string name="tag_name_placeholder">例如：运动后、餐前等</string>
+    <string name="remove">移除</string>
+    
+    <!-- 添加记录界面 -->
+    <string name="heart_rate_label">心率</string>
+    <string name="normal_resting_heart_rate">正常静息心率：60-100 bpm</string>
+    <string name="measure_time">测量时间</string>
+    <string name="select_time_title">选择时间</string>
+    <string name="current_time">当前时间：%1$s</string>
+    <string name="note">备注</string>
+    <string name="note_placeholder">记录测量时的身体状态、用药情况等...</string>
+    <string name="note_label_optional">备注信息（可选）</string>
+    
+    <!-- 过滤和排序 -->
+    <string name="filter_and_sort">过滤和排序</string>
+    <string name="time_range">时间范围</string>
+    <string name="all">全部</string>
+    <string name="this_week">本周</string>
+    <string name="this_month">本月</string>
+    <string name="last_30_days">近30天</string>
+    <string name="tag_filter">标签过滤</string>
+    <string name="sort_order">排序方式</string>
+    
+    <!-- 按钮 -->
+    <string name="edit">编辑</string>
+    
+    <!-- 标签 -->
+    <string name="note_label">备注：%1$s</string>
+    
+    <!-- 单位 -->
+    <string name="blood_pressure">血压</string>
+    <string name="heart_rate">心率</string>
+    <string name="unit_mmhg">mmHg</string>
+    <string name="time_label">时间：</string>
+    <string name="unit_bpm">bpm</string>
+    <string name="minute">分钟</string>
+    
+    <!-- 统计界面 -->
+    <string name="select_time_range">选择时间范围</string>
+    <string name="custom_range">自定义范围</string>
+    <string name="custom_date_range_development">自定义日期范围功能开发中...</string>
+    <string name="custom_date_range_current">当前将使用近30天数据</string>
+    
+    <!-- 历史记录界面 -->
+    <string name="statistics_overview">统计概览</string>
+    <string name="total_records">总记录</string>
+    <string name="record_count">%1$d次</string>
+    <string name="average_heart_rate">平均心率</string>
+    <string name="heart_rate_value">%1$d bpm</string>
+    <string name="common_tags">常用标签：</string>
+    <string name="no_blood_pressure_records_yet">还没有血压记录</string>
+    <string name="start_recording_blood_pressure">开始记录您的血压数据</string>
+    <string name="no_matching_records">没有找到匹配的记录</string>
+    <string name="adjust_search_conditions">尝试调整搜索条件或过滤器</string>
+    <string name="clear_all_filters">清除所有过滤器</string>
+    <string name="loading_records">正在加载记录...</string>
 </resources>

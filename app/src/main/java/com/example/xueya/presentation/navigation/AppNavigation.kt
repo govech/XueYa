@@ -4,11 +4,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
+import com.example.xueya.R
 
 /**
  * 应用主导航组合
@@ -52,7 +54,7 @@ fun AppNavigation(
                 ) {
                     Icon(
                         imageVector = AppDestination.AddRecord.icon,
-                        contentDescription = AppDestination.AddRecord.title
+                        contentDescription = stringResource(AppDestination.AddRecord.titleResId)
                     )
                 }
             }
@@ -85,11 +87,11 @@ private fun AppBottomNavigation(
                 icon = {
                     Icon(
                         imageVector = destination.icon,
-                        contentDescription = destination.title
+                        contentDescription = stringResource(destination.titleResId)
                     )
                 },
                 label = {
-                    Text(destination.title)
+                    Text(stringResource(destination.titleResId))
                 }
             )
         }

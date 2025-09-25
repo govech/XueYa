@@ -12,9 +12,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.xueya.R
 import com.example.xueya.presentation.components.common.ErrorCard
 import com.example.xueya.presentation.screens.history.*
 
@@ -49,7 +51,7 @@ fun HistoryScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "添加记录"
+                    contentDescription = stringResource(R.string.nav_add_record)
                 )
             }
         }
@@ -167,7 +169,7 @@ private fun HistoryTopAppBar(
 ) {
     Column {
         TopAppBar(
-            title = { Text("历史记录") },
+            title = { Text(stringResource(R.string.nav_history)) },
             actions = {
                 // 清除过滤器按钮
                 if (hasActiveFilters) {

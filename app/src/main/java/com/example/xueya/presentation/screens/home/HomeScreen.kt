@@ -13,9 +13,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.xueya.R
 import com.example.xueya.domain.model.BloodPressureCategory
 import com.example.xueya.domain.model.BloodPressureData
 import com.example.xueya.domain.usecase.HealthStatus
@@ -151,7 +153,7 @@ private fun TopActionBar(
             IconButton(onClick = onSettings) {
                 Icon(
                     imageVector = Icons.Default.Settings,
-                    contentDescription = "设置"
+                    contentDescription = stringResource(R.string.nav_settings)
                 )
             }
             
@@ -172,7 +174,7 @@ private fun TopActionBar(
                     modifier = Modifier.size(18.dp)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
-                Text("添加记录")
+                Text(stringResource(R.string.nav_add_record))
             }
         }
     }

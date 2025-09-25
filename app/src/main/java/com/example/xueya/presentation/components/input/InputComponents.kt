@@ -22,12 +22,14 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import com.example.xueya.R
 import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -135,7 +137,7 @@ fun TagSelector(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "标签",
+                text = stringResource(R.string.tags),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Medium
             )
@@ -147,7 +149,7 @@ fun TagSelector(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "添加标签",
+                        contentDescription = stringResource(R.string.add_custom_tag),
                         modifier = Modifier.size(16.dp)
                     )
                 }
@@ -178,7 +180,7 @@ fun TagSelector(
         // 可选标签
         if (availableTags.isNotEmpty()) {
             Text(
-                text = "推荐标签",
+                text = stringResource(R.string.common_tags),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -242,7 +244,7 @@ private fun SelectedTagChip(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = tag,
+                text = stringResource(getTagStringRes(tag)),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
@@ -251,7 +253,7 @@ private fun SelectedTagChip(
             
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = "移除",
+                contentDescription = stringResource(R.string.remove),
                 modifier = Modifier.size(16.dp),
                 tint = MaterialTheme.colorScheme.onPrimaryContainer
             )
@@ -280,7 +282,7 @@ private fun AvailableTagChip(
             .clickable(enabled = enabled) { onSelect() }
     ) {
         Text(
-            text = tag,
+            text = stringResource(getTagStringRes(tag)),
             style = MaterialTheme.typography.labelMedium,
             color = if (enabled) {
                 MaterialTheme.colorScheme.onSurfaceVariant
@@ -310,13 +312,13 @@ private fun AddTagDialog(
     
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("添加自定义标签") },
+        title = { Text(stringResource(R.string.add_custom_tag)) },
         text = {
             OutlinedTextField(
                 value = tagText,
                 onValueChange = { tagText = it },
-                label = { Text("标签名称") },
-                placeholder = { Text("例如：运动后、餐前等") },
+                label = { Text(stringResource(R.string.tag_name)) },
+                placeholder = { Text(stringResource(R.string.tag_name_placeholder)) },
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -342,12 +344,12 @@ private fun AddTagDialog(
                 },
                 enabled = tagText.isNotBlank()
             ) {
-                Text("添加")
+                Text(stringResource(R.string.add))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("取消")
+                Text(stringResource(R.string.cancel))
             }
         },
         properties = DialogProperties(
@@ -373,7 +375,7 @@ fun DateTimePicker(
     
     Column(modifier = modifier) {
         Text(
-            text = label,
+            text = stringResource(R.string.measure_time),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Medium
         )
@@ -470,7 +472,7 @@ private fun SimpleDatePickerDialog(
                 Spacer(modifier = Modifier.height(16.dp))
                 
                 Text(
-                    text = "注：完整的日期选择器需要额外的依赖库支持，这里使用简化版本",
+                    text = stringResource(R.string.custom_date_range_development),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -483,7 +485,7 @@ private fun SimpleDatePickerDialog(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("取消")
+                Text(stringResource(R.string.dialog_cancel))
             }
         }
     )
@@ -513,7 +515,7 @@ private fun SimpleTimePickerDialog(
                 NumberInputField(
                     value = hour,
                     onValueChange = { hour = it },
-                    label = "小时",
+                    label = stringResource(R.string.time_label),
                     min = 0,
                     max = 23,
                     modifier = Modifier.weight(1f)
@@ -529,7 +531,7 @@ private fun SimpleTimePickerDialog(
                 NumberInputField(
                     value = minute,
                     onValueChange = { minute = it },
-                    label = "分钟",
+                    label = stringResource(R.string.minute),
                     min = 0,
                     max = 59,
                     modifier = Modifier.weight(1f)
@@ -549,7 +551,7 @@ private fun SimpleTimePickerDialog(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("取消")
+                Text(stringResource(R.string.dialog_cancel))
             }
         }
     )
@@ -598,5 +600,30 @@ fun MultilineTextInput(
                 .padding(start = 16.dp, top = 4.dp),
             textAlign = TextAlign.End
         )
+    }
+}
+
+/**
+ * 根据标签键名获取对应的字符串资源ID
+ */
+private fun getTagStringRes(tagKey: String): Int {
+    return when (tagKey) {
+        "tag_morning" -> R.string.tag_morning
+        "tag_before_bed" -> R.string.tag_before_bed
+        "tag_after_exercise" -> R.string.tag_after_exercise
+        "tag_after_meal" -> R.string.tag_after_meal
+        "tag_before_meal" -> R.string.tag_before_meal
+        "tag_after_medication" -> R.string.tag_after_medication
+        "tag_stress" -> R.string.tag_stress
+        "tag_tired" -> R.string.tag_tired
+        "tag_rest" -> R.string.tag_rest
+        "tag_work" -> R.string.tag_work
+        "tag_home" -> R.string.tag_home
+        "tag_hospital" -> R.string.tag_hospital
+        "tag_pharmacy" -> R.string.tag_pharmacy
+        "tag_working" -> R.string.tag_working
+        "tag_resting" -> R.string.tag_resting
+        "tag_stressed" -> R.string.tag_stressed
+        else -> R.string.tag_morning // 默认值
     }
 }

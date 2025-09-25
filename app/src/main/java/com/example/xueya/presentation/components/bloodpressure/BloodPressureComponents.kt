@@ -16,9 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.xueya.R
 import com.example.xueya.domain.model.BloodPressureCategory
 import com.example.xueya.domain.model.BloodPressureData
 import com.example.xueya.domain.usecase.HealthStatus
@@ -88,7 +90,7 @@ fun BloodPressureDisplayCard(
                 Spacer(modifier = Modifier.height(8.dp))
                 
                 Text(
-                    text = "备注：${record.note}",
+                    text = stringResource(R.string.note_label, record.note),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -106,7 +108,7 @@ fun BloodPressureDisplayCard(
                             onClick = edit,
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text("编辑")
+                            Text(stringResource(R.string.edit))
                         }
                     }
                     
@@ -118,7 +120,7 @@ fun BloodPressureDisplayCard(
                                 contentColor = MaterialTheme.colorScheme.error
                             )
                         ) {
-                            Text("删除")
+                            Text(stringResource(R.string.delete))
                         }
                     }
                 }
@@ -178,7 +180,7 @@ fun BloodPressureDisplay(
         modifier = modifier
     ) {
         Text(
-            text = "血压",
+            text = stringResource(R.string.blood_pressure),
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -191,7 +193,7 @@ fun BloodPressureDisplay(
         )
         
         Text(
-            text = "mmHg",
+            text = stringResource(R.string.unit_mmhg),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -211,7 +213,7 @@ fun HeartRateDisplay(
         modifier = modifier
     ) {
         Text(
-            text = "心率",
+            text = stringResource(R.string.heart_rate),
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -224,7 +226,7 @@ fun HeartRateDisplay(
         )
         
         Text(
-            text = "bpm",
+            text = stringResource(R.string.unit_bpm),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -248,7 +250,7 @@ fun TagsList(
                 onClick = { },
                 label = {
                     Text(
-                        text = tag,
+                        text = stringResource(getTagStringRes(tag)),
                         style = MaterialTheme.typography.labelSmall
                     )
                 },
@@ -468,5 +470,27 @@ private fun getHealthStatusDescription(healthStatus: HealthStatus): String {
         HealthStatus.MODERATE_RISK -> "存在中度风险，建议就医"
         HealthStatus.HIGH_RISK -> "存在高度风险，请及时就医"
         HealthStatus.CRITICAL -> "情况危急，请立即就医"
+    }
+}
+
+private fun getTagStringRes(tagKey: String): Int {
+    return when (tagKey) {
+        "tag_morning" -> R.string.tag_morning
+        "tag_before_bed" -> R.string.tag_before_bed
+        "tag_after_exercise" -> R.string.tag_after_exercise
+        "tag_after_meal" -> R.string.tag_after_meal
+        "tag_before_meal" -> R.string.tag_before_meal
+        "tag_after_medication" -> R.string.tag_after_medication
+        "tag_stress" -> R.string.tag_stress
+        "tag_tired" -> R.string.tag_tired
+        "tag_rest" -> R.string.tag_rest
+        "tag_work" -> R.string.tag_work
+        "tag_home" -> R.string.tag_home
+        "tag_hospital" -> R.string.tag_hospital
+        "tag_pharmacy" -> R.string.tag_pharmacy
+        "tag_working" -> R.string.tag_working
+        "tag_resting" -> R.string.tag_resting
+        "tag_stressed" -> R.string.tag_stressed
+        else -> R.string.tag_morning // 默认值
     }
 }

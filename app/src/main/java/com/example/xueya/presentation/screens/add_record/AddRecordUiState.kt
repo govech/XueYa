@@ -107,9 +107,9 @@ data class AddRecordUiState(
      */
     companion object {
         val COMMON_TAGS = listOf(
-            "晨起", "睡前", "运动后", "用餐后", 
-            "服药后", "紧张", "疲劳", "休息",
-            "工作", "家中", "医院", "药店"
+            "tag_morning", "tag_before_bed", "tag_after_exercise", "tag_after_meal",
+            "tag_after_medication", "tag_stress", "tag_tired", "tag_rest",
+            "tag_work", "tag_home", "tag_hospital", "tag_pharmacy"
         )
     }
 }

@@ -11,9 +11,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.xueya.R
 
 /**
  * 统计分析界面
@@ -142,7 +144,7 @@ private fun StatisticsTopAppBar(
     onRefresh: () -> Unit
 ) {
     TopAppBar(
-        title = { Text("统计分析") },
+        title = { Text(stringResource(R.string.nav_statistics)) },
         actions = {
             // 时间范围选择按钮
             OutlinedButton(

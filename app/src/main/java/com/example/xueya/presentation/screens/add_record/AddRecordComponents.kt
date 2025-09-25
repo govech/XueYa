@@ -12,9 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.example.xueya.R
 import com.example.xueya.domain.model.BloodPressureCategory
 import com.example.xueya.domain.model.ai.AiParseState
 import com.example.xueya.presentation.components.input.VoiceInputButton
@@ -198,7 +200,7 @@ fun HeartRateInputCard(
             OutlinedTextField(
                 value = heartRate,
                 onValueChange = onHeartRateChange,
-                label = { Text("心率") },
+                label = { Text(stringResource(R.string.heart_rate_label)) },
                 suffix = { Text("bpm") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier.fillMaxWidth(),
@@ -207,7 +209,7 @@ fun HeartRateInputCard(
 
             // 心率范围提示
             Text(
-                text = "正常静息心率：60-100 bpm",
+                text = stringResource(R.string.normal_resting_heart_rate),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -242,7 +244,7 @@ fun MeasureTimeCard(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "测量时间",
+                text = stringResource(R.string.measure_time),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Medium
             )
@@ -281,7 +283,7 @@ fun MeasureTimeCard(
             }
 
             Text(
-                text = "当前时间：${measureTime.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm"))}",
+                text = stringResource(R.string.current_time, measureTime.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm"))),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -306,7 +308,7 @@ fun NoteInputCard(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "备注",
+                text = stringResource(R.string.note),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Medium
             )
@@ -314,8 +316,8 @@ fun NoteInputCard(
             OutlinedTextField(
                 value = note,
                 onValueChange = onNoteChange,
-                label = { Text("备注信息（可选）") },
-                placeholder = { Text("记录测量时的身体状态、用药情况等...") },
+                label = { Text(stringResource(R.string.note_label_optional)) },
+                placeholder = { Text(stringResource(R.string.note_placeholder)) },
                 modifier = Modifier.fillMaxWidth(),
                 minLines = 3,
                 maxLines = 5

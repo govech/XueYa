@@ -12,9 +12,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.xueya.R
 import com.example.xueya.domain.model.BloodPressureCategory
 import com.example.xueya.domain.model.BloodPressureData
 import com.example.xueya.presentation.components.common.StatisticItem
@@ -147,7 +149,7 @@ fun RecordCard(
                             onClick = { },
                             label = {
                                 Text(
-                                    text = tag,
+                                    text = stringResource(getTagStringRes(tag)),
                                     style = MaterialTheme.typography.labelSmall
                                 )
                             },
@@ -162,7 +164,7 @@ fun RecordCard(
                 Spacer(modifier = Modifier.height(8.dp))
                 
                 Text(
-                    text = "备注：${record.note}",
+                    text = stringResource(R.string.note_label, record.note),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -186,7 +188,7 @@ fun StatisticsCard(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = "统计概览",
+                text = stringResource(R.string.statistics_overview),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Medium
             )
@@ -198,18 +200,18 @@ fun StatisticsCard(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 StatisticItem(
-                    label = "总记录",
-                    value = "${statistics.totalCount}次"
+                    label = stringResource(R.string.total_records),
+                    value = stringResource(R.string.record_count, statistics.totalCount)
                 )
                 
                 StatisticItem(
-                    label = "平均血压",
+                    label = stringResource(R.string.average_blood_pressure),
                     value = "${statistics.averageSystolic.toInt()}/${statistics.averageDiastolic.toInt()}"
                 )
                 
                 StatisticItem(
-                    label = "平均心率",
-                    value = "${statistics.averageHeartRate.toInt()} bpm"
+                    label = stringResource(R.string.average_heart_rate),
+                    value = stringResource(R.string.heart_rate_value, statistics.averageHeartRate.toInt())
                 )
             }
             
@@ -217,7 +219,7 @@ fun StatisticsCard(
                 Spacer(modifier = Modifier.height(12.dp))
                 
                 Text(
-                    text = "常用标签：${statistics.mostFrequentTags.joinToString(", ")}",
+                    text = stringResource(R.string.common_tags) + "${statistics.mostFrequentTags.joinToString(", ")}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -237,9 +239,9 @@ fun HistoryEmptyState(
     modifier: Modifier = Modifier
 ) {
     EmptyStateCard(
-        title = "还没有血压记录",
-        description = "开始记录您的血压数据",
-        actionText = "添加第一条记录",
+        title = stringResource(R.string.no_blood_pressure_records_yet),
+        description = stringResource(R.string.start_recording_blood_pressure),
+        actionText = stringResource(R.string.add_first_record),
         onAction = onAddRecord,
         modifier = modifier,
         icon = {
@@ -262,9 +264,9 @@ fun NoResultsState(
     modifier: Modifier = Modifier
 ) {
     EmptyStateCard(
-        title = "没有找到匹配的记录",
-        description = "尝试调整搜索条件或过滤器",
-        actionText = "清除所有过滤器",
+        title = stringResource(R.string.no_matching_records),
+        description = stringResource(R.string.adjust_search_conditions),
+        actionText = stringResource(R.string.clear_all_filters),
         onAction = onClearFilters,
         modifier = modifier
     )
@@ -278,7 +280,7 @@ fun HistoryLoadingIndicator(
     modifier: Modifier = Modifier
 ) {
     LoadingCard(
-        message = "正在加载记录...",
+        message = stringResource(R.string.loading_records),
         modifier = modifier
     )
 }
@@ -296,5 +298,30 @@ private fun getCategoryColor(category: BloodPressureCategory): Color {
         BloodPressureCategory.HIGH_STAGE_1 -> Color(0xFFFF5722)
         BloodPressureCategory.HIGH_STAGE_2 -> Color(0xFFF44336)
         BloodPressureCategory.HYPERTENSIVE_CRISIS -> Color(0xFF9C27B0)
+    }
+}
+
+/**
+ * 根据标签键名获取对应的字符串资源ID
+ */
+private fun getTagStringRes(tagKey: String): Int {
+    return when (tagKey) {
+        "tag_morning" -> R.string.tag_morning
+        "tag_before_bed" -> R.string.tag_before_bed
+        "tag_after_exercise" -> R.string.tag_after_exercise
+        "tag_after_meal" -> R.string.tag_after_meal
+        "tag_before_meal" -> R.string.tag_before_meal
+        "tag_after_medication" -> R.string.tag_after_medication
+        "tag_stress" -> R.string.tag_stress
+        "tag_tired" -> R.string.tag_tired
+        "tag_rest" -> R.string.tag_rest
+        "tag_work" -> R.string.tag_work
+        "tag_home" -> R.string.tag_home
+        "tag_hospital" -> R.string.tag_hospital
+        "tag_pharmacy" -> R.string.tag_pharmacy
+        "tag_working" -> R.string.tag_working
+        "tag_resting" -> R.string.tag_resting
+        "tag_stressed" -> R.string.tag_stressed
+        else -> R.string.tag_morning // 默认值
     }
 }

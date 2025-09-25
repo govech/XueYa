@@ -30,7 +30,8 @@ data class SettingsUiState(
     // 操作结果
     val exportResult: ExportState = ExportState.Idle,
     val clearDataResult: ClearDataState = ClearDataState.Idle,
-    val message: String? = null
+    val message: String? = null,
+    val messageResId: Int? = null
 )
 
 /**

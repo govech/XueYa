@@ -3,6 +3,7 @@ package com.example.xueya.presentation.screens.settings
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.xueya.R
 import com.example.xueya.data.preferences.UserPreferencesDataStore
 import com.example.xueya.domain.model.LanguageMode
 import com.example.xueya.domain.model.ThemeMode
@@ -62,7 +63,7 @@ class SettingsViewModel @Inject constructor(
     fun updateThemeMode(themeMode: ThemeMode) {
         viewModelScope.launch {
             updateThemeUseCase(themeMode)
-            showMessage("主题切换成功")
+            showMessage(R.string.toast_theme_changed)
         }
     }
 
@@ -78,7 +79,7 @@ class SettingsViewModel @Inject constructor(
     fun updateLanguageMode(languageMode: LanguageMode, context: Context) {
         viewModelScope.launch {
             updateLanguageUseCase(languageMode)
-            showMessage("语言设置已更新")
+            showMessage(R.string.toast_language_changed)
             // 重启应用以应用新的语言设置
             AppRestartUtil.restartApp(context)
         }
@@ -109,14 +110,14 @@ class SettingsViewModel @Inject constructor(
     fun updateReminderTime(time: String) {
         viewModelScope.launch {
             updateReminderUseCase.updateReminderTime(time)
-            showMessage("提醒时间设置成功")
+            showMessage(R.string.toast_reminder_set)
         }
     }
 
     fun updateReminderDays(days: Set<Int>) {
         viewModelScope.launch {
             updateReminderUseCase.updateReminderDays(days)
-            showMessage("提醒日期设置成功")
+            showMessage(R.string.toast_reminder_set)
         }
     }
 
@@ -148,13 +149,13 @@ class SettingsViewModel @Inject constructor(
                     _uiState.update { 
                         it.copy(exportResult = ExportState.Success(result.filePath))
                     }
-                    showMessage("数据导出成功")
+                    showMessage(R.string.toast_export_success)
                 }
                 is ExportResult.Error -> {
                     _uiState.update { 
                         it.copy(exportResult = ExportState.Error(result.message))
                     }
-                    showMessage("数据导出失败: ${result.message}")
+                    showMessage(R.string.toast_export_failed)
                 }
             }
         }
@@ -182,13 +183,13 @@ class SettingsViewModel @Inject constructor(
                             showDeleteConfirmDialog = false
                         )
                     }
-                    showMessage("数据清空成功")
+                    showMessage(R.string.toast_clear_success)
                 }
                 is ClearDataResult.Error -> {
                     _uiState.update { 
                         it.copy(clearDataResult = ClearDataState.Error(result.message))
                     }
-                    showMessage("数据清空失败: ${result.message}")
+                    showMessage(R.string.toast_clear_failed)
                 }
             }
         }
@@ -204,7 +205,16 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun showMessage(message: String) {
-        _uiState.update { it.copy(message = message) }
+        _uiState.update { it.copy(message = message, messageResId = null) }
+        // 3秒后清除消息
+        viewModelScope.launch {
+            kotlinx.coroutines.delay(3000)
+            clearMessage()
+        }
+    }
+
+    private fun showMessage(messageResId: Int) {
+        _uiState.update { it.copy(messageResId = messageResId, message = null) }
         // 3秒后清除消息
         viewModelScope.launch {
             kotlinx.coroutines.delay(3000)

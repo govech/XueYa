@@ -10,8 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.xueya.R
 import com.example.xueya.domain.usecase.DetailedStatistics
 import com.example.xueya.presentation.components.common.EmptyStateCard
 import com.example.xueya.presentation.components.common.ErrorCard
@@ -72,7 +74,7 @@ fun WeeklyOverviewCard(
                 )
                 
                 StatisticItem(
-                    label = "风险率",
+                    label = stringResource(R.string.risk_rate),
                     value = "${(statistics.riskPercentage * 100).toInt()}%",
                     color = if (statistics.riskPercentage > 0.3f) Color(0xFFF44336) else Color(0xFFFF9800)
                 )
@@ -82,7 +84,7 @@ fun WeeklyOverviewCard(
                 Spacer(modifier = Modifier.height(12.dp))
                 
                 Text(
-                    text = "平均血压：${statistics.averageSystolic.toInt()}/${statistics.averageDiastolic.toInt()} mmHg",
+                    text = stringResource(R.string.average_blood_pressure, statistics.averageSystolic.toInt(), statistics.averageDiastolic.toInt()),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -109,7 +111,7 @@ fun QuickActionsCard(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = "快速操作",
+                text = stringResource(R.string.quick_actions),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Medium
             )
@@ -131,7 +133,7 @@ fun QuickActionsCard(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("添加")
+                    Text(stringResource(R.string.add))
                 }
                 
                 // 查看历史
@@ -145,7 +147,7 @@ fun QuickActionsCard(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("历史")
+                    Text(stringResource(R.string.history))
                 }
                 
                 // 查看统计
@@ -159,7 +161,7 @@ fun QuickActionsCard(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("统计")
+                    Text(stringResource(R.string.statistics))
                 }
             }
         }
@@ -174,9 +176,9 @@ fun HomeEmptyStateCard(
     onAddRecord: () -> Unit
 ) {
     EmptyStateCard(
-        title = "还没有血压记录",
-        description = "点击下方按钮开始记录您的血压数据",
-        actionText = "添加第一条记录",
+        title = stringResource(R.string.no_blood_pressure_records),
+        description = stringResource(R.string.no_blood_pressure_records_desc),
+        actionText = stringResource(R.string.add_first_record),
         onAction = onAddRecord,
         icon = {
             Icon(

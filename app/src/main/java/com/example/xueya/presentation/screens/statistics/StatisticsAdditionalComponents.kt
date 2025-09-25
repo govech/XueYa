@@ -14,9 +14,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.xueya.R
 import com.example.xueya.domain.usecase.TrendData
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -252,7 +254,7 @@ fun TimeRangePickerDialog(
                 modifier = Modifier.padding(16.dp)
             ) {
                 Text(
-                    text = "选择时间范围",
+                    text = stringResource(R.string.select_time_range),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium
                 )
@@ -297,7 +299,7 @@ fun TimeRangePickerDialog(
                         Spacer(modifier = Modifier.width(8.dp))
                         
                         Text(
-                            text = "自定义范围",
+                            text = stringResource(R.string.custom_range),
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
@@ -314,12 +316,12 @@ fun TimeRangePickerDialog(
                                 modifier = Modifier.padding(12.dp)
                             ) {
                                 Text(
-                                    text = "自定义日期范围功能开发中...",
+                                    text = stringResource(R.string.custom_date_range_development),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 Text(
-                                    text = "当前将使用近30天数据",
+                                    text = stringResource(R.string.custom_date_range_current),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -336,7 +338,7 @@ fun TimeRangePickerDialog(
                     horizontalArrangement = Arrangement.End
                 ) {
                     TextButton(onClick = onDismiss) {
-                        Text("取消")
+                        Text(stringResource(R.string.dialog_cancel))
                     }
                 }
             }

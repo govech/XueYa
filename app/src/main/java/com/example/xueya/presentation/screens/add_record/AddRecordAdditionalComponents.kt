@@ -7,9 +7,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.xueya.R
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -29,13 +31,13 @@ fun TagSelectionCard(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "标签",
+                text = stringResource(R.string.tags),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Medium
             )
 
             Text(
-                text = "选择适合的标签来描述测量情况",
+                text = stringResource(R.string.tag_selection_hint),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -72,7 +74,7 @@ fun TagSelectionCard(
             // 选中标签数量提示
             if (selectedTags.isNotEmpty()) {
                 Text(
-                    text = "已选择 ${selectedTags.size} 个标签",
+                    text = stringResource(R.string.selected_tags_count, selectedTags.size),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -97,12 +99,37 @@ private fun TagChip(
         onClick = { onToggle(tag) },
         label = {
             Text(
-                text = tag,
+                text = stringResource(getTagStringRes(tag)),
                 style = MaterialTheme.typography.labelMedium
             )
         },
         modifier = modifier
     )
+}
+
+/**
+ * 根据标签键名获取对应的字符串资源ID
+ */
+private fun getTagStringRes(tagKey: String): Int {
+    return when (tagKey) {
+        "tag_morning" -> R.string.tag_morning
+        "tag_before_bed" -> R.string.tag_before_bed
+        "tag_after_exercise" -> R.string.tag_after_exercise
+        "tag_after_meal" -> R.string.tag_after_meal
+        "tag_before_meal" -> R.string.tag_before_meal
+        "tag_after_medication" -> R.string.tag_after_medication
+        "tag_stress" -> R.string.tag_stress
+        "tag_tired" -> R.string.tag_tired
+        "tag_rest" -> R.string.tag_rest
+        "tag_work" -> R.string.tag_work
+        "tag_home" -> R.string.tag_home
+        "tag_hospital" -> R.string.tag_hospital
+        "tag_pharmacy" -> R.string.tag_pharmacy
+        "tag_working" -> R.string.tag_working
+        "tag_resting" -> R.string.tag_resting
+        "tag_stressed" -> R.string.tag_stressed
+        else -> R.string.tag_morning // 默认值
+    }
 }
 
 /**
@@ -131,12 +158,12 @@ fun DatePickerDialog(
                     }
                 }
             ) {
-                Text("确定")
+                Text(stringResource(R.string.dialog_confirm))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("取消")
+                Text(stringResource(R.string.dialog_cancel))
             }
         }
     ) {
@@ -169,7 +196,7 @@ fun TimePickerDialog(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = "选择时间",
+                    text = stringResource(R.string.select_time_title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium
                 )
@@ -181,7 +208,7 @@ fun TimePickerDialog(
                     horizontalArrangement = Arrangement.End
                 ) {
                     TextButton(onClick = onDismiss) {
-                        Text("取消")
+                        Text(stringResource(R.string.dialog_cancel))
                     }
                     
                     Spacer(modifier = Modifier.width(8.dp))
@@ -195,7 +222,7 @@ fun TimePickerDialog(
                             onTimeSelected(time)
                         }
                     ) {
-                        Text("确定")
+                        Text(stringResource(R.string.dialog_confirm))
                     }
                 }
             }

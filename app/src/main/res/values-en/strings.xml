@@ -46,6 +46,10 @@
     <string name="settings_privacy_policy">Privacy Policy</string>
     <string name="settings_terms_service">Terms of Service</string>
     
+    <!-- AI Function Test -->
+    <string name="ai_function_test">AI Function Test</string>
+    <string name="ai_function_test_description">Test AI blood pressure data parsing function</string>
+    
     <!-- Theme choices -->
     <string name="theme_system">Follow System</string>
     <string name="theme_light">Light Mode</string>
@@ -69,6 +73,7 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_delete_title">Confirm Delete</string>
     <string name="dialog_delete_message">This will delete all blood pressure records permanently. Are you sure?</string>
+    <string name="operation_irreversible">This operation cannot be undone</string>
     <string name="dialog_export_title">Export Data</string>
     <string name="dialog_export_message">Data will be exported as CSV file to Downloads folder</string>
     
@@ -144,4 +149,98 @@
     <string name="loading">Loading...</string>
     <string name="retry">Retry</string>
     <string name="refresh">Refresh</string>
+    
+    <!-- Tags -->
+    <string name="tags">Tags</string>
+    <string name="tag_selection_hint">Select appropriate tags to describe the measurement</string>
+    <string name="selected_tags_count">%1$d tags selected</string>
+    <string name="tag_morning">Morning</string>
+    <string name="tag_before_meal">Before Meal</string>
+    <string name="tag_after_meal">After Meal</string>
+    <string name="tag_before_bed">Before Bed</string>
+    <string name="tag_after_exercise">After Exercise</string>
+    <string name="tag_working">Working</string>
+    <string name="tag_resting">Resting</string>
+    <string name="tag_stressed">Stressed</string>
+    
+    <!-- More tags -->
+    <string name="tag_after_medication">After Medication</string>
+    <string name="tag_stress">Stress</string>
+    <string name="tag_tired">Tired</string>
+    <string name="tag_rest">Rest</string>
+    <string name="tag_work">Work</string>
+    <string name="tag_home">Home</string>
+    <string name="tag_hospital">Hospital</string>
+    <string name="tag_pharmacy">Pharmacy</string>
+    
+    <!-- Home Screen -->
+    <string name="risk_rate">Risk Rate</string>
+    <string name="average_blood_pressure">Average BP: %1$d/%2$d mmHg</string>
+    <string name="quick_actions">Quick Actions</string>
+    <string name="add">Add</string>
+    <string name="history">History</string>
+    <string name="statistics">Statistics</string>
+    <string name="no_blood_pressure_records">No blood pressure records yet</string>
+    <string name="no_blood_pressure_records_desc">Tap the button below to start recording your blood pressure data</string>
+    <string name="add_first_record">Add First Record</string>
+    
+    <!-- Tag Related -->
+    <string name="add_custom_tag">Add Custom Tag</string>
+    <string name="tag_name">Tag Name</string>
+    <string name="tag_name_placeholder">e.g.: After exercise, Before meal, etc.</string>
+    <string name="remove">Remove</string>
+    
+    <!-- Add Record Screen -->
+    <string name="heart_rate_label">Heart Rate</string>
+    <string name="normal_resting_heart_rate">Normal resting heart rate: 60-100 bpm</string>
+    <string name="measure_time">Measure Time</string>
+    <string name="select_time_title">Select Time</string>
+    <string name="current_time">Current time: %1$s</string>
+    <string name="note">Note</string>
+    <string name="note_placeholder">Record your physical condition, medication, etc. during measurement...</string>
+    <string name="note_label_optional">Note information (optional)</string>
+    
+    <!-- Filter and Sort -->
+    <string name="filter_and_sort">Filter and Sort</string>
+    <string name="time_range">Time Range</string>
+    <string name="all">All</string>
+    <string name="this_week">This Week</string>
+    <string name="this_month">This Month</string>
+    <string name="last_30_days">Last 30 Days</string>
+    <string name="tag_filter">Tag Filter</string>
+    <string name="sort_order">Sort Order</string>
+    
+    <!-- Buttons -->
+    <string name="edit">Edit</string>
+    
+    <!-- Labels -->
+    <string name="note_label">Note: %1$s</string>
+    
+    <!-- Units -->
+    <string name="blood_pressure">Blood Pressure</string>
+    <string name="heart_rate">Heart Rate</string>
+    <string name="unit_mmhg">mmHg</string>
+    <string name="time_label">Time:</string>
+    <string name="unit_bpm">bpm</string>
+    <string name="minute">Minute</string>
+    
+    <!-- Statistics Screen -->
+    <string name="select_time_range">Select Time Range</string>
+    <string name="custom_range">Custom Range</string>
+    <string name="custom_date_range_development">Custom date range feature under development...</string>
+    <string name="custom_date_range_current">Currently using last 30 days data</string>
+    
+    <!-- History Screen -->
+    <string name="statistics_overview">Statistics Overview</string>
+    <string name="total_records">Total Records</string>
+    <string name="record_count">%1$d records</string>
+    <string name="average_heart_rate">Average Heart Rate</string>
+    <string name="heart_rate_value">%1$d bpm</string>
+    <string name="common_tags">Common Tags:</string>
+    <string name="no_blood_pressure_records_yet">No blood pressure records yet</string>
+    <string name="start_recording_blood_pressure">Start recording your blood pressure data</string>
+    <string name="no_matching_records">No matching records found</string>
+    <string name="adjust_search_conditions">Try adjusting search conditions or filters</string>
+    <string name="clear_all_filters">Clear All Filters</string>
+    <string name="loading_records">Loading records...</string>
 </resources>

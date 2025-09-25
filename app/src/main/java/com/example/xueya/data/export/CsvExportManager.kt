@@ -95,18 +95,29 @@ class CsvExportManager @Inject constructor(
     /**
      * 将血压记录格式化为CSV行
      */
-    private fun formatRecordToCsv(record: BloodPressureData): String {
+    private fun formatRecordToCsv(record: BloodPressureData, useEnglishHeaders: Boolean = false): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val dateTime = record.measureTime.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
         
         // 转换分类为可读文本
-        val categoryText = when (record.category.name) {
-            "NORMAL" -> "正常"
-            "ELEVATED" -> "血压偏高"
-            "HIGH_STAGE_1" -> "高血压1期"
-            "HIGH_STAGE_2" -> "高血压2期"
-            "HYPERTENSIVE_CRISIS" -> "高血压危象"
-            else -> record.category.name
+        val categoryText = if (useEnglishHeaders) {
+            when (record.category.name) {
+                "NORMAL" -> "Normal"
+                "ELEVATED" -> "Elevated"
+                "HIGH_STAGE_1" -> "High Stage 1"
+                "HIGH_STAGE_2" -> "High Stage 2"
+                "HYPERTENSIVE_CRISIS" -> "Hypertensive Crisis"
+                else -> record.category.name
+            }
+        } else {
+            when (record.category.name) {
+                "NORMAL" -> "正常"
+                "ELEVATED" -> "血压偏高"
+                "HIGH_STAGE_1" -> "高血压1期"
+                "HIGH_STAGE_2" -> "高血压2期"
+                "HYPERTENSIVE_CRISIS" -> "高血压危象"
+                else -> record.category.name
+            }
         }
         
         // 处理可能包含逗号的备注字段

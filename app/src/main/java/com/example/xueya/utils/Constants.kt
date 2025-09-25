@@ -68,8 +68,8 @@ object Constants {
     // 标签相关
     object Tags {
         val DEFAULT_TAGS = listOf(
-            "晨起", "餐前", "餐后", "睡前", 
-            "运动后", "工作时", "休息时", "紧张时"
+            "tag_morning", "tag_before_meal", "tag_after_meal", "tag_before_bed",
+            "tag_after_exercise", "tag_working", "tag_resting", "tag_stressed"
         )
     }
     
