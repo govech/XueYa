@@ -29,6 +29,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun SettingsScreen(
     modifier: Modifier = Modifier,
+    onNavigateToAiTest: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -161,6 +162,13 @@ fun SettingsScreen(
                     icon = Icons.Default.Build,
                     showChevron = false,
                     onClick = { }
+                )
+                
+                SettingItem(
+                    title = "AI 功能测试",
+                    description = "测试 AI 血压数据解析功能",
+                    icon = Icons.Default.Star,
+                    onClick = onNavigateToAiTest
                 )
             }
         }

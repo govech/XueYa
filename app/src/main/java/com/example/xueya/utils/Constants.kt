@@ -103,4 +103,53 @@ object Constants {
         const val INPUT_FIELD_HEIGHT_DP = 56
         const val LIST_ITEM_HEIGHT_DP = 72
     }
+    
+    // AI 服务配置
+    object AI {
+        const val OPENROUTER_BASE_URL = "https://openrouter.ai/"
+        const val OPENROUTER_API_KEY = "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"
+        
+        // DeepSeek V3 模型配置
+        const val DEFAULT_AI_MODEL = "deepseek/deepseek-chat-v3.1:free"
+        const val MAX_TOKENS = 1000
+        const val TEMPERATURE = 0.7
+        
+        // 网络配置
+        const val CONNECT_TIMEOUT_SECONDS = 30L
+        const val READ_TIMEOUT_SECONDS = 30L
+        const val WRITE_TIMEOUT_SECONDS = 30L
+        
+        // 提示词模板
+        val BLOOD_PRESSURE_PARSE_PROMPT = """
+            你是一个专业的血压数据解析助手。请解析用户输入的血压相关信息，提取出以下数据：
+            - 收缩压（高压）
+            - 舒张压（低压）  
+            - 脉搏/心率
+            - 备注信息
+            
+            请以JSON格式返回，格式如下：
+            {
+                "systolic": 收缩压数值(整数),
+                "diastolic": 舒张压数值(整数),
+                "pulse": 脉搏数值(整数),
+                "notes": "备注信息",
+                "confidence": 置信度(0-1之间的小数),
+                "isValid": 是否为有效的血压数据(true/false)
+            }
+            
+            用户输入：
+        """.trimIndent()
+        
+        val HEALTH_ADVICE_PROMPT = """
+            你是一位专业的心血管健康顾问。基于用户的血压数据历史，请提供专业的健康建议。
+            请以JSON格式返回，格式如下：
+            {
+                "advice": "主要建议内容",
+                "category": "normal/warning/danger",
+                "recommendations": ["建议1", "建议2", "建议3"]
+            }
+            
+            血压数据：
+        """.trimIndent()
+    }
 }

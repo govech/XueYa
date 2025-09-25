@@ -10,6 +10,7 @@ import com.example.xueya.presentation.screens.add_record.AddRecordScreen
 import com.example.xueya.presentation.screens.history.HistoryScreen
 import com.example.xueya.presentation.screens.statistics.StatisticsScreen
 import com.example.xueya.presentation.screens.settings.SettingsScreen
+import com.example.xueya.presentation.test.AiTestScreen
 
 /**
  * 应用导航主机
@@ -73,7 +74,20 @@ fun AppNavHost(
         
         // 设置
         composable(AppDestination.Settings.route) {
-            SettingsScreen()
+            SettingsScreen(
+                onNavigateToAiTest = {
+                    navController.navigate(AppDestination.AiTest.route)
+                }
+            )
+        }
+        
+        // AI 测试
+        composable(AppDestination.AiTest.route) {
+            AiTestScreen(
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

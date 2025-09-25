@@ -41,6 +41,12 @@ sealed class AppDestination(
         title = "设置",
         icon = Icons.Default.Settings
     )
+    
+    object AiTest : AppDestination(
+        route = "ai_test",
+        title = "AI 测试",
+        icon = Icons.Default.Build
+    )
 }
 
 /**
@@ -61,5 +67,6 @@ val allDestinations = listOf(
     AppDestination.AddRecord,
     AppDestination.History,
     AppDestination.Statistics,
-    AppDestination.Settings
+    AppDestination.Settings,
+    AppDestination.AiTest
 )

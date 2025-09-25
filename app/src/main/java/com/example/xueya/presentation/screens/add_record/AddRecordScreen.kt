@@ -33,6 +33,7 @@ fun AddRecordScreen(
     viewModel: AddRecordViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val aiParseState by viewModel.aiParseState.collectAsState()
     val scrollState = rememberScrollState()
 
     // 监听保存成功状态
@@ -103,7 +104,12 @@ fun AddRecordScreen(
                 category = uiState.bloodPressureCategory,
                 validationErrors = uiState.validationErrors.filter { 
                     it.contains("收缩压") || it.contains("舒张压") 
-                }
+                },
+                // AI 输入相关参数
+                aiParseState = aiParseState,
+                onAiTextInput = viewModel::parseBloodPressureText,
+                onStartVoiceInput = viewModel::startVoiceInput,
+                onStopVoiceInput = viewModel::stopVoiceInput
             )
 
             // 心率输入卡片

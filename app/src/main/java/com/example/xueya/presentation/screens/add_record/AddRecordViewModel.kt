@@ -3,7 +3,10 @@ package com.example.xueya.presentation.screens.add_record
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.xueya.domain.usecase.AddBloodPressureUseCase
+import com.example.xueya.domain.usecase.ParseBloodPressureFromTextUseCase
 import com.example.xueya.domain.model.BloodPressureData
+import com.example.xueya.domain.model.ai.AiParseState
+import com.example.xueya.domain.model.ai.BloodPressureParseResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,11 +20,78 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AddRecordViewModel @Inject constructor(
-    private val addBloodPressureUseCase: AddBloodPressureUseCase
+    private val addBloodPressureUseCase: AddBloodPressureUseCase,
+    private val parseBloodPressureFromTextUseCase: ParseBloodPressureFromTextUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddRecordUiState())
     val uiState: StateFlow<AddRecordUiState> = _uiState.asStateFlow()
+    
+    private val _aiParseState = MutableStateFlow<AiParseState>(AiParseState.Idle)
+    val aiParseState: StateFlow<AiParseState> = _aiParseState.asStateFlow()
+
+    /**
+     * AI 文本解析
+     */
+    fun parseBloodPressureText(text: String) {
+        if (text.isBlank()) return
+        
+        viewModelScope.launch {
+            _aiParseState.value = AiParseState.Loading
+            
+            parseBloodPressureFromTextUseCase(text)
+                .onSuccess { result ->
+                    _aiParseState.value = AiParseState.Success(result)
+                    // 自动填充解析结果
+                    applyAiParseResult(result)
+                }
+                .onFailure { exception ->
+                    _aiParseState.value = AiParseState.Error(
+                        exception.message ?: "解析失败"
+                    )
+                }
+        }
+    }
+    
+    /**
+     * 应用 AI 解析结果
+     */
+    private fun applyAiParseResult(result: BloodPressureParseResult) {
+        if (result.isValid) {
+            val currentState = _uiState.value
+            _uiState.value = currentState.copy(
+                systolic = result.systolic?.toString() ?: currentState.systolic,
+                diastolic = result.diastolic?.toString() ?: currentState.diastolic,
+                heartRate = result.pulse?.toString() ?: currentState.heartRate,
+                note = if (result.notes?.isNotBlank() == true) {
+                    if (currentState.note.isBlank()) result.notes else "${currentState.note}\n${result.notes}"
+                } else currentState.note,
+                error = null
+            )
+        }
+    }
+    
+    /**
+     * 重置 AI 解析状态
+     */
+    fun resetAiParseState() {
+        _aiParseState.value = AiParseState.Idle
+    }
+    
+    /**
+     * 开始语音输入（模拟实现）
+     */
+    fun startVoiceInput() {
+        // TODO: 集成语音识别服务
+        _aiParseState.value = AiParseState.Error("语音识别功能正在开发中，请使用文本输入")
+    }
+    
+    /**
+     * 停止语音输入
+     */
+    fun stopVoiceInput() {
+        resetAiParseState()
+    }
 
     /**
      * 更新收缩压

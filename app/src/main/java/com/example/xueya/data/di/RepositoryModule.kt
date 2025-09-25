@@ -1,6 +1,8 @@
 package com.example.xueya.data.di
 
+import com.example.xueya.data.repository.AiRepositoryImpl
 import com.example.xueya.data.repository.BloodPressureRepositoryImpl
+import com.example.xueya.domain.repository.AiRepository
 import com.example.xueya.domain.repository.BloodPressureRepository
 import dagger.Binds
 import dagger.Module
@@ -20,4 +22,10 @@ abstract class RepositoryModule {
     abstract fun bindBloodPressureRepository(
         bloodPressureRepositoryImpl: BloodPressureRepositoryImpl
     ): BloodPressureRepository
+    
+    @Binds
+    @Singleton
+    abstract fun bindAiRepository(
+        aiRepositoryImpl: AiRepositoryImpl
+    ): AiRepository
 }

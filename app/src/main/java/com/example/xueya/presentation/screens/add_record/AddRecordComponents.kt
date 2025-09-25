@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.xueya.domain.model.BloodPressureCategory
+import com.example.xueya.domain.model.ai.AiParseState
+import com.example.xueya.presentation.components.ai.VoiceInputButton
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -29,7 +32,12 @@ fun BloodPressureInputCard(
     onSystolicChange: (String) -> Unit,
     onDiastolicChange: (String) -> Unit,
     category: BloodPressureCategory?,
-    validationErrors: List<String>
+    validationErrors: List<String>,
+    // AI 输入相关参数
+    aiParseState: AiParseState = AiParseState.Idle,
+    onAiTextInput: (String) -> Unit = {},
+    onStartVoiceInput: () -> Unit = {},
+    onStopVoiceInput: () -> Unit = {}
 ) {
     Card(
         modifier = Modifier.fillMaxWidth()
@@ -38,10 +46,55 @@ fun BloodPressureInputCard(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "血压值",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Medium
+                )
+                
+                // AI 输入指示器
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                    Text(
+                        text = "AI 智能输入",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+            
+            // AI 语音输入组件
+            VoiceInputButton(
+                parseState = aiParseState,
+                onStartListening = onStartVoiceInput,
+                onStopListening = onStopVoiceInput,
+                onTextInput = onAiTextInput,
+                modifier = Modifier.fillMaxWidth()
+            )
+            
+            // 分隔线
+            HorizontalDivider(
+                modifier = Modifier.padding(vertical = 8.dp),
+                color = MaterialTheme.colorScheme.outlineVariant
+            )
+            
             Text(
-                text = "血压值",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Medium
+                text = "手动输入",
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Row(
