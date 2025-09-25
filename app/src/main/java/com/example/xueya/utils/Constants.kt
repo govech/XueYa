@@ -180,7 +180,7 @@ object Constants {
     // 语音识别配置
     object SpeechRecognition {
         const val REQUEST_CODE_SPEECH_INPUT = 1000
-        const val LISTENING_TIMEOUT_MS = 10000L
+        const val LISTENING_TIMEOUT_MS = 20000L
         const val MAX_RESULTS = 1
         const val LANGUAGE_MODEL_FREE_FORM = "android.speech.RecognizerIntent.LANGUAGE_MODEL_FREE_FORM"
         const val EXTRA_LANGUAGE_MODEL = "android.speech.extra.LANGUAGE_MODEL"

@@ -40,7 +40,8 @@ class VoiceInputUseCase @Inject constructor(
         prompt: String = "请说出血压数据，如：高压120，低压80，心率75"
     ): Flow<VoiceInputState> = flow {
         
-        emit(VoiceInputState.Idle)
+        // 移除初始的 Idle 以避免覆盖 UI 端的即时 Listening 反馈
+        // emit(VoiceInputState.Idle)
         
         // 检查语音识别是否可用
         if (!speechRecognitionManager.isSpeechRecognitionAvailable()) {

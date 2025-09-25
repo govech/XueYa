@@ -93,6 +93,8 @@ class AddRecordViewModel @Inject constructor(
     fun startVoiceInput() {
         // 取消之前的语音输入任务
         voiceInputJob?.cancel()
+        // 点击后立即给出“正在听取”反馈，触发按钮动画
+        _voiceInputState.value = VoiceInputUseCase.VoiceInputState.Listening
         
         voiceInputJob = viewModelScope.launch {
             voiceInputUseCase(

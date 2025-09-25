@@ -126,6 +126,8 @@ class SpeechRecognitionManager @Inject constructor(
         }
         
         speechRecognizer.setRecognitionListener(recognitionListener)
+        // 立即发送“Listening”以触发UI动画，不必等待 onReadyForSpeech
+        trySend(SpeechRecognitionState.Listening)
         speechRecognizer.startListening(intent)
         
         // 设置超时
