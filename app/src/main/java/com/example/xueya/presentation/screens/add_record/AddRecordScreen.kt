@@ -34,6 +34,7 @@ fun AddRecordScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val aiParseState by viewModel.aiParseState.collectAsState()
+    val voiceInputState by viewModel.voiceInputState.collectAsState()
     val scrollState = rememberScrollState()
 
     // 监听保存成功状态
@@ -107,6 +108,7 @@ fun AddRecordScreen(
                 },
                 // AI 输入相关参数
                 aiParseState = aiParseState,
+                voiceInputState = voiceInputState,
                 onAiTextInput = viewModel::parseBloodPressureText,
                 onStartVoiceInput = viewModel::startVoiceInput,
                 onStopVoiceInput = viewModel::stopVoiceInput

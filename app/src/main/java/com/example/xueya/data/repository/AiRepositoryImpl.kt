@@ -130,24 +130,12 @@ class AiRepositoryImpl @Inject constructor(
                     "${data.measureTime}: ${data.systolic}/${data.diastolic}"
                 }
 
-                val trendPrompt = """
-                    请分析以下血压数据的趋势，并以JSON格式返回：
-                    {
-                        "trend": "improving/stable/worsening",
-                        "summary": "趋势总结",
-                        "insights": ["洞察1", "洞察2"],
-                        "recommendations": ["建议1", "建议2"]
-                    }
-                    
-                    血压数据：
-                """.trimIndent()
-
                 val request = AiRequest(
                     model = Constants.AI.DEFAULT_AI_MODEL,
                     messages = listOf(
                         Message(
                             role = "user",
-                            content = "$trendPrompt$trendData"
+                            content = "${Constants.AI.TREND_ANALYSIS_PROMPT}$trendData"
                         )
                     ),
                     temperature = Constants.AI.TEMPERATURE,

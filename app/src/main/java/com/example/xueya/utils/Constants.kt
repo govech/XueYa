@@ -151,5 +151,31 @@ object Constants {
             
             血压数据：
         """.trimIndent()
+        
+        val TREND_ANALYSIS_PROMPT = """
+            你是一位专业的医疗数据分析师。基于用户的血压数据历史，请分析血压变化趋势。
+            请以JSON格式返回，格式如下：
+            {
+                "trend": "improving/stable/worsening",
+                "summary": "趋势分析总结",
+                "insights": ["洞察1", "洞察2", "洞察3"],
+                "recommendations": ["建议1", "建议2", "建议3"]
+            }
+            
+            血压数据：
+        """.trimIndent()
+    }
+    
+    // 语音识别配置
+    object SpeechRecognition {
+        const val REQUEST_CODE_SPEECH_INPUT = 1000
+        const val LISTENING_TIMEOUT_MS = 10000L
+        const val MAX_RESULTS = 1
+        const val LANGUAGE_MODEL_FREE_FORM = "android.speech.RecognizerIntent.LANGUAGE_MODEL_FREE_FORM"
+        const val EXTRA_LANGUAGE_MODEL = "android.speech.extra.LANGUAGE_MODEL"
+        const val EXTRA_LANGUAGE = "android.speech.extra.LANGUAGE"
+        const val EXTRA_PROMPT = "android.speech.extra.PROMPT"
+        const val EXTRA_MAX_RESULTS = "android.speech.extra.MAX_RESULTS"
+        const val EXTRA_RESULTS = "android.speech.extra.RESULTS"
     }
 }

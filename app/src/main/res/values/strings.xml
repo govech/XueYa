@@ -87,6 +87,53 @@
     <string name="permission_storage_title">存储权限</string>
     <string name="permission_storage_message">需要存储权限来导出数据</string>
     
+    <!-- 语音识别和AI相关 -->
+    <string name="voice_input_title">语音输入</string>
+    <string name="voice_input_prompt">请说出血压数据，如：高压120，低压80，心率75</string>
+    <string name="voice_input_start">点击开始语音输入</string>
+    <string name="voice_input_listening">正在听取...</string>
+    <string name="voice_input_processing">处理中...</string>
+    <string name="voice_input_ai_parsing">AI解析中...</string>
+    <string name="voice_input_success">识别成功</string>
+    <string name="voice_input_failed">识别失败</string>
+    <string name="voice_input_stop">停止语音输入</string>
+    <string name="voice_input_unsupported">设备不支持语音识别</string>
+    <string name="voice_input_permission_denied">没有录音权限</string>
+    
+    <!-- AI健康建议 -->
+    <string name="ai_health_advice">健康建议</string>
+    <string name="ai_health_advice_generating">AI正在分析您的血压数据...</string>
+    <string name="ai_health_advice_generate">生成建议</string>
+    <string name="ai_health_advice_refresh">刷新建议</string>
+    <string name="ai_health_advice_empty">点击获取个性化健康建议</string>
+    <string name="ai_health_advice_error">获取建议失败</string>
+    <string name="ai_health_advice_no_data">没有血压数据，无法生成建议</string>
+    
+    <!-- AI趋势分析 -->
+    <string name="ai_trend_analysis">趋势分析</string>
+    <string name="ai_trend_analysis_generating">AI正在分析血压趋势...</string>
+    <string name="ai_trend_analysis_generate">生成分析</string>
+    <string name="ai_trend_analysis_refresh">刷新分析</string>
+    <string name="ai_trend_analysis_empty">点击生成血压趋势分析</string>
+    <string name="ai_trend_analysis_error">分析失败</string>
+    <string name="ai_trend_analysis_no_data">没有血压数据，无法分析趋势</string>
+    
+    <!-- 趋势类型 -->
+    <string name="trend_improving">血压趋势改善</string>
+    <string name="trend_stable">血压趋势稳定</string>
+    <string name="trend_worsening">血压趋势恶化</string>
+    <string name="trend_unknown">趋势未知</string>
+    
+    <!-- 健康等级 -->
+    <string name="health_category_normal">正常</string>
+    <string name="health_category_warning">警告</string>
+    <string name="health_category_danger">危险</string>
+    
+    <!-- 具体建议 -->
+    <string name="recommendations_title">具体建议：</string>
+    <string name="insights_title">关键洞察：</string>
+    <string name="improvements_title">改善建议：</string>
+    
     <!-- 通用 -->
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
@@ -95,4 +142,6 @@
     <string name="export">导出</string>
     <string name="back">返回</string>
     <string name="loading">加载中...</string>
+    <string name="retry">重试</string>
+    <string name="refresh">刷新</string>
 </resources>

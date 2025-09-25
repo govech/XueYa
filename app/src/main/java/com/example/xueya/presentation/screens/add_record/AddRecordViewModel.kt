@@ -6,6 +6,8 @@ import com.example.xueya.domain.usecase.AddBloodPressureUseCase
 import com.example.xueya.domain.usecase.ParseBloodPressureFromTextUseCase
 import com.example.xueya.domain.model.BloodPressureData
 import com.example.xueya.domain.model.ai.AiParseState
+import com.example.xueya.domain.usecase.VoiceInputUseCase
+import kotlinx.coroutines.Job
 import com.example.xueya.domain.model.ai.BloodPressureParseResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddRecordViewModel @Inject constructor(
     private val addBloodPressureUseCase: AddBloodPressureUseCase,
-    private val parseBloodPressureFromTextUseCase: ParseBloodPressureFromTextUseCase
+    private val parseBloodPressureFromTextUseCase: ParseBloodPressureFromTextUseCase,
+    private val voiceInputUseCase: VoiceInputUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddRecordUiState())
@@ -29,6 +32,11 @@ class AddRecordViewModel @Inject constructor(
     
     private val _aiParseState = MutableStateFlow<AiParseState>(AiParseState.Idle)
     val aiParseState: StateFlow<AiParseState> = _aiParseState.asStateFlow()
+    
+    private val _voiceInputState = MutableStateFlow<VoiceInputUseCase.VoiceInputState>(VoiceInputUseCase.VoiceInputState.Idle)
+    val voiceInputState: StateFlow<VoiceInputUseCase.VoiceInputState> = _voiceInputState.asStateFlow()
+    
+    private var voiceInputJob: Job? = null
 
     /**
      * AI 文本解析
@@ -79,18 +87,42 @@ class AddRecordViewModel @Inject constructor(
     }
     
     /**
-     * 开始语音输入（模拟实现）
+     * 开始语音输入
      */
+    @androidx.annotation.RequiresPermission(android.Manifest.permission.RECORD_AUDIO)
     fun startVoiceInput() {
-        // TODO: 集成语音识别服务
-        _aiParseState.value = AiParseState.Error("语音识别功能正在开发中，请使用文本输入")
+        // 取消之前的语音输入任务
+        voiceInputJob?.cancel()
+        
+        voiceInputJob = viewModelScope.launch {
+            voiceInputUseCase(
+                languageCode = "zh-CN",
+                prompt = "请说出血压数据，如：高压120，低压80，心率75"
+            ).collect { state ->
+                _voiceInputState.value = state
+                
+                // 如果语音输入成功，应用解析结果
+                if (state is VoiceInputUseCase.VoiceInputState.Success) {
+                    applyAiParseResult(state.parseResult)
+                    // 同步AI解析状态
+                    _aiParseState.value = AiParseState.Success(state.parseResult)
+                }
+                
+                // 如果语音输入失败，同步错误状态
+                if (state is VoiceInputUseCase.VoiceInputState.Error) {
+                    _aiParseState.value = AiParseState.Error(state.message)
+                }
+            }
+        }
     }
     
     /**
      * 停止语音输入
      */
     fun stopVoiceInput() {
-        resetAiParseState()
+        voiceInputJob?.cancel()
+        _voiceInputState.value = VoiceInputUseCase.VoiceInputState.Idle
+        _aiParseState.value = AiParseState.Idle
     }
 
     /**

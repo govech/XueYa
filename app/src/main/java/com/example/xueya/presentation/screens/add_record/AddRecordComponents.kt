@@ -17,7 +17,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.xueya.domain.model.BloodPressureCategory
 import com.example.xueya.domain.model.ai.AiParseState
-import com.example.xueya.presentation.components.ai.VoiceInputButton
+import com.example.xueya.presentation.components.input.VoiceInputButton
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -35,6 +35,7 @@ fun BloodPressureInputCard(
     validationErrors: List<String>,
     // AI 输入相关参数
     aiParseState: AiParseState = AiParseState.Idle,
+    voiceInputState: com.example.xueya.domain.usecase.VoiceInputUseCase.VoiceInputState = com.example.xueya.domain.usecase.VoiceInputUseCase.VoiceInputState.Idle,
     onAiTextInput: (String) -> Unit = {},
     onStartVoiceInput: () -> Unit = {},
     onStopVoiceInput: () -> Unit = {}
@@ -78,10 +79,9 @@ fun BloodPressureInputCard(
             
             // AI 语音输入组件
             VoiceInputButton(
-                parseState = aiParseState,
-                onStartListening = onStartVoiceInput,
-                onStopListening = onStopVoiceInput,
-                onTextInput = onAiTextInput,
+                state = voiceInputState,
+                onStartVoiceInput = onStartVoiceInput,
+                onStopVoiceInput = onStopVoiceInput,
                 modifier = Modifier.fillMaxWidth()
             )
             

@@ -25,6 +25,12 @@ fun StatisticsScreen(
     viewModel: StatisticsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val healthAdvice by viewModel.healthAdvice.collectAsState()
+    val trendAnalysis by viewModel.trendAnalysis.collectAsState()
+    val isGeneratingAdvice by viewModel.isGeneratingAdvice.collectAsState()
+    val isAnalyzingTrend by viewModel.isAnalyzingTrend.collectAsState()
+    val adviceError by viewModel.adviceError.collectAsState()
+    val trendError by viewModel.trendError.collectAsState()
     val scrollState = rememberScrollState()
 
     Scaffold(
@@ -79,17 +85,20 @@ fun StatisticsScreen(
                     )
                 }
 
-                // 趋势分析
-                if (uiState.trendData.isNotEmpty()) {
-                    TrendAnalysisCard(
-                        trendData = uiState.trendData,
-                        trendAnalysis = uiState.trendAnalysis
-                    )
-                }
+                // AI 健康建议
+                com.example.xueya.presentation.components.common.HealthAdviceCard(
+                    healthAdvice = healthAdvice,
+                    isLoading = isGeneratingAdvice,
+                    error = adviceError,
+                    onRefresh = viewModel::generateHealthAdvice
+                )
 
-                // 健康建议
-                HealthRecommendationsCard(
-                    recommendations = viewModel.generateReport().recommendations
+                // AI 趋势分析
+                com.example.xueya.presentation.components.common.TrendAnalysisCard(
+                    trendAnalysis = trendAnalysis,
+                    isLoading = isAnalyzingTrend,
+                    error = trendError,
+                    onRefresh = viewModel::analyzeBloodPressureTrend
                 )
             }
 

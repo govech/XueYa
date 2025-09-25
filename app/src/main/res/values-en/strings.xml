@@ -87,6 +87,53 @@
     <string name="permission_storage_title">Storage Permission</string>
     <string name="permission_storage_message">Storage permission is needed to export data</string>
     
+    <!-- Voice Recognition and AI -->
+    <string name="voice_input_title">Voice Input</string>
+    <string name="voice_input_prompt">Please say blood pressure data, e.g.: High pressure 120, low pressure 80, heart rate 75</string>
+    <string name="voice_input_start">Tap to start voice input</string>
+    <string name="voice_input_listening">Listening...</string>
+    <string name="voice_input_processing">Processing...</string>
+    <string name="voice_input_ai_parsing">AI parsing...</string>
+    <string name="voice_input_success">Recognition successful</string>
+    <string name="voice_input_failed">Recognition failed</string>
+    <string name="voice_input_stop">Stop voice input</string>
+    <string name="voice_input_unsupported">Device does not support voice recognition</string>
+    <string name="voice_input_permission_denied">No recording permission</string>
+    
+    <!-- AI Health Advice -->
+    <string name="ai_health_advice">Health Advice</string>
+    <string name="ai_health_advice_generating">AI is analyzing your blood pressure data...</string>
+    <string name="ai_health_advice_generate">Generate Advice</string>
+    <string name="ai_health_advice_refresh">Refresh Advice</string>
+    <string name="ai_health_advice_empty">Tap to get personalized health advice</string>
+    <string name="ai_health_advice_error">Failed to get advice</string>
+    <string name="ai_health_advice_no_data">No blood pressure data, unable to generate advice</string>
+    
+    <!-- AI Trend Analysis -->
+    <string name="ai_trend_analysis">Trend Analysis</string>
+    <string name="ai_trend_analysis_generating">AI is analyzing blood pressure trends...</string>
+    <string name="ai_trend_analysis_generate">Generate Analysis</string>
+    <string name="ai_trend_analysis_refresh">Refresh Analysis</string>
+    <string name="ai_trend_analysis_empty">Tap to generate blood pressure trend analysis</string>
+    <string name="ai_trend_analysis_error">Analysis failed</string>
+    <string name="ai_trend_analysis_no_data">No blood pressure data, unable to analyze trends</string>
+    
+    <!-- Trend Types -->
+    <string name="trend_improving">Blood pressure trend improving</string>
+    <string name="trend_stable">Blood pressure trend stable</string>
+    <string name="trend_worsening">Blood pressure trend worsening</string>
+    <string name="trend_unknown">Trend unknown</string>
+    
+    <!-- Health Categories -->
+    <string name="health_category_normal">Normal</string>
+    <string name="health_category_warning">Warning</string>
+    <string name="health_category_danger">Danger</string>
+    
+    <!-- Specific Recommendations -->
+    <string name="recommendations_title">Specific Recommendations:</string>
+    <string name="insights_title">Key Insights:</string>
+    <string name="improvements_title">Improvement Suggestions:</string>
+    
     <!-- Common -->
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
@@ -95,4 +142,6 @@
     <string name="export">Export</string>
     <string name="back">Back</string>
     <string name="loading">Loading...</string>
+    <string name="retry">Retry</string>
+    <string name="refresh">Refresh</string>
 </resources>

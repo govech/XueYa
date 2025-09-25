@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.xueya.domain.usecase.GetBloodPressureListUseCase
 import com.example.xueya.domain.usecase.GetBloodPressureStatisticsUseCase
+import com.example.xueya.domain.usecase.GenerateHealthAdviceUseCase
+import com.example.xueya.domain.usecase.AnalyzeBloodPressureTrendUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,11 +23,32 @@ import javax.inject.Inject
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
     private val getBloodPressureListUseCase: GetBloodPressureListUseCase,
-    private val getBloodPressureStatisticsUseCase: GetBloodPressureStatisticsUseCase
+    private val getBloodPressureStatisticsUseCase: GetBloodPressureStatisticsUseCase,
+    private val generateHealthAdviceUseCase: GenerateHealthAdviceUseCase,
+    private val analyzeBloodPressureTrendUseCase: AnalyzeBloodPressureTrendUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(StatisticsUiState())
     val uiState: StateFlow<StatisticsUiState> = _uiState.asStateFlow()
+    
+    // AI 相关状态
+    private val _healthAdvice = MutableStateFlow<com.example.xueya.domain.model.ai.HealthAdvice?>(null)
+    val healthAdvice: StateFlow<com.example.xueya.domain.model.ai.HealthAdvice?> = _healthAdvice.asStateFlow()
+    
+    private val _trendAnalysis = MutableStateFlow<com.example.xueya.domain.model.ai.BloodPressureTrendAnalysis?>(null)
+    val trendAnalysis: StateFlow<com.example.xueya.domain.model.ai.BloodPressureTrendAnalysis?> = _trendAnalysis.asStateFlow()
+    
+    private val _isGeneratingAdvice = MutableStateFlow(false)
+    val isGeneratingAdvice: StateFlow<Boolean> = _isGeneratingAdvice.asStateFlow()
+    
+    private val _isAnalyzingTrend = MutableStateFlow(false)
+    val isAnalyzingTrend: StateFlow<Boolean> = _isAnalyzingTrend.asStateFlow()
+    
+    private val _adviceError = MutableStateFlow<String?>(null)
+    val adviceError: StateFlow<String?> = _adviceError.asStateFlow()
+    
+    private val _trendError = MutableStateFlow<String?>(null)
+    val trendError: StateFlow<String?> = _trendError.asStateFlow()
 
     init {
         loadStatistics()
@@ -121,6 +144,72 @@ class StatisticsViewModel @Inject constructor(
         loadStatistics()
     }
 
+    /**
+     * 生成健康建议
+     */
+    fun generateHealthAdvice() {
+        val records = _uiState.value.records
+        if (records.isEmpty()) {
+            _adviceError.value = "没有血压数据，无法生成建议"
+            return
+        }
+        
+        viewModelScope.launch {
+            _isGeneratingAdvice.value = true
+            _adviceError.value = null
+            
+            generateHealthAdviceUseCase(records)
+                .onSuccess { advice: com.example.xueya.domain.model.ai.HealthAdvice ->
+                    _healthAdvice.value = advice
+                    _isGeneratingAdvice.value = false
+                }
+                .onFailure { error: Throwable ->
+                    _adviceError.value = error.message ?: "生成健康建议失败"
+                    _isGeneratingAdvice.value = false
+                }
+        }
+    }
+    
+    /**
+     * 分析血压趋势
+     */
+    fun analyzeBloodPressureTrend() {
+        val records = _uiState.value.records
+        if (records.isEmpty()) {
+            _trendError.value = "没有血压数据，无法分析趋势"
+            return
+        }
+        
+        viewModelScope.launch {
+            _isAnalyzingTrend.value = true
+            _trendError.value = null
+            
+            analyzeBloodPressureTrendUseCase(records)
+                .onSuccess { analysis: com.example.xueya.domain.model.ai.BloodPressureTrendAnalysis ->
+                    _trendAnalysis.value = analysis
+                    _isAnalyzingTrend.value = false
+                }
+                .onFailure { error: Throwable ->
+                    _trendError.value = error.message ?: "趋势分析失败"
+                    _isAnalyzingTrend.value = false
+                }
+        }
+    }
+    
+    /**
+     * 清除健康建议错误
+     */
+    fun clearAdviceError() {
+        _adviceError.value = null
+    }
+    
+    /**
+     * 清除趋势分析错误
+     */
+    fun clearTrendError() {
+        _trendError.value = null
+    }
+    
     /**
      * 清除错误
      */
