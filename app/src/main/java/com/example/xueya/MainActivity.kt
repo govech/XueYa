@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import com.example.xueya.data.preferences.UserPreferencesDataStore
 import com.example.xueya.domain.model.ThemeMode
 import com.example.xueya.presentation.navigation.AppNavigation
+import com.example.xueya.presentation.utils.LanguageManager
 import com.example.xueya.ui.theme.XueYaTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -59,6 +60,9 @@ class MainActivity : ComponentActivity() {
             val userPreferences by userPreferencesDataStore.userPreferences.collectAsState(
                 initial = com.example.xueya.domain.model.UserPreferences()
             )
+            
+            // 应用语言设置
+            LanguageManager.setLanguage(this, userPreferences.languageMode)
             
             val darkTheme = when (userPreferences.themeMode) {
                 ThemeMode.SYSTEM -> isSystemInDarkTheme()

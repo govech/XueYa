@@ -1,5 +1,6 @@
 package com.example.xueya.presentation.screens.settings
 
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -34,7 +35,6 @@ fun SettingsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
-    val scrollState = rememberScrollState()
     
     // 时间选择器对话框状态
     val timeDialogState = rememberMaterialDialogState()
@@ -53,7 +53,7 @@ fun SettingsScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(scrollState)
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -186,7 +186,9 @@ fun SettingsScreen(
     if (uiState.showLanguageDialog) {
         LanguageSelectionDialog(
             currentLanguage = uiState.languageMode,
-            onLanguageSelected = viewModel::updateLanguageMode,
+            onLanguageSelected = { languageMode -> 
+                viewModel.updateLanguageMode(languageMode, context)
+            },
             onDismiss = viewModel::hideLanguageDialog
         )
     }

@@ -1,5 +1,6 @@
 package com.example.xueya.presentation.screens.settings
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.xueya.data.preferences.UserPreferencesDataStore
@@ -7,6 +8,7 @@ import com.example.xueya.domain.model.LanguageMode
 import com.example.xueya.domain.model.ThemeMode
 import com.example.xueya.domain.repository.BloodPressureRepository
 import com.example.xueya.domain.usecase.*
+import com.example.xueya.presentation.utils.AppRestartUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -73,10 +75,12 @@ class SettingsViewModel @Inject constructor(
     }
 
     // === 语言设置 ===
-    fun updateLanguageMode(languageMode: LanguageMode) {
+    fun updateLanguageMode(languageMode: LanguageMode, context: Context) {
         viewModelScope.launch {
             updateLanguageUseCase(languageMode)
-            showMessage("语言设置已更新，重启应用生效")
+            showMessage("语言设置已更新")
+            // 重启应用以应用新的语言设置
+            AppRestartUtil.restartApp(context)
         }
     }
 
