@@ -29,6 +29,17 @@ import java.time.format.DateTimeFormatter
 
 /**
  * 首页界面
+ * 
+ * 应用的主界面，展示用户的血压监测概览信息
+ * 包括健康状况、最新记录、今日统计、本周概览等核心信息
+ * 提供导航到其他功能页面的入口
+ * 
+ * @param onNavigateToAddRecord 导航到添加记录页面的回调函数
+ * @param onNavigateToHistory 导航到历史记录页面的回调函数
+ * @param onNavigateToStatistics 导航到统计页面的回调函数
+ * @param onNavigateToSettings 导航到设置页面的回调函数
+ * @param modifier 修饰符
+ * @param viewModel 首页视图模型，通过Hilt注入
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -132,6 +143,16 @@ fun HomeScreen(
     }
 }
 
+/**
+ * 顶部操作栏组件
+ * 
+ * 显示页面标题和主要操作按钮
+ * 包括设置、刷新和添加记录按钮
+ * 
+ * @param onRefresh 刷新数据的回调函数
+ * @param onAddRecord 导航到添加记录页面的回调函数
+ * @param onSettings 导航到设置页面的回调函数
+ */
 @Composable
 private fun TopActionBar(
     onRefresh: () -> Unit,

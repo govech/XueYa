@@ -7,19 +7,48 @@ import java.util.Locale
 
 /**
  * 日期时间工具类
+ * 
+ * 提供日期时间格式化、解析、比较、计算等实用功能
+ * 包括标准格式化、显示格式化、相对时间计算、时间段判断等方法
  */
 object DateTimeUtils {
     
     // 日期时间格式化器
+    /**
+     * 标准日期格式化器 (yyyy-MM-dd)
+     */
     private val dateFormatter = DateTimeFormatter.ofPattern(Constants.DateTime.DATE_FORMAT)
+    
+    /**
+     * 标准时间格式化器 (HH:mm)
+     */
     private val timeFormatter = DateTimeFormatter.ofPattern(Constants.DateTime.TIME_FORMAT)
+    
+    /**
+     * 标准日期时间格式化器 (yyyy-MM-dd HH:mm)
+     */
     private val dateTimeFormatter = DateTimeFormatter.ofPattern(Constants.DateTime.DATETIME_FORMAT)
+    
+    /**
+     * 显示用日期格式化器 (MM月dd日)
+     */
     private val displayDateFormatter = DateTimeFormatter.ofPattern(Constants.DateTime.DISPLAY_DATE_FORMAT, Locale.CHINA)
+    
+    /**
+     * 显示用时间格式化器 (HH:mm)
+     */
     private val displayTimeFormatter = DateTimeFormatter.ofPattern(Constants.DateTime.DISPLAY_TIME_FORMAT)
+    
+    /**
+     * 显示用日期时间格式化器 (MM月dd日 HH:mm)
+     */
     private val displayDateTimeFormatter = DateTimeFormatter.ofPattern(Constants.DateTime.DISPLAY_DATETIME_FORMAT, Locale.CHINA)
     
     /**
      * 格式化日期 (yyyy-MM-dd)
+     * 
+     * @param dateTime 日期时间对象
+     * @return String 格式化后的日期字符串
      */
     fun formatDate(dateTime: LocalDateTime): String {
         return dateTime.format(dateFormatter)
@@ -27,6 +56,9 @@ object DateTimeUtils {
     
     /**
      * 格式化时间 (HH:mm)
+     * 
+     * @param dateTime 日期时间对象
+     * @return String 格式化后的时间字符串
      */
     fun formatTime(dateTime: LocalDateTime): String {
         return dateTime.format(timeFormatter)
@@ -34,6 +66,9 @@ object DateTimeUtils {
     
     /**
      * 格式化日期时间 (yyyy-MM-dd HH:mm)
+     * 
+     * @param dateTime 日期时间对象
+     * @return String 格式化后的日期时间字符串
      */
     fun formatDateTime(dateTime: LocalDateTime): String {
         return dateTime.format(dateTimeFormatter)
@@ -41,6 +76,9 @@ object DateTimeUtils {
     
     /**
      * 格式化显示用日期 (MM月dd日)
+     * 
+     * @param dateTime 日期时间对象
+     * @return String 格式化后的显示用日期字符串
      */
     fun formatDisplayDate(dateTime: LocalDateTime): String {
         return dateTime.format(displayDateFormatter)
@@ -48,6 +86,9 @@ object DateTimeUtils {
     
     /**
      * 格式化显示用时间 (HH:mm)
+     * 
+     * @param dateTime 日期时间对象
+     * @return String 格式化后的显示用时间字符串
      */
     fun formatDisplayTime(dateTime: LocalDateTime): String {
         return dateTime.format(displayTimeFormatter)
@@ -55,6 +96,9 @@ object DateTimeUtils {
     
     /**
      * 格式化显示用日期时间 (MM月dd日 HH:mm)
+     * 
+     * @param dateTime 日期时间对象
+     * @return String 格式化后的显示用日期时间字符串
      */
     fun formatDisplayDateTime(dateTime: LocalDateTime): String {
         return dateTime.format(displayDateTimeFormatter)
@@ -62,6 +106,11 @@ object DateTimeUtils {
     
     /**
      * 获取相对时间描述
+     * 
+     * 根据当前时间和给定时间的差值，返回相对时间描述
+     * 
+     * @param dateTime 日期时间对象
+     * @return String 相对时间描述字符串
      */
     fun getRelativeTimeDescription(dateTime: LocalDateTime): String {
         val now = LocalDateTime.now()
@@ -83,6 +132,9 @@ object DateTimeUtils {
     
     /**
      * 判断是否为今天
+     * 
+     * @param dateTime 日期时间对象
+     * @return Boolean 是否为今天
      */
     fun isToday(dateTime: LocalDateTime): Boolean {
         val today = LocalDateTime.now().toLocalDate()
@@ -91,6 +143,9 @@ object DateTimeUtils {
     
     /**
      * 判断是否为昨天
+     * 
+     * @param dateTime 日期时间对象
+     * @return Boolean 是否为昨天
      */
     fun isYesterday(dateTime: LocalDateTime): Boolean {
         val yesterday = LocalDateTime.now().minusDays(1).toLocalDate()
@@ -99,6 +154,9 @@ object DateTimeUtils {
     
     /**
      * 判断是否为本周
+     * 
+     * @param dateTime 日期时间对象
+     * @return Boolean 是否为本周
      */
     fun isThisWeek(dateTime: LocalDateTime): Boolean {
         val now = LocalDateTime.now()
@@ -109,6 +167,9 @@ object DateTimeUtils {
     
     /**
      * 判断是否为本月
+     * 
+     * @param dateTime 日期时间对象
+     * @return Boolean 是否为本月
      */
     fun isThisMonth(dateTime: LocalDateTime): Boolean {
         val now = LocalDateTime.now()
@@ -117,6 +178,9 @@ object DateTimeUtils {
     
     /**
      * 获取一天的开始时间
+     * 
+     * @param dateTime 日期时间对象
+     * @return LocalDateTime 一天的开始时间（00:00:00）
      */
     fun getStartOfDay(dateTime: LocalDateTime): LocalDateTime {
         return dateTime.toLocalDate().atStartOfDay()
@@ -124,6 +188,9 @@ object DateTimeUtils {
     
     /**
      * 获取一天的结束时间
+     * 
+     * @param dateTime 日期时间对象
+     * @return LocalDateTime 一天的结束时间（23:59:59）
      */
     fun getEndOfDay(dateTime: LocalDateTime): LocalDateTime {
         return dateTime.toLocalDate().atTime(23, 59, 59)
@@ -131,6 +198,9 @@ object DateTimeUtils {
     
     /**
      * 获取一周的开始时间（周一）
+     * 
+     * @param dateTime 日期时间对象，默认为当前时间
+     * @return LocalDateTime 一周的开始时间（周一 00:00:00）
      */
     fun getStartOfWeek(dateTime: LocalDateTime = LocalDateTime.now()): LocalDateTime {
         return dateTime.minusDays(dateTime.dayOfWeek.value - 1L).toLocalDate().atStartOfDay()
@@ -138,6 +208,9 @@ object DateTimeUtils {
     
     /**
      * 获取一周的结束时间（周日）
+     * 
+     * @param dateTime 日期时间对象，默认为当前时间
+     * @return LocalDateTime 一周的结束时间（周日 23:59:59）
      */
     fun getEndOfWeek(dateTime: LocalDateTime = LocalDateTime.now()): LocalDateTime {
         val startOfWeek = getStartOfWeek(dateTime)
@@ -146,6 +219,9 @@ object DateTimeUtils {
     
     /**
      * 获取一个月的开始时间
+     * 
+     * @param dateTime 日期时间对象，默认为当前时间
+     * @return LocalDateTime 一个月的开始时间（1号 00:00:00）
      */
     fun getStartOfMonth(dateTime: LocalDateTime = LocalDateTime.now()): LocalDateTime {
         return dateTime.toLocalDate().withDayOfMonth(1).atStartOfDay()
@@ -153,6 +229,9 @@ object DateTimeUtils {
     
     /**
      * 获取一个月的结束时间
+     * 
+     * @param dateTime 日期时间对象，默认为当前时间
+     * @return LocalDateTime 一个月的结束时间（最后一天 23:59:59）
      */
     fun getEndOfMonth(dateTime: LocalDateTime = LocalDateTime.now()): LocalDateTime {
         return dateTime.toLocalDate().withDayOfMonth(dateTime.toLocalDate().lengthOfMonth()).atTime(23, 59, 59)
@@ -160,7 +239,11 @@ object DateTimeUtils {
     
     /**
      * 获取智能的时间显示
-     * 今天显示时间，昨天显示"昨天 时间"，其他显示日期
+     * 
+     * 今天显示时间，昨天显示"昨天 时间"，其他显示日期时间
+     * 
+     * @param dateTime 日期时间对象
+     * @return String 智能时间显示字符串
      */
     fun getSmartTimeDisplay(dateTime: LocalDateTime): String {
         return when {
@@ -172,6 +255,11 @@ object DateTimeUtils {
     
     /**
      * 获取测量时间段描述
+     * 
+     * 根据小时数判断测量时间段（晨起、上午、中午等）
+     * 
+     * @param dateTime 日期时间对象
+     * @return String 测量时间段描述
      */
     fun getMeasureTimePeriod(dateTime: LocalDateTime): String {
         val hour = dateTime.hour
@@ -188,6 +276,11 @@ object DateTimeUtils {
     
     /**
      * 解析日期字符串
+     * 
+     * 尝试解析日期时间字符串，如果解析失败返回null
+     * 
+     * @param dateString 日期时间字符串
+     * @return LocalDateTime? 解析后的日期时间对象，解析失败返回null
      */
     fun parseDate(dateString: String): LocalDateTime? {
         return try {
@@ -199,6 +292,11 @@ object DateTimeUtils {
     
     /**
      * 获取文件名用的日期格式
+     * 
+     * 格式化当前时间用于文件名，格式为yyyyMMdd_HHmmss
+     * 
+     * @param dateTime 日期时间对象，默认为当前时间
+     * @return String 文件名用的日期时间字符串
      */
     fun getFilenameTimestamp(dateTime: LocalDateTime = LocalDateTime.now()): String {
         val formatter = DateTimeFormatter.ofPattern(Constants.Export.DATE_FILENAME_FORMAT)

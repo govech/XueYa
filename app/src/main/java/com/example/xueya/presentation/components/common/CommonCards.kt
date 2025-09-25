@@ -14,7 +14,15 @@ import androidx.compose.ui.unit.dp
 import com.example.xueya.R
 
 /**
- * 通用错误卡片
+ * 通用错误卡片组件
+ * 
+ * 用于显示错误信息的卡片组件，提供关闭功能
+ * 使用错误主题色突出显示错误状态
+ * 
+ * @param error 错误信息文本
+ * @param onDismiss 关闭错误提示的回调函数
+ * @param modifier 修饰符
+ * @param showIcon 是否显示警告图标，默认为true
  */
 @Composable
 fun ErrorCard(
@@ -60,7 +68,12 @@ fun ErrorCard(
 }
 
 /**
- * 通用加载卡片
+ * 通用加载卡片组件
+ * 
+ * 用于显示加载状态的卡片组件，包含进度指示器和加载文本
+ * 
+ * @param message 加载提示文本，默认使用资源文件中的文本
+ * @param modifier 修饰符
  */
 @Composable
 fun LoadingCard(
@@ -93,7 +106,17 @@ fun LoadingCard(
 }
 
 /**
- * 通用空状态卡片
+ * 通用空状态卡片组件
+ * 
+ * 用于显示空状态的卡片组件，提供标题、描述和可选的操作按钮
+ * 可以自定义图标或使用默认警告图标
+ * 
+ * @param title 标题文本
+ * @param description 描述文本
+ * @param actionText 操作按钮文本，可为空
+ * @param onAction 操作按钮回调函数，可为空
+ * @param modifier 修饰符
+ * @param icon 自定义图标组件，可为空
  */
 @Composable
 fun EmptyStateCard(
@@ -159,7 +182,15 @@ fun EmptyStateCard(
 }
 
 /**
- * 通用信息卡片
+ * 通用信息卡片组件
+ * 
+ * 用于显示信息内容的卡片组件，包含标题和自定义内容区域
+ * 支持添加底部操作按钮
+ * 
+ * @param title 卡片标题
+ * @param content 卡片内容区域的组合函数
+ * @param modifier 修饰符
+ * @param actions 底部操作按钮区域的组合函数，可为空
  */
 @Composable
 fun InfoCard(

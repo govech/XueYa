@@ -16,6 +16,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
+/**
+ * 浅色主题颜色方案
+ * 
+ * 定义应用浅色主题的颜色配置，基于自定义的健康主题颜色
+ */
 private val HealthLightColorScheme = lightColorScheme(
     primary = HealthPrimary,
     onPrimary = HealthOnPrimary,
@@ -41,6 +46,11 @@ private val HealthLightColorScheme = lightColorScheme(
     onSurfaceVariant = HealthOnSurfaceVariant,
 )
 
+/**
+ * 深色主题颜色方案
+ * 
+ * 定义应用深色主题的颜色配置，基于自定义的健康主题颜色
+ */
 private val HealthDarkColorScheme = darkColorScheme(
     primary = HealthPrimaryDark,
     onPrimary = HealthOnPrimaryDark,
@@ -66,6 +76,16 @@ private val HealthDarkColorScheme = darkColorScheme(
     onSurfaceVariant = HealthOnSurfaceVariantDark,
 )
 
+/**
+ * 应用主题组合函数
+ * 
+ * 提供应用级别的主题配置，支持深色模式和动态颜色
+ * 根据系统设置和参数决定使用浅色主题还是深色主题
+ * 
+ * @param darkTheme 是否使用深色主题，默认根据系统设置决定
+ * @param dynamicColor 是否使用动态颜色，默认为false，健康应用更倾向于一致的品牌颜色
+ * @param content 内容组合函数
+ */
 @Composable
 fun XueYaTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
