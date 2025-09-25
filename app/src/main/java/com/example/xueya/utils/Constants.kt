@@ -107,7 +107,18 @@ object Constants {
     // AI 服务配置
     object AI {
         const val OPENROUTER_BASE_URL = "https://openrouter.ai/"
-        const val OPENROUTER_API_KEY = "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"
+        
+        // 使用条件编译来处理BuildConfig可能不存在的情况
+        val OPENROUTER_API_KEY: String
+            get() = try {
+                // 尝试获取BuildConfig中的API密钥
+                val buildConfigClass = Class.forName("com.example.xueya.BuildConfig")
+                val field = buildConfigClass.getField("OPENROUTER_API_KEY")
+                field.get(null) as String
+            } catch (e: Exception) {
+                // 如果获取失败，返回默认值
+                "YOUR_API_KEY_HERE"
+            }
         
         // DeepSeek V3 模型配置
         const val DEFAULT_AI_MODEL = "deepseek/deepseek-chat-v3.1:free"

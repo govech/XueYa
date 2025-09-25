@@ -1,8 +1,18 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+}
+
+// 读取local.properties文件
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(FileInputStream(localPropertiesFile))
 }
 
 android {
@@ -20,6 +30,10 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        
+        // 从local.properties或环境变量中读取API密钥
+        val openRouterApiKey = localProperties.getProperty("OPENROUTER_API_KEY") ?: System.getenv("OPENROUTER_API_KEY") ?: "YOUR_API_KEY_HERE"
+        buildConfigField("String", "OPENROUTER_API_KEY", "\"$openRouterApiKey\"")
     }
 
     buildTypes {
@@ -29,6 +43,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            // 在debug版本中也可以设置API密钥
+            val openRouterApiKey = localProperties.getProperty("OPENROUTER_API_KEY") ?: System.getenv("OPENROUTER_API_KEY") ?: "YOUR_API_KEY_HERE"
+            buildConfigField("String", "OPENROUTER_API_KEY", "\"$openRouterApiKey\"")
         }
     }
     
@@ -46,6 +65,7 @@ android {
     
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.10"
