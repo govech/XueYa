@@ -11,8 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.xueya.R
 import com.example.xueya.domain.model.BloodPressureCategory
 import com.example.xueya.domain.model.BloodPressureData
 import com.example.xueya.domain.usecase.DetailedStatistics
@@ -69,7 +71,7 @@ fun HealthStatusCard(
                 
                 Column {
                     Text(
-                        text = "健康状况",
+                        text = stringResource(R.string.health_status),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Medium
                     )
@@ -106,12 +108,12 @@ fun HealthStatusCard(
                     if (todayMeasurementCount > 0) {
                         Column {
                             Text(
-                                text = "今日测量",
+                                text = stringResource(R.string.today_measurement),
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                text = "${todayMeasurementCount}次",
+                                text = stringResource(R.string.record_count, todayMeasurementCount),
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Medium
                             )
@@ -121,12 +123,12 @@ fun HealthStatusCard(
                     if (weeklyMeasurementCount > 0) {
                         Column {
                             Text(
-                                text = "本周测量",
+                                text = stringResource(R.string.weekly_measurement),
                                 style = MaterialTheme.typography.labelMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                text = "${weeklyMeasurementCount}次",
+                                text = stringResource(R.string.record_count, weeklyMeasurementCount),
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Medium
                             )
@@ -160,7 +162,7 @@ fun LatestRecordCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "最新记录",
+                    text = stringResource(R.string.latest_record),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium
                 )
@@ -180,7 +182,7 @@ fun LatestRecordCard(
                 // 血压值
                 Column {
                     Text(
-                        text = "血压",
+                        text = stringResource(R.string.blood_pressure),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -191,7 +193,7 @@ fun LatestRecordCard(
                         color = getCategoryColor(record.category)
                     )
                     Text(
-                        text = "mmHg",
+                        text = stringResource(R.string.unit_mmhg),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -200,7 +202,7 @@ fun LatestRecordCard(
                 // 心率
                 Column {
                     Text(
-                        text = "心率",
+                        text = stringResource(R.string.heart_rate),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -210,7 +212,7 @@ fun LatestRecordCard(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "bpm",
+                        text = stringResource(R.string.unit_bpm),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -238,7 +240,7 @@ fun LatestRecordCard(
             if (record.note.isNotBlank()) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "备注：${record.note}",
+                    text = stringResource(R.string.note_label, record.note),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -263,7 +265,7 @@ fun TodayStatisticsCard(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = "今日统计",
+                text = stringResource(R.string.today_statistics),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Medium
             )
@@ -277,7 +279,7 @@ fun TodayStatisticsCard(
                 if (averageBP != null) {
                     Column {
                         Text(
-                            text = "平均血压",
+                            text = stringResource(R.string.average_blood_pressure),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -287,7 +289,7 @@ fun TodayStatisticsCard(
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "mmHg",
+                            text = stringResource(R.string.unit_mmhg),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -298,7 +300,7 @@ fun TodayStatisticsCard(
                 if (averageHeartRate != null) {
                     Column {
                         Text(
-                            text = "平均心率",
+                            text = stringResource(R.string.average_heart_rate),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -308,7 +310,7 @@ fun TodayStatisticsCard(
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "bpm",
+                            text = stringResource(R.string.unit_bpm),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -318,7 +320,7 @@ fun TodayStatisticsCard(
                 // 测量次数
                 Column {
                     Text(
-                        text = "测量次数",
+                        text = stringResource(R.string.measurement_count),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -328,7 +330,7 @@ fun TodayStatisticsCard(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "次",
+                        text = stringResource(R.string.unit_count),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

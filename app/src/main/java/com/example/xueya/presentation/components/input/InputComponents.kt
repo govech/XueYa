@@ -546,7 +546,7 @@ private fun SimpleTimePickerDialog(
                     onTimeSelected(java.time.LocalTime.of(h, m))
                 }
             ) {
-                Text("确定")
+                Text(stringResource(R.string.ok))
             }
         },
         dismissButton = {
