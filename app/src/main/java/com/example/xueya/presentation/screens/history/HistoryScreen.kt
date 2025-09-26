@@ -71,14 +71,6 @@ fun HistoryScreen(
                 )
             }
 
-            // 统计信息
-            if (uiState.hasRecords && !uiState.isLoading) {
-                StatisticsCard(
-                    statistics = uiState.statistics,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                )
-            }
-
             // 记录列表
             Box(
                 modifier = Modifier.weight(1f)
@@ -89,27 +81,39 @@ fun HistoryScreen(
                             modifier = Modifier.align(Alignment.Center)
                         )
                     }
-                    
+
                     !uiState.hasRecords -> {
                         HistoryEmptyState(
                             onAddRecord = onNavigateToAddRecord,
                             modifier = Modifier.align(Alignment.Center)
                         )
                     }
-                    
+
                     uiState.displayRecords.isEmpty() && uiState.hasActiveFilters -> {
                         NoResultsState(
                             onClearFilters = viewModel::clearFilters,
                             modifier = Modifier.align(Alignment.Center)
                         )
                     }
-                    
+
                     else -> {
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
                             contentPadding = PaddingValues(16.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
+                            // 统计信息卡片 - 放在列表顶部，跟随滚动
+                            if (uiState.hasRecords && !uiState.isLoading) {
+                                item {
+                                    StatisticsCard(
+                                        statistics = uiState.statistics,
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(horizontal = 0.dp, vertical = 8.dp)
+                                    )
+                                }
+                            }
+
                             items(
                                 items = uiState.displayRecords,
                                 key = { it.id }
@@ -120,7 +124,7 @@ fun HistoryScreen(
                                     onDelete = { viewModel.showDeleteDialog(record) }
                                 )
                             }
-                            
+
                             // 底部间距
                             item {
                                 Spacer(modifier = Modifier.height(80.dp))
