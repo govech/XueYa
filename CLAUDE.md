@@ -100,8 +100,8 @@ app/
 - [BloodPressureRepositoryImpl.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/data/repository/BloodPressureRepositoryImpl.kt) - 数据仓库实现，处理数据转换和业务逻辑
 
 ### 业务逻辑层
-- [AddBloodPressureUseCase.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/domain/usecase/AddBloodPressureUseCase.kt) - 添加血压记录用例
-- [GetBloodPressureStatisticsUseCase.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/domain/usecase/GetBloodPressureStatisticsUseCase.kt) - 获取血压统计数据用例
+- [AddBloodPressureUseCase.kt](/app/src/main/java/com/example/xueya/domain/usecase/AddBloodPressureUseCase.kt) - 添加血压记录用例
+- [GetBloodPressureStatisticsUseCase.kt](/app/src/main/java/com/example/xueya/domain/usecase/GetBloodPressureStatisticsUseCase.kt) - 获取血压统计数据用例
 - [AnalyzeBloodPressureTrendUseCase.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/domain/usecase/AnalyzeBloodPressureTrendUseCase.kt) - 分析血压趋势用例
 
 ### 表现层

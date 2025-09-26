@@ -91,26 +91,26 @@ app/
 ## 主要文件介绍
 
 ### 核心领域模型
-- [BloodPressureData.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/domain/model/BloodPressureData.kt) - 血压数据实体，包含血压值、心率、时间等信息
-- [BloodPressureCategory.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/domain/model/BloodPressureCategory.kt) - 血压分类枚举，基于医学标准定义不同血压水平
+- [BloodPressureData.kt](app/src/main/java/com/example/xueya/domain/model/BloodPressureData.kt) - 血压数据实体，包含血压值、心率、时间等信息
+- [BloodPressureCategory.kt](app/src/main/java/com/example/xueya/domain/model/BloodPressureCategory.kt) - 血压分类枚举，基于医学标准定义不同血压水平
 
 ### 数据访问层
-- [BloodPressureDao.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/data/database/BloodPressureDao.kt) - Room数据库访问对象，定义所有数据库操作接口
-- [BloodPressureRepository.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/domain/repository/BloodPressureRepository.kt) - 数据仓库接口，定义业务层需要的数据操作
-- [BloodPressureRepositoryImpl.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/data/repository/BloodPressureRepositoryImpl.kt) - 数据仓库实现，处理数据转换和业务逻辑
+- [BloodPressureDao.kt](app/src/main/java/com/example/xueya/data/database/BloodPressureDao.kt) - Room数据库访问对象，定义所有数据库操作接口
+- [BloodPressureRepository.kt](app/src/main/java/com/example/xueya/domain/repository/BloodPressureRepository.kt) - 数据仓库接口，定义业务层需要的数据操作
+- [BloodPressureRepositoryImpl.kt](app/src/main/java/com/example/xueya/data/repository/BloodPressureRepositoryImpl.kt) - 数据仓库实现，处理数据转换和业务逻辑
 
 ### 业务逻辑层
-- [AddBloodPressureUseCase.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/domain/usecase/AddBloodPressureUseCase.kt) - 添加血压记录用例
-- [GetBloodPressureStatisticsUseCase.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/domain/usecase/GetBloodPressureStatisticsUseCase.kt) - 获取血压统计数据用例
-- [AnalyzeBloodPressureTrendUseCase.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/domain/usecase/AnalyzeBloodPressureTrendUseCase.kt) - 分析血压趋势用例
+- [AddBloodPressureUseCase.kt](app/src/main/java/com/example/xueya/domain/usecase/AddBloodPressureUseCase.kt) - 添加血压记录用例
+- [GetBloodPressureStatisticsUseCase.kt](app/src/main/java/com/example/xueya/domain/usecase/GetBloodPressureStatisticsUseCase.kt) - 获取血压统计数据用例
+- [AnalyzeBloodPressureTrendUseCase.kt](app/src/main/java/com/example/xueya/domain/usecase/AnalyzeBloodPressureTrendUseCase.kt) - 分析血压趋势用例
 
 ### 表现层
-- [HomeScreen.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/presentation/screens/home/HomeScreen.kt) - 主页界面，展示概览信息
-- [HomeViewModel.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/presentation/screens/home/HomeViewModel.kt) - 主页视图模型，处理主页业务逻辑
+- [HomeScreen.kt](app/src/main/java/com/example/xueya/presentation/screens/home/HomeScreen.kt) - 主页界面，展示概览信息
+- [HomeViewModel.kt](app/src/main/java/com/example/xueya/presentation/screens/home/HomeViewModel.kt) - 主页视图模型，处理主页业务逻辑
 
 ### 工具类
-- [BloodPressureUtils.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/utils/BloodPressureUtils.kt) - 血压相关工具类，包含验证、分类、趋势分析等功能
-- [DateTimeUtils.kt](file:///c%3A/Users/cairong/work/prcatice/XueYa/app/src/main/java/com/example/xueya/utils/DateTimeUtils.kt) - 日期时间工具类，提供格式化、解析等功能
+- [BloodPressureUtils.kt](app/src/main/java/com/example/xueya/utils/BloodPressureUtils.kt) - 血压相关工具类，包含验证、分类、趋势分析等功能
+- [DateTimeUtils.kt](app/src/main/java/com/example/xueya/utils/DateTimeUtils.kt) - 日期时间工具类，提供格式化、解析等功能
 
 ## 安全设置API密钥
 
