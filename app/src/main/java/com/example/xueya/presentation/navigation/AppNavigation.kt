@@ -1,15 +1,37 @@
 package com.example.xueya.presentation.navigation
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.*
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.xueya.R
 
 /**
@@ -44,9 +66,10 @@ fun AppNavigation(
         floatingActionButton = {
             // 在首页和历史记录页面显示添加按钮
             if (currentDestination?.route in listOf(
-                AppDestination.Home.route,
-                AppDestination.History.route
-            )) {
+                    AppDestination.Home.route,
+                    AppDestination.History.route
+                )
+            ) {
                 FloatingActionButton(
                     onClick = {
                         navController.navigate(AppDestination.AddRecord.route)
@@ -77,24 +100,68 @@ private fun AppBottomNavigation(
     currentDestination: NavDestination?,
     onNavigateToDestination: (AppDestination) -> Unit
 ) {
-    NavigationBar {
-        bottomNavDestinations.forEach { destination ->
-            val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
-            
-            NavigationBarItem(
-                selected = selected,
-                onClick = { onNavigateToDestination(destination) },
-                icon = {
-                    Icon(
-                        imageVector = destination.icon,
-                        contentDescription = stringResource(destination.titleResId)
-                    )
-                },
-                label = {
-                    Text(stringResource(destination.titleResId))
+    Box(modifier = Modifier) {
+        NavigationBar(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.BottomCenter),
+        ) {
+
+            for ((index, destination) in bottomNavDestinations.withIndex()) {
+                val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
+                if (index == bottomNavDestinations.size / 2) {
+                    Spacer(
+                        modifier = Modifier.size(90.dp, 1.dp)
+
+                    ) // 中间留空，放大按钮用
+                    continue
                 }
-            )
+                NavigationBarItem(
+                    selected = selected,
+                    onClick = { onNavigateToDestination(destination) },
+                    icon = {
+                        Icon(
+                            imageVector = destination.icon,
+                            contentDescription = stringResource(destination.titleResId)
+                        )
+                    },
+                    label = {
+                        Text(stringResource(destination.titleResId),
+                            maxLines = 1)
+                    }
+                )
+            }
+
+
         }
+
+        Box(
+            modifier = Modifier
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
+                .size(90.dp)
+                .padding(10.dp)
+                .align(Alignment.Center),
+            contentAlignment = Alignment.Center
+        ) {
+            // 中间突出按钮
+            FloatingActionButton(
+                onClick = { },
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onSurface,
+                shape = CircleShape,
+                modifier = Modifier.fillMaxSize()
+
+            ) {
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = stringResource(R.string.nav_add_record),
+                    modifier = Modifier.size(32.dp) // 更大的图标
+                )
+            }
+        }
+
+
     }
 }
 

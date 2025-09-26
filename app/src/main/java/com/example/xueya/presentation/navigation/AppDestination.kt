@@ -18,31 +18,37 @@ sealed class AppDestination(
         titleResId = R.string.nav_home,
         icon = Icons.Default.Home
     )
-    
+
     object AddRecord : AppDestination(
         route = "add_record",
         titleResId = R.string.nav_add_record,
         icon = Icons.Default.Add
     )
-    
+
     object History : AppDestination(
         route = "history",
         titleResId = R.string.nav_history,
         icon = Icons.Default.List
     )
-    
+
+    object Add : AppDestination(
+        route = "add",
+        titleResId = R.string.add,
+        icon = Icons.Default.Add
+    )
+
     object Statistics : AppDestination(
-        route = "statistics", 
+        route = "statistics",
         titleResId = R.string.nav_statistics,
         icon = Icons.Default.Info
     )
-    
+
     object Settings : AppDestination(
         route = "settings",
         titleResId = R.string.nav_settings,
         icon = Icons.Default.Settings
     )
-    
+
     object AiTest : AppDestination(
         route = "ai_test",
         titleResId = R.string.ai_function_test,
@@ -56,6 +62,7 @@ sealed class AppDestination(
 val bottomNavDestinations = listOf(
     AppDestination.Home,
     AppDestination.History,
+    AppDestination.Add,
     AppDestination.Statistics,
     AppDestination.Settings
 )
