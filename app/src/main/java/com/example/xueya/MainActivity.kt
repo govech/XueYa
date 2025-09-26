@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import com.example.xueya.data.preferences.UserPreferencesDataStore
 import com.example.xueya.domain.model.ThemeMode
 import com.example.xueya.presentation.navigation.AppNavigation
+import com.example.xueya.presentation.components.BloodPressureRecordDialog
 import com.example.xueya.presentation.utils.LanguageManager
 import com.example.xueya.ui.theme.XueYaTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,6 +80,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     AppNavigation()
+                    BloodPressureRecordDialog()
                 }
             }
         }

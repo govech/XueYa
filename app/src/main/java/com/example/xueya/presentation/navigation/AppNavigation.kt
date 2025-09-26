@@ -32,7 +32,10 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.xueya.R
+import com.example.xueya.presentation.components.BloodPressureDialogViewModel
+import com.example.xueya.presentation.components.BloodPressureRecordDialog
 
 /**
  * 应用主导航组合
@@ -40,7 +43,8 @@ import com.example.xueya.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation(
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    bloodPressureDialogViewModel: BloodPressureDialogViewModel = hiltViewModel()
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -60,27 +64,12 @@ fun AppNavigation(
                         // 恢复状态
                         restoreState = true
                     }
-                }
+                },
+                bloodPressureDialogViewModel = bloodPressureDialogViewModel
             )
         },
         floatingActionButton = {
-            // 在首页和历史记录页面显示添加按钮
-            if (currentDestination?.route in listOf(
-                    AppDestination.Home.route,
-                    AppDestination.History.route
-                )
-            ) {
-                FloatingActionButton(
-                    onClick = {
-                        navController.navigate(AppDestination.AddRecord.route)
-                    }
-                ) {
-                    Icon(
-                        imageVector = AppDestination.AddRecord.icon,
-                        contentDescription = stringResource(AppDestination.AddRecord.titleResId)
-                    )
-                }
-            }
+            // 悬浮按钮功能暂时不需要，使用底部导航栏中间的加号按钮
         }
     ) { paddingValues ->
         AppNavHost(
@@ -98,7 +87,8 @@ fun AppNavigation(
 @Composable
 private fun AppBottomNavigation(
     currentDestination: NavDestination?,
-    onNavigateToDestination: (AppDestination) -> Unit
+    onNavigateToDestination: (AppDestination) -> Unit,
+    bloodPressureDialogViewModel: BloodPressureDialogViewModel
 ) {
     Box(modifier = Modifier) {
         NavigationBar(
@@ -146,7 +136,9 @@ private fun AppBottomNavigation(
         ) {
             // 中间突出按钮
             FloatingActionButton(
-                onClick = { },
+                onClick = {
+                    bloodPressureDialogViewModel.showDialog()
+                },
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onSurface,
                 shape = CircleShape,
