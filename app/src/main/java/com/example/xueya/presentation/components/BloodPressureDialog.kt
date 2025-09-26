@@ -8,6 +8,17 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.gestures.snapping.SnapLayoutInfoProvider
+import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalDensity
+import kotlinx.coroutines.launch
+import kotlin.math.abs
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -55,6 +66,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
@@ -463,6 +476,7 @@ fun BloodPressureRecordDialog(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun NumberPicker(
     label: String,
@@ -473,10 +487,40 @@ private fun NumberPicker(
     primaryColor: Color,
     modifier: Modifier = Modifier
 ) {
+    val items = remember { range.toList() }
+    val itemHeight = 40.dp
+
+    val listState = rememberLazyListState(
+        initialFirstVisibleItemIndex = items.indexOf(value).coerceAtLeast(0)
+    )
+    val coroutineScope = rememberCoroutineScope()
+
+    val snappingLayout = remember(listState) { SnapLayoutInfoProvider(listState) }
+    val flingBehavior = rememberSnapFlingBehavior(snappingLayout)
+
+    LaunchedEffect(listState.isScrollInProgress) {
+        if (!listState.isScrollInProgress) {
+            val layoutInfo = listState.layoutInfo
+            val visibleItemsInfo = layoutInfo.visibleItemsInfo
+            if (visibleItemsInfo.isNotEmpty()) {
+                val centerItem = visibleItemsInfo.minByOrNull {
+                    abs((it.offset + it.size / 2) - (layoutInfo.viewportEndOffset + layoutInfo.viewportStartOffset) / 2)
+                }
+                if (centerItem != null) {
+                    val newValue = items[centerItem.index]
+                    if (newValue != value) {
+                        onValueChange(newValue)
+                    }
+                    listState.animateScrollToItem(centerItem.index)
+                }
+            }
+        }
+    }
+
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
             text = label,
@@ -484,71 +528,68 @@ private fun NumberPicker(
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        Box(
+            modifier = Modifier
+                .height(itemHeight * 3)
+                .width(80.dp),
+            contentAlignment = Alignment.Center
         ) {
-            // 减少按钮
-            Box(
-                modifier = Modifier
-                    .size(32.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .clickable {
-                        if (value > range.first) onValueChange(value - 1)
-                    }
-                    .background(primaryColor.copy(alpha = 0.1f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    "-",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = primaryColor
-                )
-            }
+            LazyColumn(
+                state = listState,
+                flingBehavior = flingBehavior,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(vertical = itemHeight)
 
-            // 数值显示
-            Box(
-                modifier = Modifier
-                    .size(60.dp, 48.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .border(
-                        width = 2.dp,
-                        color = primaryColor,
-                        shape = RoundedCornerShape(12.dp)
+            ) {
+                items(items.size) { index ->
+                    val itemValue = items[index]
+
+                    val visibleItemsInfo = listState.layoutInfo.visibleItemsInfo
+                    val currentItemInfo = visibleItemsInfo.find { it.index == index }
+
+                    val (scale, color) = if (currentItemInfo != null) {
+                        val viewportHeight = listState.layoutInfo.viewportSize.height
+                        val itemCenter = currentItemInfo.offset + currentItemInfo.size / 2
+                        val viewportCenter = viewportHeight / 2
+                        val distance = abs(itemCenter - viewportCenter).toFloat()
+                        val maxDistance = viewportHeight / 2f
+                        val normalizedDistance = (distance / maxDistance).coerceIn(0f, 1f)
+
+                        val scale = 1f + (1f - normalizedDistance) * 0.6f
+                        val itemColor = lerp(
+                            start = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                            stop = primaryColor,
+                            fraction = 1f - normalizedDistance
+                        )
+
+                        scale to itemColor
+                    } else {
+                        1f to if (itemValue == value) primaryColor else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    }
+
+                    Text(
+                        text = itemValue.toString(),
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = color,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .height(itemHeight)
+                            .padding(top = 8.dp)
+                            .graphicsLayer {
+                                scaleX = scale
+                                scaleY = scale
+                            }
                     )
-                    .background(MaterialTheme.colorScheme.surface),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = value.toString(),
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Medium,
-                    color = primaryColor,
-                    textAlign = TextAlign.Center
-                )
+                }
             }
-
-            // 增加按钮
             Box(
                 modifier = Modifier
-                    .size(32.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .clickable {
-                        if (value < range.last) onValueChange(value + 1)
-                    }
-                    .background(primaryColor.copy(alpha = 0.1f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    "+",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = primaryColor
-                )
-            }
+                    .fillMaxWidth()
+                    .height(itemHeight)
+                    .border(2.dp, primaryColor, RoundedCornerShape(12.dp))
+            )
         }
-
         Text(
             text = unit,
             style = MaterialTheme.typography.labelSmall,
