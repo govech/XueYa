@@ -8,6 +8,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -142,6 +143,12 @@ fun BloodPressureRecordDialog(
 
     // 使用更稳定的动画方式，先测量再动画
     var targetOffset by remember { mutableStateOf(0) }
+
+    if (uiState.isVisible) {
+        BackHandler {
+            viewModel.hideDialog()
+        }
+    }
 
     AnimatedVisibility(
         visible = uiState.isVisible, enter = slideInVertically(
