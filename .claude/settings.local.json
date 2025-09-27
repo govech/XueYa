@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(./gradlew:*)"
+      "Bash(./gradlew:*)",
+      "Bash(.gradlew assembleRelease)",
+      "Bash(rm:*)",
+      "Bash(jarsigner:*)",
+      "Bash(aapt dump:*)",
+      "Bash(unzip:*)"
     ],
     "deny": [],
     "ask": []
