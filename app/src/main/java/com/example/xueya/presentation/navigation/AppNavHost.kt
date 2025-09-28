@@ -11,6 +11,7 @@ import com.example.xueya.presentation.screens.history.HistoryScreen
 import com.example.xueya.presentation.screens.statistics.StatisticsScreen
 import com.example.xueya.presentation.screens.settings.SettingsScreen
 import com.example.xueya.presentation.screens.diet.DietRecommendationsScreen
+import com.example.xueya.presentation.screens.diet.DietDetailScreen
 import com.example.xueya.presentation.test.AiTestScreen
 
 /**
@@ -98,6 +99,15 @@ fun AppNavHost(
         composable(AppDestination.DietRecommendations.route) {
             DietRecommendationsScreen(
                 navController = navController
+            )
+        }
+
+        // 饮食方案详情
+        composable(AppDestination.DietDetail.route) { backStackEntry ->
+            val planId = backStackEntry.arguments?.getString("planId") ?: ""
+            DietDetailScreen(
+                navController = navController,
+                planId = planId
             )
         }
     }

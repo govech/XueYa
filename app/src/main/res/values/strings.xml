@@ -255,6 +255,7 @@
 
     <!-- 饮食建议 -->
     <string name="diet_recommendations">饮食建议</string>
+    <string name="diet_detail">饮食方案详情</string>
     <string name="diet_mainstream_plans">主流饮食方案</string>
     <string name="diet_ai_recommendations">AI个性化推荐</string>
     <string name="diet_suitable_for">适用人群：%1$s</string>

@@ -61,6 +61,14 @@ sealed class AppDestination(
         titleResId = R.string.diet_recommendations,
         icon = Icons.Default.Menu
     )
+
+    object DietDetail : AppDestination(
+        route = "diet_detail/{planId}",
+        titleResId = R.string.diet_detail,
+        icon = Icons.Default.Info
+    ) {
+        fun createRoute(planId: String) = "diet_detail/$planId"
+    }
 }
 
 /**

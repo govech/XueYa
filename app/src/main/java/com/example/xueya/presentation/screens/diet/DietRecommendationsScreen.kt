@@ -1,6 +1,7 @@
 package com.example.xueya.presentation.screens.diet
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -25,6 +26,7 @@ import androidx.navigation.NavController
 import com.example.xueya.R
 import com.example.xueya.domain.model.DietPlan
 import com.example.xueya.domain.model.DietPlans
+import com.example.xueya.presentation.navigation.AppDestination
 import com.example.xueya.presentation.utils.LanguageManager
 import com.example.xueya.ui.theme.*
 
@@ -109,6 +111,9 @@ fun DietRecommendationsScreen(
                             plans = uiState.aiRecommendedPlans,
                             isEnglish = isEnglish,
                             onToggleFavorite = { plan -> viewModel.toggleFavorite(plan.id) },
+                            onPlanClick = { plan -> 
+                                navController.navigate(AppDestination.DietDetail.createRoute(plan.id))
+                            },
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
@@ -118,6 +123,9 @@ fun DietRecommendationsScreen(
                         plans = uiState.mainstreamPlans,
                         isEnglish = isEnglish,
                         onToggleFavorite = { plan -> viewModel.toggleFavorite(plan.id) },
+                        onPlanClick = { plan -> 
+                            navController.navigate(AppDestination.DietDetail.createRoute(plan.id))
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
@@ -129,48 +137,11 @@ fun DietRecommendationsScreen(
 }
 
 @Composable
-private fun AIRecommendationsSection(
-    plans: List<DietPlan>,
-    isEnglish: Boolean,
-    onToggleFavorite: (DietPlan) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(modifier = modifier.padding(16.dp)) {
-        Text(
-            text = stringResource(id = R.string.diet_ai_recommendations),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-
-        Text(
-            text = if (isEnglish) {
-                "Based on your recent blood pressure data, we recommend the following dietary plans:"
-            } else {
-                "根据您最近的血压数据，我们推荐以下饮食方案："
-            },
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(bottom = 12.dp)
-        )
-
-        plans.forEach { plan ->
-            AIRecommendedDietCard(
-                plan = plan,
-                isEnglish = isEnglish,
-                onToggleFavorite = { onToggleFavorite(plan) },
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-        }
-    }
-}
-
-@Composable
 private fun MainstreamPlansSection(
     plans: List<DietPlan>,
     isEnglish: Boolean,
     onToggleFavorite: (DietPlan) -> Unit,
+    onPlanClick: (DietPlan) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -191,7 +162,8 @@ private fun MainstreamPlansSection(
                 DietPlanCard(
                     plan = plan,
                     isEnglish = isEnglish,
-                    onToggleFavorite = { onToggleFavorite(plan) }
+                    onToggleFavorite = { onToggleFavorite(plan) },
+                    onClick = { onPlanClick(plan) }
                 )
             }
         }
@@ -204,6 +176,7 @@ private fun DietPlanCard(
     plan: DietPlan,
     isEnglish: Boolean,
     onToggleFavorite: () -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -215,7 +188,11 @@ private fun DietPlanCard(
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .clickable { onClick() }
+        ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -326,6 +303,7 @@ private fun AIRecommendedPlansSection(
     plans: List<DietPlan>,
     isEnglish: Boolean,
     onToggleFavorite: (DietPlan) -> Unit,
+    onPlanClick: (DietPlan) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.padding(16.dp)) {
@@ -353,6 +331,7 @@ private fun AIRecommendedPlansSection(
                 plan = plan,
                 isEnglish = isEnglish,
                 onToggleFavorite = { onToggleFavorite(plan) },
+                onClick = { onPlanClick(plan) },
                 modifier = Modifier.padding(bottom = 8.dp)
             )
         }

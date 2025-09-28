@@ -293,9 +293,7 @@ private fun DietRecommendationsCard(
     )
 
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
+        modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
         ),
@@ -307,6 +305,7 @@ private fun DietRecommendationsCard(
                 .fillMaxWidth()
                 .background(gradientBrush)
                 .padding(20.dp)
+                .clickable { onClick() }
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
