@@ -3,8 +3,10 @@ package com.example.xueya.presentation.screens.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -136,21 +138,23 @@ fun QuickActionsCard(
                 // 添加记录
                 OutlinedButton(
                     onClick = onAddRecord,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(horizontal = 6.dp)// 减小水平内边距
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = null,
                         modifier = Modifier.size(18.dp)
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.width(6.dp))
                     Text(stringResource(R.string.add))
                 }
                 
                 // 查看历史
                 OutlinedButton(
                     onClick = onViewHistory,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(horizontal = 6.dp)// 减小水平内边距
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.List,
@@ -164,7 +168,8 @@ fun QuickActionsCard(
                 // 查看统计
                 OutlinedButton(
                     onClick = onViewStatistics,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    contentPadding = PaddingValues(horizontal = 6.dp)// 减小水平内边距
                 ) {
                     Icon(
                         imageVector = Icons.Default.Info,
