@@ -35,4 +35,13 @@ object LanguageManager {
             else -> LanguageMode.ZH // 默认为中文
         }
     }
+    
+    fun isEnglish(context: Context): Boolean {
+        return getCurrentLanguage(context) == LanguageMode.EN
+    }
+    
+    fun isEnglish(): Boolean {
+        // 默认返回false（中文），实际使用时应该传入context
+        return false
+    }
 }

@@ -46,18 +46,23 @@ class DietViewModel @Inject constructor(
     private fun generateAIRecommendations() {
         viewModelScope.launch {
             try {
-                // 获取用户血压统计数据
-                val statistics = getBloodPressureStatisticsUseCase(
-                    startDate = null, // 获取所有数据
-                    endDate = null
-                )
+                // 获取用户血压统计数据 - 获取所有时间的数据
+                val now = java.time.LocalDateTime.now()
+                val startTime = now.minusYears(1) // 获取过去一年的数据
+                val statisticsResult = getBloodPressureStatisticsUseCase.getStatistics(startTime, now)
+                
+                val statistics = if (statisticsResult.isSuccess) {
+                    statisticsResult.getOrNull()
+                } else {
+                    null
+                }
 
                 val aiRecommendations = mutableListOf<DietPlan>()
                 val mainstreamPlans = DietPlans.getMainstreamDietPlans()
 
                 // 基于血压水平进行AI推荐
-                val avgSystolic = statistics.averageSystolic
-                val avgDiastolic = statistics.averageDiastolic
+                val avgSystolic = statistics?.averageSystolic ?: 120.0
+                val avgDiastolic = statistics?.averageDiastolic ?: 80.0
 
                 when {
                     // 高血压危象 - 强烈建议DASH饮食和低盐饮食

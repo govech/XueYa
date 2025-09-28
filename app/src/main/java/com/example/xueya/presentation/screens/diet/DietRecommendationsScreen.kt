@@ -8,7 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.LocalDining
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,7 +24,7 @@ import androidx.navigation.NavController
 import com.example.xueya.R
 import com.example.xueya.domain.model.DietPlan
 import com.example.xueya.domain.model.DietPlans
-import com.example.xueya.presentation.screens.settings.LanguageManager
+import com.example.xueya.presentation.utils.LanguageManager
 import com.example.xueya.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -160,90 +160,6 @@ private fun MainstreamPlansSection(
     }
 }
 
-@Composable
-private fun AIRecommendedDietCard(
-    plan: DietPlan,
-    isEnglish: Boolean,
-    onToggleFavorite: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val gradientBrush = Brush.horizontalGradient(
-        colors = listOf(
-            Color(0xFF4CAF50), // 绿色
-            Color(0xFF8BC34A)  // 浅绿色
-        )
-    )
-
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.Transparent
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(gradientBrush)
-                .padding(16.dp)
-        ) {
-            Column {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = plan.icon ?: "🍎",
-                            style = MaterialTheme.typography.titleLarge,
-                            modifier = Modifier.padding(end = 8.dp)
-                        )
-                        Column {
-                            Text(
-                                text = if (isEnglish) plan.nameEn else plan.name,
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            )
-                            if (plan.recommendationReason.isNotEmpty()) {
-                                Text(
-                                    text = stringResource(
-                                        id = R.string.diet_recommendation_reason,
-                                        if (isEnglish) plan.recommendationReasonEn else plan.recommendationReason
-                                    ),
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = Color.White.copy(alpha = 0.9f),
-                                    modifier = Modifier.padding(top = 2.dp)
-                                )
-                            }
-                        }
-                    }
-
-                    IconButton(onClick = onToggleFavorite) {
-                        Icon(
-                            imageVector = if (plan.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
-                            contentDescription = stringResource(
-                                id = if (plan.isFavorite) R.string.diet_remove_from_favorites else R.string.diet_add_to_favorites
-                            ),
-                            tint = if (plan.isFavorite) Color.Red else Color.White
-                        )
-                    }
-                }
-
-                Text(
-                    text = stringResource(
-                        id = R.string.diet_suitable_for,
-                        if (isEnglish) plan.suitableForEn else plan.suitableFor
-                    ),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.White.copy(alpha = 0.95f),
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-            }
-        }
-    }
-}
 
 @Composable
 private fun DietPlanCard(

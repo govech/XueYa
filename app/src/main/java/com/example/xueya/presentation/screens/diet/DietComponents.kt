@@ -17,7 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.xueya.R
 import com.example.xueya.domain.model.DietPlan
-import com.example.xueya.presentation.screens.settings.LanguageManager
+import com.example.xueya.presentation.utils.LanguageManager
 
 /**
  * 饮食建议页面专用UI组件
@@ -559,7 +559,7 @@ fun DietEmptyState(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Icon(
-                imageVector = Icons.Default.Fastfood,
+                imageVector = Icons.Default.Menu,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(64.dp)

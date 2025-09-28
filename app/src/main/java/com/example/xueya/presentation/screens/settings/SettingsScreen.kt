@@ -329,7 +329,7 @@ private fun DietRecommendationsCard(
                             contentAlignment = Alignment.Center
                         ) {
                             Icon(
-                                imageVector = Icons.Default.Fastfood,
+                                imageVector = Icons.Default.Menu,
                                 contentDescription = null,
                                 tint = Color.White,
                                 modifier = Modifier.size(24.dp)
@@ -374,7 +374,7 @@ private fun DietRecommendationsCard(
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            imageVector = Icons.Default.KeyboardArrowRight,
                             contentDescription = null,
                             tint = Color(0xFF4CAF50),
                             modifier = Modifier.size(16.dp)

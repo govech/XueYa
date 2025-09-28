@@ -59,7 +59,7 @@ sealed class AppDestination(
     object DietRecommendations : AppDestination(
         route = "diet_recommendations",
         titleResId = R.string.diet_recommendations,
-        icon = Icons.Default.LocalDining
+        icon = Icons.Default.Menu
     )
 }
 
