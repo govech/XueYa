@@ -1,12 +1,24 @@
 package com.example.xueya.presentation.screens.home
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.*
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import com.example.xueya.R
 import com.example.xueya.domain.model.BloodPressureCategory
 import com.example.xueya.domain.model.BloodPressureData
-import com.example.xueya.domain.usecase.DetailedStatistics
 import com.example.xueya.domain.usecase.HealthStatus
 import java.time.format.DateTimeFormatter
 
@@ -47,9 +58,18 @@ fun HealthStatusCard(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
+
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+
             ) {
+                Text(
+                    text = stringResource(R.string.health_status),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Medium
+                )
+                Spacer(modifier = Modifier.weight(1f))
                 Icon(
                     imageVector = when (healthStatus) {
                         HealthStatus.NO_DATA -> Icons.Default.Info
@@ -67,15 +87,10 @@ fun HealthStatusCard(
                     }
                 )
                 
-                Spacer(modifier = Modifier.width(8.dp))
-                
-                Column {
+
+
                     Text(
-                        text = stringResource(R.string.health_status),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Medium
-                    )
-                    Text(
+                        modifier = Modifier.padding(start = 8.dp),
                         text = healthStatus.displayName,
                         style = MaterialTheme.typography.bodyLarge,
                         color = when (healthStatus) {
@@ -88,7 +103,7 @@ fun HealthStatusCard(
                         },
                         fontWeight = FontWeight.Bold
                     )
-                }
+
             }
             
             Spacer(modifier = Modifier.height(8.dp))
@@ -273,7 +288,8 @@ fun TodayStatisticsCard(
             Spacer(modifier = Modifier.height(12.dp))
             
             Row(
-                horizontalArrangement = Arrangement.spacedBy(24.dp)
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 // 平均血压
                 if (averageBP != null) {
@@ -283,11 +299,15 @@ fun TodayStatisticsCard(
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        
                         Text(
                             text = "${averageBP.first}/${averageBP.second}",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
+                        Spacer(modifier = Modifier.height(4.dp))
+
                         Text(
                             text = stringResource(R.string.unit_mmhg),
                             style = MaterialTheme.typography.bodySmall,
@@ -304,11 +324,15 @@ fun TodayStatisticsCard(
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
+                        Spacer(modifier = Modifier.height(4.dp))
+
                         Text(
                             text = "$averageHeartRate",
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold
                         )
+                        Spacer(modifier = Modifier.height(4.dp))
+
                         Text(
                             text = stringResource(R.string.unit_bpm),
                             style = MaterialTheme.typography.bodySmall,

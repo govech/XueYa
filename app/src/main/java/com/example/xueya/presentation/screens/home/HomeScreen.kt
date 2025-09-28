@@ -1,5 +1,6 @@
 package com.example.xueya.presentation.screens.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -13,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -170,7 +172,9 @@ private fun TopActionBar(
             fontWeight = FontWeight.Bold
         )
         
-        Row {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             IconButton(onClick = onSettings) {
                 Icon(
                     imageVector = Icons.Default.Settings,
@@ -184,18 +188,16 @@ private fun TopActionBar(
                     contentDescription = "刷新"
                 )
             }
-            
+
             FilledTonalButton(
                 onClick = onAddRecord,
-                modifier = Modifier.padding(start = 8.dp)
+                modifier = Modifier.padding(start = 0.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = null,
                     modifier = Modifier.size(18.dp)
                 )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(stringResource(R.string.nav_add_record))
             }
         }
     }
