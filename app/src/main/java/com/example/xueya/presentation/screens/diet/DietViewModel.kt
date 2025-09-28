@@ -33,9 +33,11 @@ class DietViewModel @Inject constructor(
      * 加载饮食方案数据
      */
     private suspend fun loadDietPlans() {
+        val plans = DietPlans.getMainstreamDietPlans()
+        println("DietViewModel: Loaded ${plans.size} mainstream diet plans: ${plans.map { it.name }}")
         _uiState.update { currentState ->
             currentState.copy(
-                mainstreamPlans = DietPlans.getMainstreamDietPlans()
+                mainstreamPlans = plans
             )
         }
     }
@@ -70,12 +72,14 @@ class DietViewModel @Inject constructor(
                         val dashPlan = mainstreamPlans.find { it.id == "dash" }?.copy(
                             isRecommended = true,
                             recommendationReason = "您的血压处于危险水平，DASH饮食是专门设计用于降低血压的饮食方案",
-                            recommendationReasonEn = "Your blood pressure is at a dangerous level. DASH diet is specifically designed to lower blood pressure"
+                            recommendationReasonEn = "Your blood pressure is at a dangerous level. DASH diet is specifically designed to lower blood pressure",
+                            colorScheme = com.example.xueya.domain.model.DietColorScheme.DEFAULT // AI推荐使用绿色渐变
                         )
                         val lowSodiumPlan = mainstreamPlans.find { it.id == "low_sodium" }?.copy(
                             isRecommended = true,
                             recommendationReason = "严格控制钠摄入对您的血压控制至关重要",
-                            recommendationReasonEn = "Strict sodium control is crucial for your blood pressure management"
+                            recommendationReasonEn = "Strict sodium control is crucial for your blood pressure management",
+                            colorScheme = com.example.xueya.domain.model.DietColorScheme.DEFAULT // AI推荐使用绿色渐变
                         )
                         dashPlan?.let { aiRecommendations.add(it) }
                         lowSodiumPlan?.let { aiRecommendations.add(it) }
@@ -86,12 +90,14 @@ class DietViewModel @Inject constructor(
                         val dashPlan = mainstreamPlans.find { it.id == "dash" }?.copy(
                             isRecommended = true,
                             recommendationReason = "DASH饮食被证实能有效降低高血压，特别适合您当前的血压状况",
-                            recommendationReasonEn = "DASH diet has been proven to effectively reduce hypertension, especially suitable for your current blood pressure condition"
+                            recommendationReasonEn = "DASH diet has been proven to effectively reduce hypertension, especially suitable for your current blood pressure condition",
+                            colorScheme = com.example.xueya.domain.model.DietColorScheme.DEFAULT // AI推荐使用绿色渐变
                         )
                         val mediterraneanPlan = mainstreamPlans.find { it.id == "mediterranean" }?.copy(
                             isRecommended = true,
                             recommendationReason = "地中海饮食有助于心血管健康，可以辅助控制血压",
-                            recommendationReasonEn = "Mediterranean diet helps cardiovascular health and can assist in blood pressure control"
+                            recommendationReasonEn = "Mediterranean diet helps cardiovascular health and can assist in blood pressure control",
+                            colorScheme = com.example.xueya.domain.model.DietColorScheme.DEFAULT // AI推荐使用绿色渐变
                         )
                         dashPlan?.let { aiRecommendations.add(it) }
                         mediterraneanPlan?.let { aiRecommendations.add(it) }
@@ -102,12 +108,14 @@ class DietViewModel @Inject constructor(
                         val mediterraneanPlan = mainstreamPlans.find { it.id == "mediterranean" }?.copy(
                             isRecommended = true,
                             recommendationReason = "地中海饮食富含健康脂肪和抗氧化剂，有助于维持正常血压",
-                            recommendationReasonEn = "Mediterranean diet is rich in healthy fats and antioxidants, helping maintain normal blood pressure"
+                            recommendationReasonEn = "Mediterranean diet is rich in healthy fats and antioxidants, helping maintain normal blood pressure",
+                            colorScheme = com.example.xueya.domain.model.DietColorScheme.DEFAULT // AI推荐使用绿色渐变
                         )
                         val plantBasedPlan = mainstreamPlans.find { it.id == "plant_based" }?.copy(
                             isRecommended = true,
                             recommendationReason = "植物性饮食富含纤维和钾，有助于血压控制",
-                            recommendationReasonEn = "Plant-based diet is rich in fiber and potassium, helping with blood pressure control"
+                            recommendationReasonEn = "Plant-based diet is rich in fiber and potassium, helping with blood pressure control",
+                            colorScheme = com.example.xueya.domain.model.DietColorScheme.DEFAULT // AI推荐使用绿色渐变
                         )
                         mediterraneanPlan?.let { aiRecommendations.add(it) }
                         plantBasedPlan?.let { aiRecommendations.add(it) }
@@ -118,7 +126,8 @@ class DietViewModel @Inject constructor(
                         val plantBasedPlan = mainstreamPlans.find { it.id == "plant_based" }?.copy(
                             isRecommended = true,
                             recommendationReason = "植物性饮食有助于预防血压升高，是很好的预防性饮食选择",
-                            recommendationReasonEn = "Plant-based diet helps prevent blood pressure elevation and is a good preventive dietary choice"
+                            recommendationReasonEn = "Plant-based diet helps prevent blood pressure elevation and is a good preventive dietary choice",
+                            colorScheme = com.example.xueya.domain.model.DietColorScheme.DEFAULT // AI推荐使用绿色渐变
                         )
                         plantBasedPlan?.let { aiRecommendations.add(it) }
                     }
@@ -128,7 +137,8 @@ class DietViewModel @Inject constructor(
                         val mediterraneanPlan = mainstreamPlans.find { it.id == "mediterranean" }?.copy(
                             isRecommended = true,
                             recommendationReason = "您的血压正常，地中海饮食有助于维持心血管健康",
-                            recommendationReasonEn = "Your blood pressure is normal, Mediterranean diet helps maintain cardiovascular health"
+                            recommendationReasonEn = "Your blood pressure is normal, Mediterranean diet helps maintain cardiovascular health",
+                            colorScheme = com.example.xueya.domain.model.DietColorScheme.DEFAULT // AI推荐使用绿色渐变
                         )
                         mediterraneanPlan?.let { aiRecommendations.add(it) }
                     }

@@ -23,6 +23,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.xueya.R
 import com.example.xueya.presentation.utils.LanguageManager
+import com.example.xueya.presentation.screens.diet.components.AINutritionAnalysisCard
+import com.example.xueya.presentation.screens.diet.components.AIFoodRecommendationsCard
+import com.example.xueya.presentation.screens.diet.components.HealthImpactChart
 
 /**
  * 饮食方案详情页面
@@ -173,6 +176,33 @@ private fun DietDetailContent(
                 modifier = Modifier.fillMaxWidth()
             )
         }
+
+        // AI营养分析卡片
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        AINutritionAnalysisCard(
+            planId = plan.id,
+            isEnglish = isEnglish,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        // AI食物推荐卡片
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        AIFoodRecommendationsCard(
+            planId = plan.id,
+            isEnglish = isEnglish,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        // 健康影响预测图表
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        HealthImpactChart(
+            planId = plan.id,
+            isEnglish = isEnglish,
+            modifier = Modifier.fillMaxWidth()
+        )
 
         // 底部间距
         Spacer(modifier = Modifier.height(32.dp))

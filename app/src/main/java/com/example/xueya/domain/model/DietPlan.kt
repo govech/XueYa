@@ -19,6 +19,7 @@ package com.example.xueya.domain.model
  * @property recommendationReasonEn AI推荐理由（英文）
  * @property isFavorite 是否已收藏
  * @property icon 图标资源（可选）
+ * @property colorScheme 颜色主题
  */
 data class DietPlan(
     val id: String,
@@ -37,7 +38,8 @@ data class DietPlan(
     val recommendationReason: String = "",
     val recommendationReasonEn: String = "",
     val isFavorite: Boolean = false,
-    val icon: String? = null
+    val icon: String? = null,
+    val colorScheme: DietColorScheme = DietColorScheme.DEFAULT
 )
 
 /**
@@ -46,6 +48,20 @@ data class DietPlan(
 enum class DietCategory {
     MAINSTREAM,  // 主流饮食方案
     AI_RECOMMENDED  // AI推荐方案
+}
+
+/**
+ * 饮食方案颜色主题
+ */
+enum class DietColorScheme {
+    DEFAULT,        // 默认绿色（AI推荐）
+    MEDITERRANEAN,  // 地中海饮食 - 蓝色
+    DASH,          // DASH饮食 - 紫色
+    LOW_SODIUM,    // 低钠饮食 - 橙色
+    PLANT_BASED,   // 植物性饮食 - 绿色
+    KETO,          // 生酮饮食 - 红色
+    VEGAN,         // 纯素食 - 深绿色
+    PALEO          // 原始人饮食 - 棕色
 }
 
 /**
@@ -80,7 +96,8 @@ object DietPlans {
         precautions = "控制盐分摄入，避免过度饮酒，注意坚果的热量摄入。",
         precautionsEn = "Control salt intake, avoid excessive alcohol, pay attention to nut calorie intake.",
         category = DietCategory.MAINSTREAM,
-        icon = "🫒"
+        icon = "🫒",
+        colorScheme = DietColorScheme.MEDITERRANEAN
     )
 
     val dashDiet = DietPlan(
@@ -110,7 +127,8 @@ object DietPlans {
         precautions = "逐渐减少钠摄入，增加钾摄入时要注意肾功能，适量增加水分摄入。",
         precautionsEn = "Gradually reduce sodium intake, pay attention to kidney function when increasing potassium, moderately increase water intake.",
         category = DietCategory.MAINSTREAM,
-        icon = "🥗"
+        icon = "🥗",
+        colorScheme = DietColorScheme.DASH
     )
 
     val lowSodiumDiet = DietPlan(
@@ -140,7 +158,8 @@ object DietPlans {
         precautions = "钠摄入每天不超过1500mg，注意隐藏钠的来源，避免突然大幅度减少。",
         precautionsEn = "Sodium intake should not exceed 1500mg daily, pay attention to hidden sodium sources, avoid sudden large reductions.",
         category = DietCategory.MAINSTREAM,
-        icon = "🧂"
+        icon = "🧂",
+        colorScheme = DietColorScheme.LOW_SODIUM
     )
 
     val plantBasedDiet = DietPlan(
@@ -170,16 +189,49 @@ object DietPlans {
         precautions = "注意维生素B12和铁的摄入，确保蛋白质充足，避免过度依赖加工植物食品。",
         precautionsEn = "Pay attention to vitamin B12 and iron intake, ensure adequate protein, avoid over-relying on processed plant foods.",
         category = DietCategory.MAINSTREAM,
-        icon = "🌱"
+        icon = "🌱",
+        colorScheme = DietColorScheme.PLANT_BASED
+    )
+
+    val ketoDiet = DietPlan(
+        id = "keto",
+        name = "生酮饮食",
+        nameEn = "Ketogenic Diet",
+        description = "高脂肪、低碳水化合物的饮食方式，通过诱导酮症状态来提供能量，可能对某些血压问题有帮助。",
+        descriptionEn = "High-fat, low-carbohydrate diet that induces ketosis for energy, may help with certain blood pressure issues.",
+        suitableFor = "特定健康状况下的血压管理、需要快速减重的人群",
+        suitableForEn = "Specific health conditions for blood pressure management, people needing rapid weight loss",
+        foodRecommendations = listOf(
+            "高脂肪食物（牛油果、坚果、橄榄油）",
+            "优质蛋白质（鱼类、肉类、蛋类）",
+            "低碳水蔬菜（菠菜、西兰花、黄瓜）",
+            "健康脂肪（椰子油、黄油、奶酪）",
+            "避免高糖水果和谷物",
+            "适量坚果和种子"
+        ),
+        foodRecommendationsEn = listOf(
+            "High-fat foods (avocado, nuts, olive oil)",
+            "Quality proteins (fish, meat, eggs)",
+            "Low-carb vegetables (spinach, broccoli, cucumber)",
+            "Healthy fats (coconut oil, butter, cheese)",
+            "Avoid high-sugar fruits and grains",
+            "Moderate nuts and seeds"
+        ),
+        precautions = "需要在医生指导下进行，注意监测酮症状态，避免长期使用，注意营养均衡。",
+        precautionsEn = "Should be done under medical supervision, monitor ketosis state, avoid long-term use, maintain nutritional balance.",
+        category = DietCategory.MAINSTREAM,
+        icon = "🥩",
+        colorScheme = DietColorScheme.KETO
     )
 
     /**
      * 获取所有主流饮食方案
      */
     fun getMainstreamDietPlans(): List<DietPlan> = listOf(
+        dashDiet,        // DASH饮食 - 紫色渐变（置顶）
+        lowSodiumDiet,   // 低钠饮食 - 橙色渐变
+        ketoDiet,        // 生酮饮食 - 红色渐变
         mediterraneanDiet,
-        dashDiet,
-        lowSodiumDiet,
         plantBasedDiet
     )
 

@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.xueya.R
 import com.example.xueya.domain.model.DietPlan
 import com.example.xueya.presentation.utils.LanguageManager
+import com.example.xueya.presentation.utils.DietColorManager
 
 /**
  * 饮食建议页面专用UI组件
@@ -35,12 +36,8 @@ fun AIRecommendedDietCard(
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    val gradientBrush = Brush.horizontalGradient(
-        colors = listOf(
-            Color(0xFF4CAF50), // Material Green 500
-            Color(0xFF8BC34A)  // Material Light Green 400
-        )
-    )
+    val gradientBrush = DietColorManager.getGradientBrush(plan.colorScheme)
+    val primaryColor = DietColorManager.getPrimaryColor(plan.colorScheme)
 
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -104,7 +101,7 @@ fun AIRecommendedDietCard(
                                 Text(
                                     text = "AI " + stringResource(id = R.string.diet_recommendations),
                                     style = MaterialTheme.typography.labelSmall,
-                                    color = Color(0xFF4CAF50),
+                                    color = primaryColor,
                                     modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                                 )
                             }
@@ -192,10 +189,14 @@ fun MainstreamDietCard(
     onViewDetails: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val containerColor = DietColorManager.getContainerColor(plan.colorScheme)
+    val primaryColor = DietColorManager.getPrimaryColor(plan.colorScheme)
+    val textColor = DietColorManager.getTextColor(plan.colorScheme)
+    
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = containerColor
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(12.dp)
@@ -213,7 +214,7 @@ fun MainstreamDietCard(
                     // 图标背景
                     Card(
                         colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer
+                            containerColor = primaryColor.copy(alpha = 0.1f)
                         ),
                         shape = RoundedCornerShape(12.dp)
                     ) {
@@ -224,7 +225,7 @@ fun MainstreamDietCard(
                             Text(
                                 text = plan.icon ?: "🍎",
                                 style = MaterialTheme.typography.titleLarge,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                                color = primaryColor
                             )
                         }
                     }
@@ -236,7 +237,7 @@ fun MainstreamDietCard(
                             text = if (isEnglish) plan.nameEn else plan.name,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = textColor
                         )
                         Text(
                             text = stringResource(
@@ -244,7 +245,7 @@ fun MainstreamDietCard(
                                 if (isEnglish) plan.suitableForEn else plan.suitableFor
                             ),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = textColor.copy(alpha = 0.7f)
                         )
                     }
                 }

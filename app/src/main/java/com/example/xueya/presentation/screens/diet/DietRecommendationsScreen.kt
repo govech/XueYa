@@ -28,6 +28,7 @@ import com.example.xueya.domain.model.DietPlan
 import com.example.xueya.domain.model.DietPlans
 import com.example.xueya.presentation.navigation.AppDestination
 import com.example.xueya.presentation.utils.LanguageManager
+import com.example.xueya.presentation.utils.DietColorManager
 import com.example.xueya.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -130,6 +131,14 @@ fun DietRecommendationsScreen(
                             .fillMaxWidth()
                             .weight(1f)
                     )
+                    
+                    // 调试信息
+                    Text(
+                        text = "Debug: ${uiState.mainstreamPlans.size} mainstream plans loaded",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(16.dp)
+                    )
                 }
             }
         }
@@ -180,11 +189,14 @@ private fun DietPlanCard(
     modifier: Modifier = Modifier
 ) {
     var isExpanded by remember { mutableStateOf(false) }
+    val containerColor = DietColorManager.getContainerColor(plan.colorScheme)
+    val primaryColor = DietColorManager.getPrimaryColor(plan.colorScheme)
+    val textColor = DietColorManager.getTextColor(plan.colorScheme)
 
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = containerColor
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
@@ -209,7 +221,7 @@ private fun DietPlanCard(
                             text = if (isEnglish) plan.nameEn else plan.name,
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = textColor
                         )
                         Text(
                             text = stringResource(
@@ -217,7 +229,7 @@ private fun DietPlanCard(
                                 if (isEnglish) plan.suitableForEn else plan.suitableFor
                             ),
                             style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = textColor.copy(alpha = 0.7f)
                         )
                     }
                 }
@@ -252,7 +264,7 @@ private fun DietPlanCard(
                 Text(
                     text = if (isEnglish) plan.descriptionEn else plan.description,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = textColor,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
@@ -261,7 +273,7 @@ private fun DietPlanCard(
                     text = stringResource(id = R.string.diet_food_recommendations),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = primaryColor,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
 
@@ -270,7 +282,7 @@ private fun DietPlanCard(
                     Text(
                         text = "• $food",
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = textColor.copy(alpha = 0.8f),
                         modifier = Modifier.padding(start = 8.dp, bottom = 2.dp)
                     )
                 }
@@ -288,7 +300,7 @@ private fun DietPlanCard(
                 Text(
                     text = if (isEnglish) plan.precautionsEn else plan.precautions,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = textColor.copy(alpha = 0.8f)
                 )
             }
         }
