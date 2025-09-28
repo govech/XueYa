@@ -188,6 +188,17 @@ class DietViewModel @Inject constructor(
     fun clearError() {
         _uiState.update { it.copy(error = null) }
     }
+    
+    /**
+     * 刷新数据
+     */
+    fun refreshData() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, error = null) }
+            loadDietPlans()
+            generateAIRecommendations()
+        }
+    }
 }
 
 /**

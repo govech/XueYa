@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.xueya.R
@@ -34,7 +35,8 @@ fun DietRecommendationsScreen(
     viewModel: DietViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val isEnglish = LanguageManager.isEnglish()
+    val context = LocalContext.current
+    val isEnglish = LanguageManager.isEnglish(context)
 
     Scaffold(
         topBar = {
@@ -60,32 +62,68 @@ fun DietRecommendationsScreen(
             )
         }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .background(MaterialTheme.colorScheme.background)
-        ) {
-            // AI推荐区域
-            if (uiState.aiRecommendedPlans.isNotEmpty()) {
-                // 使用独立的AI推荐卡片实现
-                AIRecommendedPlansSection(
-                    plans = uiState.aiRecommendedPlans,
-                    isEnglish = isEnglish,
-                    onToggleFavorite = { plan -> viewModel.toggleFavorite(plan.id) },
-                    modifier = Modifier.fillMaxWidth()
+        when {
+            uiState.isLoading -> {
+                DietLoadingState(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
                 )
             }
+            
+            uiState.error != null -> {
+                DietErrorState(
+                    message = uiState.error ?: "Unknown error",
+                    onRetry = { 
+                        viewModel.clearError()
+                        // 重新加载数据
+                        viewModel.refreshData()
+                    },
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                )
+            }
+            
+            uiState.aiRecommendedPlans.isEmpty() && uiState.mainstreamPlans.isEmpty() -> {
+                DietEmptyState(
+                    title = if (isEnglish) "No Diet Plans Available" else "暂无饮食方案",
+                    message = if (isEnglish) "Please check your internet connection and try again." else "请检查网络连接后重试。",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                )
+            }
+            
+            else -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .background(MaterialTheme.colorScheme.background)
+                ) {
+                    // AI推荐区域
+                    if (uiState.aiRecommendedPlans.isNotEmpty()) {
+                        // 使用独立的AI推荐卡片实现
+                        AIRecommendedPlansSection(
+                            plans = uiState.aiRecommendedPlans,
+                            isEnglish = isEnglish,
+                            onToggleFavorite = { plan -> viewModel.toggleFavorite(plan.id) },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
 
-            // 主流饮食方案区域
-            MainstreamPlansSection(
-                plans = uiState.mainstreamPlans,
-                isEnglish = isEnglish,
-                onToggleFavorite = { plan -> viewModel.toggleFavorite(plan.id) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            )
+                    // 主流饮食方案区域
+                    MainstreamPlansSection(
+                        plans = uiState.mainstreamPlans,
+                        isEnglish = isEnglish,
+                        onToggleFavorite = { plan -> viewModel.toggleFavorite(plan.id) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                    )
+                }
+            }
         }
     }
 }

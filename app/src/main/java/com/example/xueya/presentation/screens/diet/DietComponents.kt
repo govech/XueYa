@@ -499,9 +499,51 @@ fun DietLoadingState(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator(
-            color = MaterialTheme.colorScheme.primary
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(24.dp)
+        ) {
+            // 加载动画
+            CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(48.dp),
+                strokeWidth = 4.dp
+            )
+            
+            // 加载文本
+            Text(
+                text = if (LanguageManager.isEnglish()) "Loading diet recommendations..." else "正在加载饮食建议...",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
+            )
+            
+            // 加载提示
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = if (LanguageManager.isEnglish()) "Analyzing your blood pressure data..." else "正在分析您的血压数据...",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -520,22 +562,65 @@ fun DietErrorState(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            modifier = Modifier.padding(32.dp)
         ) {
-            Icon(
-                imageVector = Icons.Default.Warning,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.error,
-                modifier = Modifier.size(64.dp)
-            )
+            // 错误图标
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer
+                ),
+                shape = RoundedCornerShape(50.dp)
+            ) {
+                Box(
+                    modifier = Modifier.padding(24.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Warning,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.size(48.dp)
+                    )
+                }
+            }
+            
+            // 错误标题
             Text(
-                text = message,
-                style = MaterialTheme.typography.bodyLarge,
+                text = if (LanguageManager.isEnglish()) "Oops! Something went wrong" else "哎呀！出了点问题",
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center
             )
-            Button(onClick = onRetry) {
-                Text(text = stringResource(id = R.string.retry))
+            
+            // 错误信息
+            Text(
+                text = message,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                lineHeight = MaterialTheme.typography.bodyMedium.lineHeight * 1.4
+            )
+            
+            // 重试按钮
+            Button(
+                onClick = onRetry,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Refresh,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = if (LanguageManager.isEnglish()) "Try Again" else "重试",
+                    style = MaterialTheme.typography.labelLarge
+                )
             }
         }
     }
@@ -556,26 +641,72 @@ fun DietEmptyState(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+            modifier = Modifier.padding(32.dp)
         ) {
-            Icon(
-                imageVector = Icons.Default.Menu,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(64.dp)
-            )
+            // 空状态图标
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                ),
+                shape = RoundedCornerShape(50.dp)
+            ) {
+                Box(
+                    modifier = Modifier.padding(24.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(48.dp)
+                    )
+                }
+            }
+            
+            // 空状态标题
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Center
             )
+            
+            // 空状态描述
             Text(
                 text = message,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                lineHeight = MaterialTheme.typography.bodyMedium.lineHeight * 1.4
             )
+            
+            // 提示信息
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.secondary,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = if (LanguageManager.isEnglish()) "Try refreshing the page or check your connection" else "尝试刷新页面或检查网络连接",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                }
+            }
         }
     }
 }
