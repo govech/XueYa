@@ -15,7 +15,6 @@ import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,12 +29,12 @@ import com.example.xueya.R
 import com.example.xueya.domain.model.BloodPressureCategory
 import com.example.xueya.domain.model.BloodPressureData
 import com.example.xueya.domain.usecase.HealthStatus
+import com.example.xueya.utils.BloodPressureUtils.getHeartRateColor
 import java.time.format.DateTimeFormatter
 
 /**
  * 健康状况卡片
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HealthStatusCard(
     healthStatus: HealthStatus,
@@ -56,14 +55,16 @@ fun HealthStatusCard(
         )
     ) {
         Column(
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
 
-            ) {
+                ) {
                 Text(
                     text = stringResource(R.string.health_status),
                     style = MaterialTheme.typography.titleMedium,
@@ -86,37 +87,37 @@ fun HealthStatusCard(
                         HealthStatus.CRITICAL -> Color(0xFF9C27B0)
                     }
                 )
-                
 
 
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp),
-                        text = healthStatus.displayName,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = when (healthStatus) {
-                            HealthStatus.NO_DATA -> MaterialTheme.colorScheme.onSurfaceVariant
-                            HealthStatus.NORMAL -> Color(0xFF4CAF50)
-                            HealthStatus.ELEVATED -> Color(0xFFFF9800)
-                            HealthStatus.MODERATE_RISK -> Color(0xFFFF5722)
-                            HealthStatus.HIGH_RISK -> Color(0xFFF44336)
-                            HealthStatus.CRITICAL -> Color(0xFF9C27B0)
-                        },
-                        fontWeight = FontWeight.Bold
-                    )
+
+                Text(
+                    modifier = Modifier.padding(start = 8.dp),
+                    text = healthStatus.displayName,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = when (healthStatus) {
+                        HealthStatus.NO_DATA -> MaterialTheme.colorScheme.onSurfaceVariant
+                        HealthStatus.NORMAL -> Color(0xFF4CAF50)
+                        HealthStatus.ELEVATED -> Color(0xFFFF9800)
+                        HealthStatus.MODERATE_RISK -> Color(0xFFFF5722)
+                        HealthStatus.HIGH_RISK -> Color(0xFFF44336)
+                        HealthStatus.CRITICAL -> Color(0xFF9C27B0)
+                    },
+                    fontWeight = FontWeight.Bold
+                )
 
             }
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             Text(
                 text = healthStatus.description,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            
+
             if (todayMeasurementCount > 0 || weeklyMeasurementCount > 0) {
                 Spacer(modifier = Modifier.height(12.dp))
-                
+
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
@@ -134,7 +135,7 @@ fun HealthStatusCard(
                             )
                         }
                     }
-                    
+
                     if (weeklyMeasurementCount > 0) {
                         Column {
                             Text(
@@ -143,7 +144,10 @@ fun HealthStatusCard(
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                text = stringResource(R.string.record_count, weeklyMeasurementCount),
+                                text = stringResource(
+                                    R.string.record_count,
+                                    weeklyMeasurementCount
+                                ),
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Medium
                             )
@@ -158,7 +162,6 @@ fun HealthStatusCard(
 /**
  * 最新记录卡片
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LatestRecordCard(
     record: BloodPressureData,
@@ -181,18 +184,19 @@ fun LatestRecordCard(
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium
                 )
-                
+
                 Text(
                     text = record.measureTime.format(DateTimeFormatter.ofPattern("MM/dd HH:mm")),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
-            
+
             Spacer(modifier = Modifier.height(12.dp))
-            
+
             Row(
-                horizontalArrangement = Arrangement.spacedBy(24.dp)
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(30.dp)
             ) {
                 // 血压值
                 Column {
@@ -213,7 +217,7 @@ fun LatestRecordCard(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
-                
+
                 // 心率
                 Column {
                     Text(
@@ -224,7 +228,8 @@ fun LatestRecordCard(
                     Text(
                         text = "${record.heartRate}",
                         style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = getHeartRateColor(record.heartRate)
                     )
                     Text(
                         text = stringResource(R.string.unit_bpm),
@@ -233,9 +238,9 @@ fun LatestRecordCard(
                     )
                 }
             }
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             // 分类标签
             AssistChip(
                 onClick = { },
@@ -250,7 +255,7 @@ fun LatestRecordCard(
                     labelColor = getCategoryColor(record.category)
                 )
             )
-            
+
             // 备注
             if (record.note.isNotBlank()) {
                 Spacer(modifier = Modifier.height(8.dp))
@@ -284,9 +289,9 @@ fun TodayStatisticsCard(
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Medium
             )
-            
+
             Spacer(modifier = Modifier.height(12.dp))
-            
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -300,7 +305,7 @@ fun TodayStatisticsCard(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Spacer(modifier = Modifier.height(4.dp))
-                        
+
                         Text(
                             text = "${averageBP.first}/${averageBP.second}",
                             style = MaterialTheme.typography.titleLarge,
@@ -315,7 +320,7 @@ fun TodayStatisticsCard(
                         )
                     }
                 }
-                
+
                 // 平均心率
                 if (averageHeartRate != null) {
                     Column {
@@ -340,7 +345,7 @@ fun TodayStatisticsCard(
                         )
                     }
                 }
-                
+
                 // 测量次数
                 Column {
                     Text(
