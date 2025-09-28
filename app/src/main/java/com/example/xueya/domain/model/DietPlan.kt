@@ -224,15 +224,75 @@ object DietPlans {
         colorScheme = DietColorScheme.KETO
     )
 
+    val veganDiet = DietPlan(
+        id = "vegan",
+        name = "纯素食饮食",
+        nameEn = "Vegan Diet",
+        description = "完全排除动物及其产品的饮食方式，研究表明对降低血压和改善心脏健康有益。",
+        descriptionEn = "A diet that completely excludes animal products. Studies show it is beneficial for lowering blood pressure and improving heart health.",
+        suitableFor = "高血压患者、高胆固醇人群、素食主义者",
+        suitableForEn = "Hypertension patients, high cholesterol individuals, vegetarians",
+        foodRecommendations = listOf(
+            "各种蔬菜、水果、豆类和全谷物",
+            "豆腐、天贝、扁豆等植物蛋白",
+            "坚果和种子（如亚麻籽、奇亚籽）",
+            "植物奶（杏仁奶、豆奶）",
+            "营养酵母（富含B族维生素）"
+        ),
+        foodRecommendationsEn = listOf(
+            "Various vegetables, fruits, legumes, and whole grains",
+            "Plant-based proteins like tofu, tempeh, lentils",
+            "Nuts and seeds (e.g., flaxseeds, chia seeds)",
+            "Plant-based milks (almond milk, soy milk)",
+            "Nutritional yeast (rich in B vitamins)"
+        ),
+        precautions = "必须补充维生素B12，并注意铁、钙、碘和Omega-3脂肪酸的摄入。",
+        precautionsEn = "Vitamin B12 supplementation is necessary. Pay attention to intake of iron, calcium, iodine, and Omega-3 fatty acids.",
+        category = DietCategory.MAINSTREAM,
+        icon = "🥦",
+        colorScheme = DietColorScheme.VEGAN
+    )
+
+    val paleoDiet = DietPlan(
+        id = "paleo",
+        name = "原始人饮食",
+        nameEn = "Paleo Diet",
+        description = "模仿旧石器时代祖先的饮食方式，主要包括瘦肉、鱼、水果、蔬菜、坚果和种子。",
+        descriptionEn = "Mimics the diet of our Paleolithic ancestors, including lean meats, fish, fruits, vegetables, nuts, and seeds.",
+        suitableFor = "寻求减少加工食品摄入、改善代谢健康的人群",
+        suitableForEn = "Individuals looking to reduce processed food intake and improve metabolic health",
+        foodRecommendations = listOf(
+            "草饲肉类和野生鱼类",
+            "大量非淀粉类蔬菜",
+            "水果（适量）",
+            "坚果和种子",
+            "健康的脂肪（牛油果、橄榄油）"
+        ),
+        foodRecommendationsEn = listOf(
+            "Grass-fed meats and wild-caught fish",
+            "Plenty of non-starchy vegetables",
+            "Fruits (in moderation)",
+            "Nuts and seeds",
+            "Healthy fats (avocado, olive oil)"
+        ),
+        precautions = "限制或避免谷物、豆类、乳制品、精制糖和加工食品。可能导致钙和维生素D摄入不足。",
+        precautionsEn = "Restricts or avoids grains, legumes, dairy, refined sugars, and processed foods. May lead to insufficient calcium and vitamin D intake.",
+        category = DietCategory.MAINSTREAM,
+        icon = "🍖",
+        colorScheme = DietColorScheme.PALEO
+    )
+
     /**
      * 获取所有主流饮食方案
      */
     fun getMainstreamDietPlans(): List<DietPlan> = listOf(
-        dashDiet,        // DASH饮食 - 紫色渐变（置顶）
-        lowSodiumDiet,   // 低钠饮食 - 橙色渐变
-        ketoDiet,        // 生酮饮食 - 红色渐变
+        dashDiet,
+        lowSodiumDiet,
         mediterraneanDiet,
-        plantBasedDiet
+        plantBasedDiet,
+        ketoDiet,
+        veganDiet,
+        paleoDiet
     )
 
     /**

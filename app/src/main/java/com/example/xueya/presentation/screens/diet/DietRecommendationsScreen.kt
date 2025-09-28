@@ -99,85 +99,58 @@ fun DietRecommendationsScreen(
             }
             
             else -> {
-                Column(
+                LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(paddingValues)
-                        .background(MaterialTheme.colorScheme.background)
+                        .background(MaterialTheme.colorScheme.background),
+                    contentPadding = PaddingValues(vertical = 8.dp)
                 ) {
                     // AI推荐区域
                     if (uiState.aiRecommendedPlans.isNotEmpty()) {
-                        // 使用独立的AI推荐卡片实现
-                        AIRecommendedPlansSection(
-                            plans = uiState.aiRecommendedPlans,
-                            isEnglish = isEnglish,
-                            onToggleFavorite = { plan -> viewModel.toggleFavorite(plan.id) },
-                            onPlanClick = { plan -> 
-                                navController.navigate(AppDestination.DietDetail.createRoute(plan.id))
-                            },
-                            modifier = Modifier.fillMaxWidth()
+                        item {
+                            AIRecommendedPlansSection(
+                                plans = uiState.aiRecommendedPlans,
+                                isEnglish = isEnglish,
+                                onToggleFavorite = { plan -> viewModel.toggleFavorite(plan.id) },
+                                onPlanClick = { plan -> 
+                                    navController.navigate(AppDestination.DietDetail.createRoute(plan.id))
+                                },
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
+
+                    // 主流饮食方案区域标题
+                    item {
+                        Text(
+                            text = stringResource(id = R.string.diet_mainstream_plans),
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
                         )
                     }
 
-                    // 主流饮食方案区域
-                    MainstreamPlansSection(
-                        plans = uiState.mainstreamPlans,
-                        isEnglish = isEnglish,
-                        onToggleFavorite = { plan -> viewModel.toggleFavorite(plan.id) },
-                        onPlanClick = { plan -> 
-                            navController.navigate(AppDestination.DietDetail.createRoute(plan.id))
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                    )
+                    // 主流饮食方案列表
+                    items(uiState.mainstreamPlans) { plan ->
+                        DietPlanCard(
+                            plan = plan,
+                            isEnglish = isEnglish,
+                            onToggleFavorite = { viewModel.toggleFavorite(plan.id) },
+                            onClick = { 
+                                navController.navigate(AppDestination.DietDetail.createRoute(plan.id))
+                            },
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp)
+                        )
+                    }
                     
-                    // 调试信息
-                    Text(
-                        text = "Debug: ${uiState.mainstreamPlans.size} mainstream plans loaded",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(16.dp)
-                    )
                 }
             }
         }
     }
 }
 
-@Composable
-private fun MainstreamPlansSection(
-    plans: List<DietPlan>,
-    isEnglish: Boolean,
-    onToggleFavorite: (DietPlan) -> Unit,
-    onPlanClick: (DietPlan) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(modifier = modifier) {
-        Text(
-            text = stringResource(id = R.string.diet_mainstream_plans),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
-        )
-
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(plans) { plan ->
-                DietPlanCard(
-                    plan = plan,
-                    isEnglish = isEnglish,
-                    onToggleFavorite = { onToggleFavorite(plan) },
-                    onClick = { onPlanClick(plan) }
-                )
-            }
-        }
-    }
-}
 
 
 @Composable
