@@ -319,7 +319,7 @@ fun BloodPressureRecordDialog(
                                             visibleItemCount = 3,
                                             itemScale = 1.2f,
                                             onItemSelected = {
-                                                systolic = it
+                                                diastolic = it
                                             }) { item, isSelected ->
                                             Text(
                                                 text = item.toString(),
@@ -363,7 +363,7 @@ fun BloodPressureRecordDialog(
                                             visibleItemCount = 3,
                                             itemScale = 1.2f,
                                             onItemSelected = {
-                                                systolic = it
+                                                pulse = it
                                             }) { item, isSelected ->
                                             Text(
                                                 text = item.toString(),
