@@ -128,12 +128,17 @@ fun DietRecommendationsScreen(
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+                            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 0.dp)
                         )
                     }
 
-                    // 主流饮食方案列表
-                    items(uiState.mainstreamPlans) { plan ->
+                    // 主流饮食方案列表 - 排除已在AI推荐中显示的方案
+                    val aiRecommendedPlanIds = uiState.aiRecommendedPlans.map { it.id }.toSet()
+                    val filteredMainstreamPlans = uiState.mainstreamPlans.filter { plan ->
+                        !aiRecommendedPlanIds.contains(plan.id)
+                    }
+                    
+                    items(filteredMainstreamPlans) { plan ->
                         DietPlanCard(
                             plan = plan,
                             isEnglish = isEnglish,
