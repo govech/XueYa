@@ -252,4 +252,27 @@
     <string name="adjust_search_conditions">Try adjusting search conditions or filters</string>
     <string name="clear_all_filters">Clear All Filters</string>
     <string name="loading_records">Loading records...</string>
+
+    <!-- 饮食建议 -->
+    <string name="diet_recommendations">Dietary Recommendations</string>
+    <string name="diet_mainstream_plans">Mainstream Diet Plans</string>
+    <string name="diet_ai_recommendations">AI Personalized Recommendations</string>
+    <string name="diet_suitable_for">Suitable for: %1$s</string>
+    <string name="diet_food_recommendations">Food Recommendations</string>
+    <string name="diet_precautions">Precautions</string>
+    <string name="diet_add_to_favorites">Add to Favorites</string>
+    <string name="diet_remove_from_favorites">Remove from Favorites</string>
+    <string name="diet_favorites">Favorites</string>
+    <string name="diet_recommendation_reason">Recommendation Reason: %1$s</string>
+    <string name="diet_mediterranean">Mediterranean Diet</string>
+    <string name="diet_dash">DASH Diet</string>
+    <string name="diet_low_sodium">Low Sodium Diet</string>
+    <string name="diet_plant_based">Plant-Based Diet</string>
+    <string name="diet_view_details">View Details</string>
+    <string name="diet_hide_details">Hide Details</string>
+
+    <!-- 设置页面饮食建议卡片 -->
+    <string name="settings_diet_card_title">Personalized Dietary Advice</string>
+    <string name="settings_diet_card_desc">Get professional dietary recommendations based on your blood pressure data</string>
+    <string name="settings_diet_card_action">View Recommendations</string>
 </resources>

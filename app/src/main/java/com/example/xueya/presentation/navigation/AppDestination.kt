@@ -2,6 +2,7 @@ package com.example.xueya.presentation.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.xueya.R
 
@@ -54,6 +55,12 @@ sealed class AppDestination(
         titleResId = R.string.ai_function_test,
         icon = Icons.Default.Build
     )
+
+    object DietRecommendations : AppDestination(
+        route = "diet_recommendations",
+        titleResId = R.string.diet_recommendations,
+        icon = Icons.Default.LocalDining
+    )
 }
 
 /**
@@ -76,5 +83,6 @@ val allDestinations = listOf(
     AppDestination.History,
     AppDestination.Statistics,
     AppDestination.Settings,
-    AppDestination.AiTest
+    AppDestination.AiTest,
+    AppDestination.DietRecommendations
 )

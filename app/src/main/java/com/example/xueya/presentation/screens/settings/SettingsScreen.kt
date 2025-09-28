@@ -13,6 +13,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.xueya.R
 import com.example.xueya.domain.model.LanguageMode
@@ -32,6 +38,7 @@ import java.time.format.DateTimeFormatter
 fun SettingsScreen(
     modifier: Modifier = Modifier,
     onNavigateToAiTest: () -> Unit = {},
+    onNavigateToDietRecommendations: () -> Unit = {},
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -58,6 +65,12 @@ fun SettingsScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // 饮食建议卡片 - 放在最顶部
+            DietRecommendationsCard(
+                onClick = onNavigateToDietRecommendations,
+                modifier = Modifier.fillMaxWidth()
+            )
+
             // 提醒设置
             SettingSectionHeader(title = stringResource(R.string.settings_reminder_section))
             SettingsGroup {
@@ -260,6 +273,115 @@ fun SettingsScreen(
             contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
+        }
+    }
+}
+
+/**
+ * 饮食建议卡片 - 渐变色背景
+ */
+@Composable
+private fun DietRecommendationsCard(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val gradientBrush = Brush.horizontalGradient(
+        colors = listOf(
+            Color(0xFF4CAF50), // Material Green 500
+            Color(0xFF8BC34A)  // Material Light Green 400
+        )
+    )
+
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Transparent
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(gradientBrush)
+                .padding(20.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    // 图标背景
+                    Card(
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White.copy(alpha = 0.2f)
+                        ),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier.padding(12.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Fastfood,
+                                contentDescription = null,
+                                tint = Color.White,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    Column {
+                        Text(
+                            text = stringResource(id = R.string.settings_diet_card_title),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                        Text(
+                            text = stringResource(id = R.string.settings_diet_card_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.White.copy(alpha = 0.9f),
+                            modifier = Modifier.padding(top = 2.dp)
+                        )
+                    }
+                }
+
+                // 操作按钮
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White.copy(alpha = 0.9f)
+                    ),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.settings_diet_card_action),
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF4CAF50)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                            contentDescription = null,
+                            tint = Color(0xFF4CAF50),
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+            }
         }
     }
 }

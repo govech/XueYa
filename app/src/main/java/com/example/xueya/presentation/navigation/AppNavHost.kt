@@ -10,6 +10,7 @@ import com.example.xueya.presentation.screens.add_record.AddRecordScreen
 import com.example.xueya.presentation.screens.history.HistoryScreen
 import com.example.xueya.presentation.screens.statistics.StatisticsScreen
 import com.example.xueya.presentation.screens.settings.SettingsScreen
+import com.example.xueya.presentation.screens.diet.DietRecommendationsScreen
 import com.example.xueya.presentation.test.AiTestScreen
 
 /**
@@ -77,6 +78,9 @@ fun AppNavHost(
             SettingsScreen(
                 onNavigateToAiTest = {
                     navController.navigate(AppDestination.AiTest.route)
+                },
+                onNavigateToDietRecommendations = {
+                    navController.navigate(AppDestination.DietRecommendations.route)
                 }
             )
         }
@@ -87,6 +91,13 @@ fun AppNavHost(
                 onNavigateBack = {
                     navController.popBackStack()
                 }
+            )
+        }
+
+        // 饮食建议
+        composable(AppDestination.DietRecommendations.route) {
+            DietRecommendationsScreen(
+                navController = navController
             )
         }
     }

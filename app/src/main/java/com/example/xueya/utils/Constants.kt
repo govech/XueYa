@@ -445,7 +445,32 @@ object Constants {
                 "insights": ["洞察1", "洞察2", "洞察3"],
                 "recommendations": ["建议1", "建议2", "建议3"]
             }
-            
+
+            血压数据：
+        """.trimIndent()
+
+        /**
+         * 饮食推荐提示词模板
+         */
+        val DIETARY_RECOMMENDATION_PROMPT = """
+            你是一位专业的心血管营养师。基于用户的血压数据历史，请提供个性化的饮食推荐方案。
+            请以JSON格式返回，格式如下：
+            {
+                "recommendedDiets": [
+                    {
+                        "name": "饮食方案名称",
+                        "nameEn": "Diet Name in English",
+                        "reason": "推荐理由（中文）",
+                        "reasonEn": "Recommendation reason (English)",
+                        "priority": 1-10,
+                        "suitability": 0.0-1.0
+                    }
+                ],
+                "personalizedAdvice": "个性化饮食建议",
+                "rationale": "推荐依据和科学解释",
+                "caution": "注意事项和禁忌"
+            }
+
             血压数据：
         """.trimIndent()
     }

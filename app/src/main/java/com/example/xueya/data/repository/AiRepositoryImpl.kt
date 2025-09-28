@@ -5,8 +5,10 @@ import com.example.xueya.domain.model.BloodPressureData
 import com.example.xueya.domain.model.ai.AiRequest
 import com.example.xueya.domain.model.ai.BloodPressureParseResult
 import com.example.xueya.domain.model.ai.BloodPressureTrendAnalysis
+import com.example.xueya.domain.model.ai.DietaryRecommendation
 import com.example.xueya.domain.model.ai.HealthAdvice
 import com.example.xueya.domain.model.ai.Message
+import com.example.xueya.domain.model.ai.RecommendedDiet
 import com.example.xueya.domain.repository.AiRepository
 import com.example.xueya.utils.Constants
 import com.google.gson.Gson
@@ -155,6 +157,71 @@ class AiRepositoryImpl @Inject constructor(
                         try {
                             val trendAnalysis = gson.fromJson(content, BloodPressureTrendAnalysis::class.java)
                             Result.success(trendAnalysis)
+                        } catch (e: JsonSyntaxException) {
+                            Result.failure(Exception("AI 响应格式解析失败: ${e.message}"))
+                        }
+                    } else {
+                        Result.failure(Exception("AI 响应内容为空"))
+                    }
+                } else {
+                    Result.failure(Exception("API 调用失败: ${response.code()} ${response.message()}"))
+                }
+            } catch (e: Exception) {
+                Result.failure(Exception("网络请求失败: ${e.message}"))
+            }
+        }
+    }
+
+    override suspend fun generateDietaryRecommendations(
+        bloodPressureData: List<BloodPressureData>,
+        userInfo: Map<String, String>
+    ): Result<DietaryRecommendation> {
+        return withContext(Dispatchers.IO) {
+            try {
+                // 构建血压数据描述
+                val bloodPressureDescription = buildString {
+                    if (bloodPressureData.isNotEmpty()) {
+                        val avgSystolic = bloodPressureData.map { it.systolic }.average().toInt()
+                        val avgDiastolic = bloodPressureData.map { it.diastolic }.average().toInt()
+                        val avgPulse = bloodPressureData.map { it.heartRate }.average().toInt()
+
+                        append("平均血压: ${avgSystolic}/${avgDiastolic} mmHg, 平均心率: ${avgPulse} bpm\n")
+                        append("数据点数量: ${bloodPressureData.size} 个\n")
+
+                        // 添加最近的血压数据
+                        val recentData = bloodPressureData.takeLast(5)
+                        append("最近5次测量数据:\n")
+                        recentData.forEach { data ->
+                            append("- ${data.systolic}/${data.diastolic} mmHg, 心率: ${data.heartRate} bpm\n")
+                        }
+                    }
+                }
+
+                val request = AiRequest(
+                    model = Constants.AI.DEFAULT_AI_MODEL,
+                    messages = listOf(
+                        Message(
+                            role = "user",
+                            content = "${Constants.AI.DIETARY_RECOMMENDATION_PROMPT}${bloodPressureDescription}"
+                        )
+                    ),
+                    temperature = Constants.AI.TEMPERATURE,
+                    max_tokens = Constants.AI.MAX_TOKENS
+                )
+
+                val response = aiApiService.chatCompletion(
+                    authorization = createAuthHeader(),
+                    request = request
+                )
+
+                if (response.isSuccessful) {
+                    val aiResponse = response.body()
+                    val content = aiResponse?.choices?.firstOrNull()?.message?.content
+
+                    if (content != null) {
+                        try {
+                            val dietaryRecommendation = gson.fromJson(content, DietaryRecommendation::class.java)
+                            Result.success(dietaryRecommendation)
                         } catch (e: JsonSyntaxException) {
                             Result.failure(Exception("AI 响应格式解析失败: ${e.message}"))
                         }

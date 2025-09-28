@@ -252,4 +252,27 @@
     <string name="adjust_search_conditions">尝试调整搜索条件或过滤器</string>
     <string name="clear_all_filters">清除所有过滤器</string>
     <string name="loading_records">正在加载记录...</string>
+
+    <!-- 饮食建议 -->
+    <string name="diet_recommendations">饮食建议</string>
+    <string name="diet_mainstream_plans">主流饮食方案</string>
+    <string name="diet_ai_recommendations">AI个性化推荐</string>
+    <string name="diet_suitable_for">适用人群：%1$s</string>
+    <string name="diet_food_recommendations">食物推荐</string>
+    <string name="diet_precautions">注意事项</string>
+    <string name="diet_add_to_favorites">添加到收藏</string>
+    <string name="diet_remove_from_favorites">从收藏中移除</string>
+    <string name="diet_favorites">收藏</string>
+    <string name="diet_recommendation_reason">推荐理由：%1$s</string>
+    <string name="diet_mediterranean">地中海饮食</string>
+    <string name="diet_dash">DASH饮食</string>
+    <string name="diet_low_sodium">低盐饮食</string>
+    <string name="diet_plant_based">植物性饮食</string>
+    <string name="diet_view_details">查看详情</string>
+    <string name="diet_hide_details">隐藏详情</string>
+
+    <!-- 设置页面饮食建议卡片 -->
+    <string name="settings_diet_card_title">个性化饮食建议</string>
+    <string name="settings_diet_card_desc">基于您的血压数据，获取专业饮食方案推荐</string>
+    <string name="settings_diet_card_action">查看建议</string>
 </resources>
