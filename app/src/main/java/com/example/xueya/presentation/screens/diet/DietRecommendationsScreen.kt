@@ -1,10 +1,15 @@
 package com.example.xueya.presentation.screens.diet
 
+import android.app.Activity
+import android.os.Build
+import android.view.View
+import android.view.Window
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
@@ -16,11 +21,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.unit.Dp
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.xueya.R
@@ -139,7 +150,7 @@ fun DietRecommendationsScreen(
                     }
                     
                     items(filteredMainstreamPlans) { plan ->
-                        DietPlanCard(
+                        MainstreamDietCardWithGradient(
                             plan = plan,
                             isEnglish = isEnglish,
                             onToggleFavorite = { viewModel.toggleFavorite(plan.id) },
@@ -150,6 +161,180 @@ fun DietRecommendationsScreen(
                         )
                     }
                     
+                }
+            }
+        }
+    }
+}
+
+/**
+ * 带渐变色背景的主流饮食方案卡片
+ */
+@Composable
+private fun MainstreamDietCardWithGradient(
+    plan: DietPlan,
+    isEnglish: Boolean,
+    onToggleFavorite: () -> Unit,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var isExpanded by remember { mutableStateOf(false) }
+    val gradientBrush = DietColorManager.getGradientBrush(plan.colorScheme)
+    val primaryColor = DietColorManager.getPrimaryColor(plan.colorScheme)
+    val textColor = Color.White
+
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Transparent
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(gradientBrush)
+                .clickable { onClick() }
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        // 图标背景
+                        Card(
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color.White.copy(alpha = 0.2f)
+                            ),
+                            shape = RoundedCornerShape(12.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier.padding(12.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = plan.icon ?: "🍎",
+                                    style = MaterialTheme.typography.titleLarge,
+                                    color = Color.White
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.width(12.dp))
+
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = if (isEnglish) plan.nameEn else plan.name,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = textColor
+                            )
+                            Text(
+                                text = stringResource(
+                                    id = R.string.diet_suitable_for,
+                                    if (isEnglish) plan.suitableForEn else plan.suitableFor
+                                ),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = textColor.copy(alpha = 0.9f)
+                            )
+                        }
+                    }
+
+                    Row {
+                        IconButton(onClick = onToggleFavorite) {
+                            Icon(
+                                imageVector = if (plan.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                contentDescription = stringResource(
+                                    id = if (plan.isFavorite) R.string.diet_remove_from_favorites else R.string.diet_add_to_favorites
+                                ),
+                                tint = if (plan.isFavorite) Color.Red else Color.White
+                            )
+                        }
+
+                        TextButton(
+                            onClick = { isExpanded = !isExpanded }
+                        ) {
+                            Text(
+                                text = stringResource(
+                                    id = if (isExpanded) R.string.diet_hide_details else R.string.diet_view_details
+                                ),
+                                color = Color.White
+                            )
+                        }
+                    }
+                }
+
+                if (isExpanded) {
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // 描述
+                    Card(
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White.copy(alpha = 0.15f)
+                        ),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Text(
+                            text = if (isEnglish) plan.descriptionEn else plan.description,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.White.copy(alpha = 0.95f),
+                            modifier = Modifier.padding(12.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // 食物推荐
+                    Text(
+                        text = stringResource(id = R.string.diet_food_recommendations),
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+
+                    val foodList = if (isEnglish) plan.foodRecommendationsEn else plan.foodRecommendations
+                    foodList.take(3).forEach { food ->
+                        Text(
+                            text = "• $food",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.White.copy(alpha = 0.9f),
+                            modifier = Modifier.padding(start = 8.dp, bottom = 2.dp)
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    // 注意事项
+                    Card(
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White.copy(alpha = 0.15f)
+                        ),
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(12.dp)) {
+                            Text(
+                                text = stringResource(id = R.string.diet_precautions),
+                                style = MaterialTheme.typography.titleSmall,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                modifier = Modifier.padding(bottom = 4.dp)
+                            )
+                            Text(
+                                text = if (isEnglish) plan.precautionsEn else plan.precautions,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = Color.White.copy(alpha = 0.9f)
+                            )
+                        }
+                    }
                 }
             }
         }
