@@ -35,12 +35,12 @@ class TrendAnalyzer {
     /**
      * 分析血压数据趋势
      * @param data 血压数据列表
-     * @param threshold 趋势判断阈值，默认0.5
+     * @param threshold 趋势判断阈值，默认2.0（血压变化阈值，单位：mmHg/天）
      * @return 趋势分析结果
      */
     fun analyzeTrend(
         data: List<BloodPressureData>,
-        threshold: Double = 0.5
+        threshold: Double = 2.0
     ): TrendResult {
         if (data.size < 2) {
             return TrendResult(
@@ -55,22 +55,39 @@ class TrendAnalyzer {
         
         // 计算平均血压作为趋势分析指标
         val avgBloodPressure = data.map { (it.systolic + it.diastolic) / 2.0 }
-        val timePoints = data.mapIndexed { index, _ -> index.toDouble() }
+        
+        // 使用实际时间戳计算时间点（以天为单位）
+        val sortedData = data.sortedBy { it.measureTime }
+        val firstTime = sortedData.first().measureTime
+        val timePoints = sortedData.map { dataPoint ->
+            val daysDiff = java.time.Duration.between(firstTime, dataPoint.measureTime).toDays()
+            daysDiff.toDouble()
+        }
         
         val regression = calculateLinearRegression(timePoints, avgBloodPressure)
         
+        // 更智能的趋势判断
         val direction = when {
-            regression.slope > threshold -> TrendDirection.INCREASING
-            regression.slope < -threshold -> TrendDirection.DECREASING
+            regression.slope > threshold && regression.rSquared > 0.3 -> TrendDirection.INCREASING
+            regression.slope < -threshold && regression.rSquared > 0.3 -> TrendDirection.DECREASING
             else -> TrendDirection.STABLE
         }
         
         val confidence = calculateConfidence(regression.rSquared, data.size)
         
         val description = when (direction) {
-            TrendDirection.INCREASING -> "血压呈上升趋势，需要关注"
-            TrendDirection.DECREASING -> "血压呈下降趋势，情况良好"
-            TrendDirection.STABLE -> "血压保持稳定"
+            TrendDirection.INCREASING -> {
+                val slopeValue = String.format("%.1f", regression.slope)
+                "血压呈上升趋势 (${slopeValue} mmHg/天)，需要关注"
+            }
+            TrendDirection.DECREASING -> {
+                val slopeValue = String.format("%.1f", regression.slope)
+                "血压呈下降趋势 (${slopeValue} mmHg/天)，情况良好"
+            }
+            TrendDirection.STABLE -> {
+                val slopeValue = String.format("%.1f", regression.slope)
+                "血压保持稳定 (${slopeValue} mmHg/天)"
+            }
         }
         
         return TrendResult(
