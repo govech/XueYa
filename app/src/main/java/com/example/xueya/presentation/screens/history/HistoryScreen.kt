@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.xueya.R
 import com.example.xueya.presentation.components.common.ErrorCard
+import com.example.xueya.presentation.components.charts.EnhancedBloodPressureChart
+import com.example.xueya.presentation.components.charts.BloodPressureStatsCard
 import com.example.xueya.presentation.screens.history.*
 
 /**
@@ -31,6 +33,7 @@ fun HistoryScreen(
     viewModel: HistoryViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val enhancedStatistics by viewModel.enhancedStatistics.collectAsState()
 
     Scaffold(
         topBar = {
@@ -49,6 +52,13 @@ fun HistoryScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
+            // 视图模式切换
+            ViewModeSelector(
+                currentMode = uiState.viewMode,
+                onModeChange = viewModel::setViewMode,
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            )
+            
             // 过滤器面板
             if (uiState.showFilters) {
                 FilterPanel(
@@ -97,37 +107,64 @@ fun HistoryScreen(
                     }
 
                     else -> {
-                        LazyColumn(
-                            modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(16.dp),
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            // 统计信息卡片 - 放在列表顶部，跟随滚动
-                            if (uiState.hasRecords && !uiState.isLoading) {
-                                item {
-                                    StatisticsCard(
-                                        statistics = uiState.statistics,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(horizontal = 0.dp, vertical = 8.dp)
-                                    )
+                        when (uiState.viewMode) {
+                            ViewMode.LIST -> {
+                                LazyColumn(
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentPadding = PaddingValues(16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    // 统计信息卡片 - 放在列表顶部，跟随滚动
+                                    if (uiState.hasRecords && !uiState.isLoading) {
+                                        item {
+                                            StatisticsCard(
+                                                statistics = uiState.statistics,
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(horizontal = 0.dp, vertical = 8.dp)
+                                            )
+                                        }
+                                    }
+
+                                    items(
+                                        items = uiState.displayRecords,
+                                        key = { it.id }
+                                    ) { record ->
+                                        RecordCard(
+                                            record = record,
+                                            onClick = { onNavigateToRecordDetail(record.id) },
+                                            onDelete = { viewModel.showDeleteDialog(record) }
+                                        )
+                                    }
+
+                                    // 底部间距
+                                    item {
+                                        Spacer(modifier = Modifier.height(80.dp))
+                                    }
                                 }
                             }
-
-                            items(
-                                items = uiState.displayRecords,
-                                key = { it.id }
-                            ) { record ->
-                                RecordCard(
-                                    record = record,
-                                    onClick = { onNavigateToRecordDetail(record.id) },
-                                    onDelete = { viewModel.showDeleteDialog(record) }
-                                )
-                            }
-
-                            // 底部间距
-                            item {
-                                Spacer(modifier = Modifier.height(80.dp))
+                            ViewMode.CHART -> {
+                                Column(
+                                    modifier = Modifier.fillMaxSize()
+                                ) {
+                                    // 增强统计卡片
+                                    enhancedStatistics?.let { stats ->
+                                        BloodPressureStatsCard(
+                                            statistics = stats,
+                                            modifier = Modifier.padding(16.dp)
+                                        )
+                                    }
+                                    
+                                    // 增强血压图表
+                                    enhancedStatistics?.let { stats ->
+                                        EnhancedBloodPressureChart(
+                                            data = uiState.displayRecords,
+                                            anomalies = stats.anomalies,
+                                            trendResult = stats.trendResult,
+                                            modifier = Modifier.padding(16.dp)
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
@@ -219,5 +256,41 @@ private fun HistoryTopAppBar(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             singleLine = true
         )
+    }
+}
+
+/**
+ * 视图模式选择器
+ */
+@Composable
+private fun ViewModeSelector(
+    currentMode: ViewMode,
+    onModeChange: (ViewMode) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "视图模式",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Medium
+        )
+        
+        Row {
+            FilterChip(
+                selected = currentMode == ViewMode.LIST,
+                onClick = { onModeChange(ViewMode.LIST) },
+                label = { Text(ViewMode.LIST.displayName) }
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            FilterChip(
+                selected = currentMode == ViewMode.CHART,
+                onClick = { onModeChange(ViewMode.CHART) },
+                label = { Text(ViewMode.CHART.displayName) }
+            )
+        }
     }
 }

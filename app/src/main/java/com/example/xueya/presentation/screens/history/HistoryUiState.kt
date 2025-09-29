@@ -19,6 +19,7 @@ data class HistoryUiState(
     val showDatePicker: Boolean = false,                  // 显示日期选择器
     val selectedRecord: BloodPressureData? = null,        // 选中的记录（用于详情或删除）
     val showDeleteDialog: Boolean = false,                // 显示删除确认对话框
+    val viewMode: ViewMode = ViewMode.LIST,               // 视图模式
 ) {
     /**
      * 是否有记录
@@ -102,6 +103,14 @@ enum class SortOrder(val displayName: String) {
     OLDEST_FIRST("最早优先"), 
     HIGHEST_BP("血压最高"),
     LOWEST_BP("血压最低")
+}
+
+/**
+ * 视图模式
+ */
+enum class ViewMode(val displayName: String) {
+    LIST("列表"),
+    CHART("图表")
 }
 
 /**

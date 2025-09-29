@@ -16,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.xueya.R
+import com.example.xueya.presentation.components.charts.EnhancedBloodPressureChart
+import com.example.xueya.presentation.components.charts.BloodPressureStatsCard
 
 /**
  * 统计分析界面
@@ -33,6 +35,7 @@ fun StatisticsScreen(
     val isAnalyzingTrend by viewModel.isAnalyzingTrend.collectAsState()
     val adviceError by viewModel.adviceError.collectAsState()
     val trendError by viewModel.trendError.collectAsState()
+    val enhancedStatistics by viewModel.enhancedStatistics.collectAsState()
     val scrollState = rememberScrollState()
 
     Scaffold(
@@ -67,6 +70,24 @@ fun StatisticsScreen(
 
             // 主要统计数据
             if (uiState.hasData && !uiState.isLoading) {
+                // 增强统计卡片
+                enhancedStatistics?.let { stats ->
+                    BloodPressureStatsCard(
+                        statistics = stats,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                
+                // 增强血压图表
+                enhancedStatistics?.let { stats ->
+                    EnhancedBloodPressureChart(
+                        data = uiState.records,
+                        anomalies = stats.anomalies,
+                        trendResult = stats.trendResult,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+                
                 // 概览卡片
                 OverviewCard(
                     statistics = uiState.currentStatistics,

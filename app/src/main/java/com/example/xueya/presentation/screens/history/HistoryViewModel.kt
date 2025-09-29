@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.xueya.domain.usecase.GetBloodPressureListUseCase
 import com.example.xueya.domain.usecase.DeleteBloodPressureUseCase
 import com.example.xueya.domain.model.BloodPressureData
+import com.example.xueya.domain.analysis.BloodPressureStatisticsCalculator
+import com.example.xueya.domain.analysis.BloodPressureStatistics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,11 +22,16 @@ import javax.inject.Inject
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
     private val getBloodPressureListUseCase: GetBloodPressureListUseCase,
-    private val deleteBloodPressureUseCase: DeleteBloodPressureUseCase
+    private val deleteBloodPressureUseCase: DeleteBloodPressureUseCase,
+    private val statisticsCalculator: BloodPressureStatisticsCalculator = BloodPressureStatisticsCalculator()
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HistoryUiState())
     val uiState: StateFlow<HistoryUiState> = _uiState.asStateFlow()
+    
+    // 增强统计数据
+    private val _enhancedStatistics = MutableStateFlow<BloodPressureStatistics?>(null)
+    val enhancedStatistics: StateFlow<BloodPressureStatistics?> = _enhancedStatistics.asStateFlow()
 
     init {
         loadRecords()
@@ -51,6 +58,13 @@ class HistoryViewModel @Inject constructor(
                             isLoading = false,
                             error = null
                         )
+                        
+                        // 计算增强统计数据
+                        if (records.isNotEmpty()) {
+                            val enhancedStats = statisticsCalculator.calculateStatistics(records)
+                            _enhancedStatistics.value = enhancedStats
+                        }
+                        
                         applyFilters()
                     }
             } catch (e: Exception) {
@@ -197,6 +211,13 @@ class HistoryViewModel @Inject constructor(
      */
     fun clearError() {
         _uiState.value = _uiState.value.copy(error = null)
+    }
+    
+    /**
+     * 设置视图模式
+     */
+    fun setViewMode(viewMode: ViewMode) {
+        _uiState.value = _uiState.value.copy(viewMode = viewMode)
     }
 
     /**

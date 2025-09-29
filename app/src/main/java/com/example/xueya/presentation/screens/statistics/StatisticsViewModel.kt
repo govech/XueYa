@@ -6,6 +6,8 @@ import com.example.xueya.domain.usecase.GetBloodPressureListUseCase
 import com.example.xueya.domain.usecase.GetBloodPressureStatisticsUseCase
 import com.example.xueya.domain.usecase.GenerateHealthAdviceUseCase
 import com.example.xueya.domain.usecase.AnalyzeBloodPressureTrendUseCase
+import com.example.xueya.domain.analysis.BloodPressureStatisticsCalculator
+import com.example.xueya.domain.analysis.BloodPressureStatistics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +27,8 @@ class StatisticsViewModel @Inject constructor(
     private val getBloodPressureListUseCase: GetBloodPressureListUseCase,
     private val getBloodPressureStatisticsUseCase: GetBloodPressureStatisticsUseCase,
     private val generateHealthAdviceUseCase: GenerateHealthAdviceUseCase,
-    private val analyzeBloodPressureTrendUseCase: AnalyzeBloodPressureTrendUseCase
+    private val analyzeBloodPressureTrendUseCase: AnalyzeBloodPressureTrendUseCase,
+    private val statisticsCalculator: BloodPressureStatisticsCalculator = BloodPressureStatisticsCalculator()
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(StatisticsUiState())
@@ -49,6 +52,10 @@ class StatisticsViewModel @Inject constructor(
     
     private val _trendError = MutableStateFlow<String?>(null)
     val trendError: StateFlow<String?> = _trendError.asStateFlow()
+    
+    // 增强统计数据
+    private val _enhancedStatistics = MutableStateFlow<BloodPressureStatistics?>(null)
+    val enhancedStatistics: StateFlow<BloodPressureStatistics?> = _enhancedStatistics.asStateFlow()
 
     init {
         loadStatistics()
@@ -92,6 +99,12 @@ class StatisticsViewModel @Inject constructor(
                 }
                 .collect { newState ->
                     _uiState.value = newState
+                    
+                    // 计算增强统计数据
+                    if (newState.records.isNotEmpty()) {
+                        val enhancedStats = statisticsCalculator.calculateStatistics(newState.records)
+                        _enhancedStatistics.value = enhancedStats
+                    }
                 }
 
             } catch (e: Exception) {
