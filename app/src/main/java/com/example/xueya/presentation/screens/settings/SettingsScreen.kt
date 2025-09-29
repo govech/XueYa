@@ -164,6 +164,14 @@ fun SettingsScreen(
                 )
             }
             
+            // 测试数据生成器（仅debug模式显示）
+            TestDataGeneratorCard(
+                onGenerateData = viewModel::generateTestData,
+                onClearAndGenerate = viewModel::clearAndGenerateTestData,
+                isGenerating = uiState.isGeneratingTestData,
+                generationResult = uiState.testDataGenerationResult
+            )
+            
             // 关于应用
             SettingSectionHeader(title = stringResource(R.string.settings_about_section))
             SettingsGroup {

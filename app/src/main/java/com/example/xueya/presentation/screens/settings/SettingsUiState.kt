@@ -2,6 +2,7 @@ package com.example.xueya.presentation.screens.settings
 
 import com.example.xueya.domain.model.LanguageMode
 import com.example.xueya.domain.model.ThemeMode
+import com.example.xueya.domain.usecase.GenerateTestDataUseCase
 
 /**
  * 设置界面UI状态
@@ -31,7 +32,11 @@ data class SettingsUiState(
     val exportResult: ExportState = ExportState.Idle,
     val clearDataResult: ClearDataState = ClearDataState.Idle,
     val message: String? = null,
-    val messageResId: Int? = null
+    val messageResId: Int? = null,
+    
+    // 测试数据生成
+    val isGeneratingTestData: Boolean = false,
+    val testDataGenerationResult: GenerateTestDataUseCase.GenerateResult? = null
 )
 
 /**

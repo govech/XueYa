@@ -9,6 +9,7 @@ import com.example.xueya.domain.model.LanguageMode
 import com.example.xueya.domain.model.ThemeMode
 import com.example.xueya.domain.repository.BloodPressureRepository
 import com.example.xueya.domain.usecase.*
+import com.example.xueya.domain.generator.BloodPressureTestDataGenerator
 import com.example.xueya.presentation.utils.AppRestartUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -26,7 +27,8 @@ class SettingsViewModel @Inject constructor(
     private val updateLanguageUseCase: UpdateLanguageUseCase,
     private val updateReminderUseCase: UpdateReminderUseCase,
     private val exportDataUseCase: ExportDataUseCase,
-    private val clearAllDataUseCase: ClearAllDataUseCase
+    private val clearAllDataUseCase: ClearAllDataUseCase,
+    private val generateTestDataUseCase: GenerateTestDataUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SettingsUiState())
@@ -193,6 +195,75 @@ class SettingsViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    // === 测试数据生成 ===
+    fun generateTestData(
+        timeRange: BloodPressureTestDataGenerator.TimeRange,
+        mode: BloodPressureTestDataGenerator.GenerationMode,
+        measurementsPerDay: Int
+    ) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isGeneratingTestData = true) }
+            
+            val result = generateTestDataUseCase.generateAndSaveTestData(
+                timeRange = timeRange,
+                mode = mode,
+                measurementsPerDay = measurementsPerDay
+            )
+            
+            _uiState.update { 
+                it.copy(
+                    isGeneratingTestData = false,
+                    testDataGenerationResult = result
+                )
+            }
+            
+            when (result) {
+                is GenerateTestDataUseCase.GenerateResult.Success -> {
+                    showMessage("测试数据生成成功！")
+                }
+                is GenerateTestDataUseCase.GenerateResult.Error -> {
+                    showMessage("测试数据生成失败：${result.message}")
+                }
+            }
+        }
+    }
+    
+    fun clearAndGenerateTestData(
+        timeRange: BloodPressureTestDataGenerator.TimeRange,
+        mode: BloodPressureTestDataGenerator.GenerationMode,
+        measurementsPerDay: Int
+    ) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isGeneratingTestData = true) }
+            
+            val result = generateTestDataUseCase.clearAndGenerateTestData(
+                timeRange = timeRange,
+                mode = mode,
+                measurementsPerDay = measurementsPerDay
+            )
+            
+            _uiState.update { 
+                it.copy(
+                    isGeneratingTestData = false,
+                    testDataGenerationResult = result
+                )
+            }
+            
+            when (result) {
+                is GenerateTestDataUseCase.GenerateResult.Success -> {
+                    showMessage("数据已清空并生成新的测试数据！")
+                }
+                is GenerateTestDataUseCase.GenerateResult.Error -> {
+                    showMessage("清空并生成测试数据失败：${result.message}")
+                }
+            }
+        }
+    }
+    
+    fun resetTestDataGenerationState() {
+        _uiState.update { it.copy(testDataGenerationResult = null) }
     }
 
     // === 通用方法 ===
